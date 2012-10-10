@@ -1,0 +1,6 @@
+// $('#show-window').empty();
+// $('#close-msg-btn').remove();
+// $('#msg-count').append("<%= escape_javascript(link_to 'View', view_messages_path(id: @entry), id: 'view-msg-btn', remote: true) %>");
+$("#message_<%= @message.id %>").replaceWith("<%= j(render @message) %>");
+$("#message_<%= @message.id %>").effect("highlight", {}, 4000);
+

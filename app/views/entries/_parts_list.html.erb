@@ -1,0 +1,52 @@
+<div class="row">
+	<%= content_tag :h2, 'Parts List', class: 'span2 pull-left' %>
+	<%= link_to 'Add Parts', add_line_items_path(id: @entry), id: 'add-parts-btn', class: 'btn span2', remote: true %>
+	<%= link_to "Put Online", put_online_entry_path(@entry), class: 'btn btn-success'  %>
+	<%= link_to 'Reveal Bids', reveal_entry_path(@entry), class: 'btn btn-success', data: {confirm: 'Are you sure? You will no longer receive bids if you do this.'} if @entry.can_reveal  %>
+	<%= link_to 'Re-Bid', rebid_entry_path(@entry), class: 'btn btn-success', data: {confirm: 'Are you sure? You will no longer receive bids if you do this.'} unless @entry.is_online   %>
+</div>
+
+<div id="" class="wells">
+	<%= form_tag accept_bids_path, method: :post do |f| %>
+	<%= hidden_field_tag :entry_id, @entry.id %>
+
+		<div class="row title">
+			<%= content_tag :div, 'Part Description', class: 'span3', rowspan: 2 %>
+			<%= content_tag :div, 'Orig', class: 'span2 txtcenter' %>
+			<%= content_tag :div, 'Rep', class: 'span2 txtcenter' %>
+			<%= content_tag :div, 'Surp', class: 'span2 txtcenter' %>
+			<%= content_tag :div, 'Status', class: 'span2 txtcenter', rowspan: 2 %>
+		</div>
+
+		<div id="line-items">
+			<% @line_items.each_with_index do |item, index| %>
+				<div id="<%= item.id %>" class="row">
+					<%= content_tag :div, class: 'span3' do %>
+						<%= content_tag :span, index + 1, class: 'label index'  %>
+						<%= content_tag :span, item.car_part %>
+						<%= "<br> #{content_tag :code, 'Specs: ' + item.specs}".html_safe if item.specs.present? %>
+						<%= content_tag :p, link_to(item.id, edit_line_item_path(item)) %>
+					<% end %>
+					<% %w(original replacement surplus).each do |t| %>
+						<div class="<%= t[0..3] %> bids span2 txtcenter">
+							<%#= bid_box_helper item.id, t if item.is_online %>
+
+							<% item.bids.group_by(&:bid_type).each do |type, bids| %>
+									<% if t == type %>
+										<%= render bids unless bids.nil? %>
+									<% end %> 
+							<% end %>
+						</div>
+					<% end %>
+					<%= content_tag :div, class: 'span2 txtcenter' do %>
+						<%= content_tag :p, item.status, class: "label #{item.status_color}" %>
+						<%= content_tag :p, "as of #{regular_date(item.updated_at)}", class: 'small' %>
+						<%# item.bids.group_by(&:order).each do |o, bids| %>
+							<%#= link_to "PO# #{o.id}", o, class: "#{'cancelled' if bids.collect(&:status).include?('Cancelled')}" if o %>
+						<%# end %>
+					<% end %>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+</div>

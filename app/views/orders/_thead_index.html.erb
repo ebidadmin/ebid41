@@ -1,0 +1,12 @@
+<%= content_tag :thead do %>
+	<%= content_tag :tr do %>
+		<%= content_tag :th, 'Vehicle', class: 'span4' %>
+		<% if can? :access, :buyer %>
+			<%= content_tag :th, 'Seller', class: 'span2' %>
+		<% elsif can? :access, :seller %>
+			<%= content_tag :th, 'Buyer', class: 'span2' %>
+		<% end %>
+		<%= content_tag :th, 'Details', class: 'span4 txtcenter' %>
+		<%= content_tag :th, 'Status', class: 'span3 txtcenter' %>
+	<% end %>
+<% end %>

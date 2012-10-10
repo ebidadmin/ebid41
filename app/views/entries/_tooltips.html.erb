@@ -1,0 +1,25 @@
+<span rel='tooltip' title="<%= pluralize entry.photos.size, 'photo' %>">
+	<%= content_tag :i, '', class: 'icon-camera' %>
+	<%= entry.photos.size %>
+</span>
+<% if entry.messages.present? %>
+	<span class='highlight' rel='tooltip' title="<%= pluralize entry.messages.size, 'message' %>">
+		<%= content_tag :i, '', class: 'icon-comment' %>
+		<%= entry.messages.size %>
+	</span>
+<% end %>
+
+<% if entry.orders.present? %>
+	<span rel='tooltip' title="<%= pluralize entry.orders.size, 'order' %>">
+		<%= content_tag :i, '', class: 'icon-shopping-cart' %>
+		<%= entry.orders.size %>
+	</span>
+<% end %>
+
+<% if entry.variance.present? %>
+	<%= link_to variance_path(entry.variance, entry_id: entry) do %>
+	<span class='highlight' rel='tooltip' title="With comparative pricing">
+		<%= content_tag :i, '', class: 'icon-list' %>
+	</span>
+	<% end %>
+<% end %><br>

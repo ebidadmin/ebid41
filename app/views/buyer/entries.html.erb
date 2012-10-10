@@ -1,0 +1,56 @@
+<% title "Entries" %>
+<%# subtitle page_entries_info(@entries) %>
+<%= render 'entries/search_bar', path: buyer_entries_path %>
+<%= content_tag :div, page_entries_info(@entries), class: 'page-info' %>
+
+<%= content_tag :table, class: 'table table-condensed' do %>
+
+	<% @entries.group_by{ |e| e.updated_at.beginning_of_day }.each do |date, entries| %>
+		<tr>
+			<%= content_tag :td, colspan: 6, class: 'label label-inverse' do %>
+				<%= content_tag :b, regular_date(date, 'day') %>
+			<% end %>
+		</tr>
+
+		<% entries.each do |entry| %>
+			<tr>
+				<%= content_tag :td, class: 'span2' do %>
+					<%= content_tag :span, entry.id, class: 'muted small' %>
+					<%= content_tag :span, entry.user, class: 'muted small' %><br>
+					<%= tooltip_helper entry.photos.size, 'photo', 'camera' %>
+					<%= tooltip_helper entry.messages.restricted(current_user.company).size, 'message', 'comment', 'highlight' if entry.messages.restricted(current_user.company).present? %>
+					<%= tooltip_helper entry.orders.size, 'order', 'shopping-cart' if entry.orders.present? %>
+					<% if entry.variance.present? %>
+					<span class='highlight' rel='tooltip' title="With comparative pricing">
+						<%= content_tag :i, '', class: 'icon-list' %>
+					</span>
+					<% end %>
+				<% end %>
+
+				<%= content_tag :td, class: 'span4' do %>
+		      <%= content_tag :p, entry.model_name, class: 'lead vehicle' %>
+					<%= content_tag :p, entry.plate_no, class: 'muted' %>
+				<% end %>
+
+				<%= content_tag :td, class: 'span2' do %>
+					<%= entry_status_helper(entry) %>
+				<% end %>
+
+				<%= content_tag :td, class: "span4" do %>
+					<%= progress_bar_helper(percentage(entry.bid_rate_overview)) %>
+					<p>
+						<%= content_tag :span, "#{percentage(entry.bid_rate_overview, 0)} bidded".html_safe, class: 'label' if entry.bids.present? %>
+						<%= content_tag :span, "#{number_of_bidders(entry)} | #{pluralize entry.line_items.size, 'item'}".html_safe %>
+					</p>
+				<% end %>
+
+				<%= content_tag :td, class: 'span2 txtright' do %>
+					<%= link_to 'View Entry', buyer_show_path(entry), class: 'btn btn-primary' %>
+				<% end %>
+			</tr>
+		<% end %>
+
+	<% end %>
+<% end %>
+
+<%= will_paginate @entries, inner_window: 2 %>

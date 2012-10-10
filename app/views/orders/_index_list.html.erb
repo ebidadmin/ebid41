@@ -1,0 +1,48 @@
+<%= content_tag :div, page_entries_info(@orders), class: 'page-info' %>
+
+<% if @orders.present? %>
+	<%= content_tag :table, class: 'table table-condensed' do %>
+			<% @orders.group_by(&:entry).each do |entry, orders| %>
+
+				<tr>
+					<%= content_tag :td, class: 'span4', rowspan: orders.count + 1 do %>
+						<%= content_tag :p, entry.ref_no, class: 'small' if can? :access, :buyer %>
+			      <%= content_tag :p, link_to(entry.model_name, index_link_helper(entry)), class: 'lead'  %>
+							<%= content_tag :span, entry.plate_no %>
+						<% if can? :access, :buyer %>
+							<%= content_tag :em, "by #{entry.user.username}", class: 'small' %>
+						<% end %>
+					<% end %>
+				</tr>
+
+				<% for order in orders %>
+					<tr>
+						<%= content_tag :td, class: 'span2' do %>
+							<%= order.company.nickname if can? :access, :seller %>
+							<%= order.seller_company.nickname if can? :access, :buyer %>
+						<% end %>
+
+						<%= content_tag :td, class: 'span4' do %>
+							<%= order_status_helper(order) %>
+							<%= change_status_link(order) %>
+							<%= confirm_payment_link(order, current_user) %>
+							<%= payment_tag(order) %>
+						<% end %>
+						<%= content_tag :td, class: 'span1' do %>
+							<%= content_tag :p, order.id, class: 'muted small' %>
+							<%= tooltip_helper order.messages.restricted(current_user.company).size, 'message', 'comment', 'highlight' if order.messages.restricted(current_user.company).present? %>
+						<% end %>
+
+						<%= content_tag :td, class: 'span2 txtright' do %>
+							<%= content_tag :p, (link_to "View PO", order, class: 'btn btn-primary') %>
+							<%= content_tag :b, currency(order.order_total), class: 'btns' %> |
+							<%= content_tag :span, pluralize(order.items_count, 'part') %>
+						<% end %>
+					</tr>
+				<% end %>
+
+			<% end %>
+	<% end %>
+<% end %>
+
+<%= will_paginate @orders, inner_window: 2 %>

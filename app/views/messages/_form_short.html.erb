@@ -1,0 +1,33 @@
+<%= simple_form_for @message, :html => { :class => 'form-horizontal' }, remote: true do |f| %>
+	<div class="modal-header">
+	  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	  <h3 id="myModalLabel">Create Message</h3>
+	</div>
+	<div class="modal-body">
+		<%= f.error_notification %>
+		<%= f.hidden_field :parent_id if @message.parent %>
+		<%= f.input :user_company_id, as: :hidden %>
+		<%= f.input :user_type, as: :hidden %>
+		<%= f.input :entry_id, as: :hidden %>
+		<% if @message.parent %>
+			<%= f.input :receiver_id, as: :hidden %>
+			<%= f.input :receiver_company_id, as: :hidden %>
+			<%= f.input :open_tag, as: :hidden, value: @message.parent.open_tag  %>
+			<%= content_tag :blockquote, class: 'span5 offset2' do %>
+				<%= content_tag :p, "REPLY TO #{msg_sender_helper(@message.parent, current_user)}".html_safe, class: 'muted' %>
+				<%= @message.parent.message %>
+			<% end %>
+		<% else %>
+			<%= f.input :msg_for, as: :radio_buttons, collection: ['Admin', 'Buyer'], checked: 'Buyer', label: 'Message For', item_wrapper_class: 'inline' %>
+			<%= f.input :open_tag, as: :radio_buttons, collection: [['Public', true], ['Private', false]], label: 'Message Type', item_wrapper_class: 'inline', 
+					hint: "Public = seen by all; Private = just you and recipient" %>
+		<% end %>
+		<%= clearfix_div %>
+		<%= f.input :message, input_html: { rows: 2, class: 'span6' }  %>
+	</div>
+	<div class="modal-footer">
+		<%= link_to 'Cancel', view_messages_path(id: @message.entry_id), class: 'btn', remote: true %>
+		<%= f.submit 'Submit', :class => 'btn btn-primary' %>
+	</div>
+<% end %>
+

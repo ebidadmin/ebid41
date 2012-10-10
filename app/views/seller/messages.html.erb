@@ -1,0 +1,5 @@
+<% title "Messages" %>
+<%= render 'messages/search_bar', path: seller_messages_path %>
+
+<%= render 'messages/table_index' %>
+<%= will_paginate @messages %>

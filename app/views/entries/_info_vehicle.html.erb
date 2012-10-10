@@ -1,0 +1,38 @@
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+			<td class="span4">
+				<dl class="dl-horizontal">
+				  <dt>Serial No.</dt>
+				  <dd><%= @entry.serial_no %></dd>
+				  <dt>Motor No.</dt>
+				  <dd><%= @entry.motor_no %></dd>
+				</dl>
+			</td>
+			<td class="span2 txtcenter">
+				<%= content_tag :h4, pluralize(@entry.line_items.size, "part"), id: 'parts-count' %>
+				<%= link_with_icon_js 'Add Parts', add_line_items_path(id: @entry), 'plus', 'btn-mini' if can? :access, :buyer %>
+			</td>
+			<td class="span2 txtcenter">
+				<%= content_tag :h4, pluralize(@entry.photos.size, "photo"), id: 'parts-count' %>
+				<%= link_to 'Attach Photos', add_photos_entry_path(@entry) if can? :access, :buyer %>
+			</td>
+			<td id="msg-count" class="span2 txtcenter">
+				<%= content_tag :h4, pluralize(@entry.messages.pvt.restricted(current_user.company).size, "message") %>
+				<% if @entry.messages.restricted(current_user.company).pvt.size > 0 %>
+					<%= link_to 'View', view_messages_path(id: @entry), class: 'btn btn-mini btn-primary', data: { toggle: 'modal', target: "#myModal"}, remote: true %>
+				<% else %>
+					<%= link_to 'Create New Message', new_message_path(e: @entry), remote: true, data: { toggle: 'modal', target: "#myModal"}, class: 'btn btn-mini btn-primary' %>
+				<% end %>
+			</td>
+			<td class="span2 txtright">
+				<%= content_tag :p, @entry.user, class: 'small' if can? :access, :buyer %>
+				<%= entry_status_helper(@entry, 'entry-status') %>
+				<%= content_tag :p, (regular_date @entry.bid_until) if @entry.bid_until && @entry.bid_until > Date.today %>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>

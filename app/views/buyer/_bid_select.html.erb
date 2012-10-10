@@ -1,0 +1,55 @@
+<% %w(original replacement surplus).each do |t| %>
+
+<% if item.is_online %>
+	<td class="<%= t[0..3] %> bids span2 txtcenter">
+<% else %>
+	<td class="<%= t[0..3] %> bids span2 txtright">
+<% end %>
+
+		<% item.bids.group_by(&:bid_type).each do |type, bids| %>
+			<% if t == type %>
+
+			<% if item.is_online %>
+
+				<%= content_tag :span, pluralize(bids.count, 'bid'), class: 'badge badge-success' if bids.present? %>
+
+			<% else %>
+
+				<% hi_bid = bids[0] %>
+				<% lo_next = bids[-2] %>
+				<% lo_bid = bids[-1] %>
+
+				<%= content_tag :p, class: 'small' do %>
+					<%= content_tag :span, currency(hi_bid.amount), class: 'bid-amount' %>
+					<%= content_tag :span, 'H' %>
+				<% end %>
+
+				<% unless lo_bid.cancelled? && lo_next.present? && lo_bid.id != lo_next.id  %>
+					<%= fields_for 'bids[]', item do |f| %>
+						<%= content_tag :p, class: "#{lo_bid.status_color_for_buyer}" do %>
+							<%= f.radio_button 'id', lo_bid.id, class: 'pull-left' if item.can_be_ordered && !lo_bid.cancelled? %>
+							<%= content_tag :b, currency(lo_bid.amount), class: 'bid-amount' %>
+							<%= content_tag :span, 'L' %>
+						<% end %>
+					<% end %>
+				<% else %>
+					<!-- provision for reorder from next lowest -->
+					<%= fields_for 'bids[]', item do |f| %>
+						<%= content_tag :p, class: "#{lo_next.status_color}" do %>
+							<%= f.radio_button 'id', lo_next.id if item.can_be_ordered && !lo_next.cancelled? %>
+							<%= content_tag :b, currency(lo_next.amount), class: 'bid-amount' %>
+							<%= content_tag :em, 'L' %>
+						<% end %>
+						<%= content_tag :p, currency(lo_bid.amount), class: 'cancelled small' %>
+					<% end %>
+				<% end %>
+
+			<% end %>
+
+			<% end %> 
+		<% end %>
+
+	</td>
+<% end %>
+
+

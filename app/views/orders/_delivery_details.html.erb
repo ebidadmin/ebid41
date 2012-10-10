@@ -1,0 +1,14 @@
+<%= content_tag :div, class: 'delivery span5 pull-right' do %>
+	<%= content_tag :h5, 'DELIVER TO'  %>
+	<%= content_tag :h4, @order.deliver_to %>
+	<%= content_tag :p do %>
+		<%= @order.address1.gsub(/\,/,"") %>
+		<%= ", #{@order.address2}" if @order.address2.present? %>
+	<% end %>
+	<%= content_tag :dl do %>
+		<%= dl_helper 'Contact person', @order.contact_person %>
+		<%= dl_helper 'Phone', @order.phone %>
+		<%= dl_helper 'Fax', @order.fax if @order.fax.present? %>
+		<%= dl_helper 'Instructions', @order.instructions, 'instr' if @order.instructions.present? %>
+	<% end %>
+<% end %>

@@ -1,0 +1,6 @@
+<% if can? :access, :all %>
+	$('#parts-list').html("<%= j(render 'entries/parts_list') %>").hide().slideDown('slow');
+<% else %>
+	$('#parts-list').html("<%= j(render 'buyer/parts_list') %>").hide().slideDown('slow');
+<% end %>
+

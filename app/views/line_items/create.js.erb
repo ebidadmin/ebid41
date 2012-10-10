@@ -1,0 +1,8 @@
+<% if can? :access, :all %>
+	$('#parts-list').html("<%= j(render 'entries/parts_list') %>").hide().slideDown('slow');
+<% else %>
+	$('#parts-list').html("<%= j(render 'buyer/parts_list') %>").hide().slideDown('slow');
+<% end %>
+$('.entry-status').replaceWith("<%= j entry_status_helper(@entry, 'entry-status') %>").effect("highlight", {}, 4000);
+$('#parts-count').text("<%= pluralize(@entry.line_items.size, 'part') %>").effect("highlight", {}, 4000);
+$('html, body').animate({ scrollTop: 0 }, 0);

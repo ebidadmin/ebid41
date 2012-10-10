@@ -23,7 +23,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [ :email ]
+  config.authentication_keys = [ :username ]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -35,12 +35,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [ :email ]
+  config.case_insensitive_keys = [ :username, :email ]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [ :email ]
+  config.strip_whitespace_keys = [ :username, :email ]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -79,10 +79,10 @@ Devise.setup do |config|
   # Limiting the stretches to just one in testing will increase the performance of
   # your test suite dramatically. However, it is STRONGLY RECOMMENDED to not use
   # a value less than 10 in other environments.
-  config.stretches = Rails.env.test? ? 1 : 10
+  config.stretches = 20
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "cabc4f87a11c3c7865e6df454fe340a25256c9e514673a9c1671cc4e01bed5cd2f5202f8ab6b595d107d7716c1fe8dd216699206ad64ded862b5e272b3d7d515"
+  config.pepper = "cabc4f87a11c3c7865e6df454fe340a25256c9e514673a9c1671cc4e01bed5cd2f5202f8ab6b595d107d7716c1fe8dd216699206ad64ded862b5e272b3d7d515"
 
   # ==> Configuration for :invitable
   # The period the generated invitation token is valid, after
@@ -136,17 +136,17 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length. Default is 6..128.
-  # config.password_length = 6..128
+  config.password_length = 4..20
 
   # Email regex used to validate email formats. It simply asserts that
   # an one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
-  # config.email_regexp = /\A[^@]+@[^@]+\z/
+  config.email_regexp = /\A[^@]+@[^@]+\z/
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
-  # config.timeout_in = 30.minutes
+  config.timeout_in = 3.hours
   
   # If true, expires auth token on session timeout.
   # config.expire_auth_token_on_timeout = false

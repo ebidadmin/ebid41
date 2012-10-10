@@ -2,9 +2,35 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new # guest user (not logged in)
+    user ||= User.new 
+    
     if user.has_role? :admin
-      can :manage, :all
+      can :access, :all
+    elsif user.has_role? :buyer
+      # can :access, :all
+      can :access, :buyer
+      can :access, :cart
+      can :access, [:car_brands, :car_models, :car_variants, :regions]
+      can [:create, :read, :update, :search], :car_parts
+      can [:create, :update, :add_photos, :save_photos, :attach_photos, :put_online, :reveal, :relist, :rebid], :entries
+      can [:create, :read, :update, :add, :cancel], :line_items
+      can :accept, :bids
+      can [:create, :update, :read, :print, :change_status, :cancel, :confirm_cancel], :orders#, user_id: user.id
+      can :access, [:variances, :var_companies, :var_items, :photos]
+      can [:create, :read, :update, :destroy, :view, :close], :messages
+      can :print, :fees
+    elsif user.has_role? :seller
+      can :access, :seller
+      can :access, [:home, :bids]
+      can :read, :entries
+      can [:read, :accept, :print, :change_status, :cancel, :confirm_cancel], :orders
+      can :confirm_payment, :orders
+      can [:create, :read, :update, :destroy, :view, :close], :messages
+      can :access, :users, id: user.id
+    else
+      can :access, :home
+      can :create, [:users, :profiles, :companies, :branches]
+      can :read, [:users, :profiles, :companies, :branches]
     end
     # Define abilities for the passed in user here. For example:
     #

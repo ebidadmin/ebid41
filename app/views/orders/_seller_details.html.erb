@@ -1,0 +1,14 @@
+<div class="seller-company span3">
+	<%= content_tag :p, 'Seller', class: 'label'  %>
+	<%= content_tag :address do %>
+		<%= content_tag :h5, @order.seller.company.name %>
+		<%= @order.seller.address1  %><br>
+		<%= @order.seller.address2  %><br>
+		<%= @order.seller.city %>
+	<% end %>
+	<%= content_tag :address, class: 'user' do %>
+		<%= content_tag :strong, @order.seller.profile %><br>
+		<%= @order.seller.phone %><br>
+		<%= mail_to @order.seller.email %>
+	<% end %>
+</div>

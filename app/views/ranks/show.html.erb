@@ -1,0 +1,12 @@
+<% title "Rank" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @rank.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_rank_path(@rank) %> |
+  <%= link_to "Destroy", @rank, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", ranks_path %>
+</p>

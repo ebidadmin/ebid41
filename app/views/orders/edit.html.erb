@@ -1,0 +1,43 @@
+<% title "Edit Order" %>
+<% subtitle "#{@entry.model_name} #{@entry.variant}" %>
+
+<%= simple_form_for @order do |f|  %>
+	<%= f.error_notification %>
+	<%= hidden_field_tag :entry_id, @entry.id %>
+
+	<%= render 'form', f: f %>
+
+	<%= content_tag :h2 do %>
+		Step 3: Create the PO 
+	<% end %>
+
+	<%= content_tag :div, class: 'well' do %>
+		<%= content_tag :p, class: 'span7' do %>
+			<%= content_tag :span, 'Important', class: 'label label-important' %>
+			Please ensure the correctness of your order above. 
+			<%= content_tag :b, "In creating a PO, you agree that you are responsible for making sure that the recipient accepts the delivery." %>
+			Inform your repair shop about this order and how many suppliers are involved in this transaction.
+		<% end %>
+		<%= link_to "Cancel", (current_page?(accept_bids_path) ? :back : @order), class: 'btn offset1' %>
+		<%= f.submit 'Save Changes', class: 'btn btn-success btn-large' %> 
+			<div class="clearfix"></div>
+	<% end %>
+
+	<% if can? :access, :all %>
+		<fieldset>
+			<legend>Miscellaneous</legend>
+			<%= f.input :status, collection: Order::TAGS_FOR_EDIT, include_blank: true %>
+			<%= f.input :items_count %>
+			<%= f.input :order_total %>
+			<%= f.input :seller_confirmation, as: :radio %>
+			<%= f.input :confirmed, include_blank: true %>
+			<%= f.input :delivered, include_blank: true %>
+			<%= f.input :due_date, include_blank: true %>
+			<%= f.input :paid_temp, include_blank: true %>
+			<%= f.input :paid, include_blank: true %>
+			<%= f.input :cancelled, include_blank: true %>
+		</fieldset>
+	<% end %>
+	
+<% end %>
+

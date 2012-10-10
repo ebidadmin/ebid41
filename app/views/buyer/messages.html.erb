@@ -1,0 +1,7 @@
+<% title "Messages" %>
+<%= render 'messages/search_bar', path: buyer_messages_path %>
+
+<%= render 'messages/table_index' %>
+<%= will_paginate @messages %>
+
+<%= link_to 'New', new_message_path, :class => 'btn btn-primary' %>

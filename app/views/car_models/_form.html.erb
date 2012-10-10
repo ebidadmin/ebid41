@@ -1,0 +1,10 @@
+<%= simple_form_for @car_model, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.association :car_brand %>
+  <%= f.input :name %>
+  <%= f.association :creator, label_method: :username %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                car_models_path, :class => 'btn' %>
+  </div>
+<% end %>

@@ -1,0 +1,43 @@
+<% title "Var Items" %>
+
+<table>
+  <tr>
+    <th>Variance</th>
+    <th>Line Item</th>
+    <th>Qty</th>
+    <th>Var Base</th>
+    <th>Discount</th>
+    <th>Var Amt</th>
+    <th>Var Total</th>
+    <th>Var Type</th>
+    <th>Bid</th>
+    <th>Amount</th>
+    <th>Total</th>
+    <th>Bid Type</th>
+    <th>Seller Company</th>
+    <th>Var Net</th>
+  </tr>
+  <% for var_item in @var_items %>
+    <tr>
+      <td><%= var_item.variance_id %></td>
+      <td><%= var_item.line_item_id %></td>
+      <td><%= var_item.qty %></td>
+      <td><%= var_item.var_base %></td>
+      <td><%= var_item.discount %></td>
+      <td><%= var_item.var_amt %></td>
+      <td><%= var_item.var_total %></td>
+      <td><%= var_item.var_type %></td>
+      <td><%= var_item.bid_id %></td>
+      <td><%= var_item.amount %></td>
+      <td><%= var_item.total %></td>
+      <td><%= var_item.bid_type %></td>
+      <td><%= var_item.seller_company_id %></td>
+      <td><%= var_item.var_net %></td>
+      <td><%= link_to "Show", var_item %></td>
+      <td><%= link_to "Edit", edit_var_item_path(var_item) %></td>
+      <td><%= link_to "Destroy", var_item, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Var Item", new_var_item_path %></p>

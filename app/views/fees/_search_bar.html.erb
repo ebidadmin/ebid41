@@ -1,0 +1,19 @@
+<div class="navbar search">
+  <div class="navbar-inner">
+	<%= content_tag :span, 'Search', class: 'brand' %>
+		<%= search_form_for @q, url: request.path, html: { class: 'navbar-search' } do |f| %>
+		  <%= f.text_field :entry_plate_no_cont, class: 'input-small', placeholder: 'Plate Number' %>
+			<% if can? :access, :buyer %>
+			  <%= f.collection_select :buyer_branch_id_eq, current_user.company.branches, :id, :name, { include_blank: 'Branch' } %>
+			  <%= f.collection_select :seller_company_id_matches, Company.where(primary_role: 3), :id, :nickname, { include_blank: 'Seller' }  %>
+			<% else %>
+			  <%= f.collection_select :buyer_company_id_matches, Company.where(primary_role: 2), :id, :nickname, { include_blank: 'Buyer' }  %>
+			<% end %>
+			<%= f.text_field :created_at_gteq, id: 'start', placeholder: 'From', class: 'input-mini' %> -
+			<%= f.text_field :created_at_lteq, id: 'end', placeholder: 'To',class: 'input-mini' %>
+			<%= f.button 'Go!', class: 'btn btn-primary' %>
+			<%= refresh_button %>
+		<% end %>
+		<%= link_with_icon 'Preview', print_fees_path(t: print_type(params[:t]), q: params[:q]), 'print', 'pull-right' %>
+  </div>
+</div>

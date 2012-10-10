@@ -1,0 +1,62 @@
+<% title 'Buyer Dashboard' %>
+<% subtitle current_user.fullname %>
+
+<div class="row txtcenter">
+	<div class="span4 well">
+		<%= content_tag :h2, 'Entries' %>
+		<div class="row">
+			<div class="span2">
+				<%= content_tag :h4, 'Drafts' %>
+				<%= content_tag :p, @presenter.draft_entries.count, class: 'lead' %>
+				<%= link_to 'View Entries', buyer_entries_path(s: 'new'), class: 'btn' %>
+			</div>
+			<div class="span2">
+				<%= content_tag :h4, 'Online' %>
+				<%= content_tag :p, @presenter.online_entries.count, class: 'lead' %>
+				<%= link_to 'View Entries', buyer_entries_path(s: 'online'), class: 'btn' %>
+			</div>
+		</div>
+	</div>
+	<div class="span7 well">
+		<%= content_tag :h2, 'Orders' %>
+		<div class="row">
+			<div class="span1">
+				<%= content_tag :h4, 'Order Ratio' %>
+				<%= content_tag :p, @presenter.order_ratio, class: 'lead alert-info' %>
+				<%= content_tag :p, @presenter.order_ratio_details, class: 'small' %>
+			</div>
+			<div class="span2">
+				<%= content_tag :h4, 'New' %>
+				<%= content_tag :p, @presenter.new_orders.count, class: 'lead' %>
+				<% unless @presenter.new_orders.blank? %>
+					<%= content_tag :p, (currency @presenter.new_orders.sum(:order_total), 'P '), class: 'label' %>
+					<%= link_to 'View POs', buyer_orders_path(s: 'new'), class: 'btn' %>
+				<% end %>
+			</div>
+			<div class="span2">
+				<%= content_tag :h4, 'Delivered' %>
+				<%= content_tag :p, @presenter.delivered.count, class: 'lead' %>
+				<% unless @presenter.delivered.blank? %>
+					<%= content_tag :p, (currency @presenter.delivered.sum(:order_total), 'P '), class: 'label label-warning' %>
+					<%= content_tag :h5, 'Pay ASAP!' %>
+					<%= link_to 'View POs', buyer_orders_path(s: 'delivered'), class: 'btn btn-warning' %>
+				<% end %>	
+			</div>
+			<div class="span2<%= ' alert-error' unless @presenter.overdue.blank? %>">
+				<%= content_tag :h4, 'Overdue' %>
+				<%= content_tag :p, @presenter.overdue.count, class: 'lead' %>
+				<% unless @presenter.overdue.blank? %>
+					<%= content_tag :p, (currency @presenter.overdue.sum(:order_total), 'P '), class: 'label label-important overdue' %>
+					<%= content_tag :h5, 'Settle NOW!' %>
+					<%= content_tag :p, (link_to 'View POs', buyer_orders_path(s: 'overdue'), class: 'btn btn-danger') %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="well">
+	<%= content_tag :h2, 'Latest Messages' %>
+	<%= render 'messages/table_index' %>
+	<%= content_tag :p, (link_to 'Other Messages', buyer_messages_path, class: 'btn'), class: 'txtright' %>
+</div>

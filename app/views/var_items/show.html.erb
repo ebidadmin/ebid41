@@ -1,0 +1,64 @@
+<% title "Var Item" %>
+
+<p>
+  <strong>Variance:</strong>
+  <%= @var_item.variance_id %>
+</p>
+<p>
+  <strong>Line Item:</strong>
+  <%= @var_item.line_item_id %>
+</p>
+<p>
+  <strong>Qty:</strong>
+  <%= @var_item.qty %>
+</p>
+<p>
+  <strong>Var Base:</strong>
+  <%= @var_item.var_base %>
+</p>
+<p>
+  <strong>Discount:</strong>
+  <%= @var_item.discount %>
+</p>
+<p>
+  <strong>Var Amt:</strong>
+  <%= @var_item.var_amt %>
+</p>
+<p>
+  <strong>Var Total:</strong>
+  <%= @var_item.var_total %>
+</p>
+<p>
+  <strong>Var Type:</strong>
+  <%= @var_item.var_type %>
+</p>
+<p>
+  <strong>Bid:</strong>
+  <%= @var_item.bid_id %>
+</p>
+<p>
+  <strong>Amount:</strong>
+  <%= @var_item.amount %>
+</p>
+<p>
+  <strong>Total:</strong>
+  <%= @var_item.total %>
+</p>
+<p>
+  <strong>Bid Type:</strong>
+  <%= @var_item.bid_type %>
+</p>
+<p>
+  <strong>Seller Company:</strong>
+  <%= @var_item.seller_company_id %>
+</p>
+<p>
+  <strong>Var Net:</strong>
+  <%= @var_item.var_net %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_var_item_path(@var_item) %> |
+  <%= link_to "Destroy", @var_item, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", var_items_path %>
+</p>

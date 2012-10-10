@@ -1,0 +1,9 @@
+<%= simple_form_for @var_company do |vc| %>
+	<%= vc.input :name, label: 'Name of Shop' %>
+	<% if can? :access, :all %>
+		<%= vc.input :creator_id, collection: Company.where(primary_role: [1,2]).includes(:users), as: :grouped_select, group_label_method: :nickname, group_method: :users, label_method: :username %>
+  <% else %>
+     <%= vc.input :creator_id, collection: Company.includes(:users), as: :grouped_select, group_label_method: :nickname, group_method: :users, label_method: :username, disabled: true %>
+	<% end %>
+  <%= vc.submit 'Add Shop', :class => 'btn btn-primary' %>
+<% end %>

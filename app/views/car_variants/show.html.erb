@@ -1,0 +1,31 @@
+<%- model_class = @car_variant.class -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:car_brand_id) %>:</strong></dt>
+  <dd><%= @car_variant.car_brand_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:car_model_id) %>:</strong></dt>
+  <dd><%= @car_variant.car_model_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @car_variant.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:start_year) %>:</strong></dt>
+  <dd><%= @car_variant.start_year %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:end_year) %>:</strong></dt>
+  <dd><%= @car_variant.end_year %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:creator_id) %>:</strong></dt>
+  <dd><%= @car_variant.creator_id %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              car_variants_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_car_variant_path(@car_variant), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              car_variant_path(@car_variant),
+              :method => 'delete',
+              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+              :class => 'btn btn-danger' %>
+</div>

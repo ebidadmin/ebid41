@@ -1,0 +1,18 @@
+<div class="navbar search">
+  <div class="navbar-inner">
+	<%= content_tag :span, 'Search', class: 'brand' %>
+		<%= search_form_for @q, url: path, html: { class: 'navbar-search' } do |f| %>
+		  <%= f.text_field :entry_plate_no_cont, class: 'input-small', placeholder: 'Plate Number' %>
+			<% if can? :access, :all %>
+			  <%#= f.grouped_collection_select :entry_user_id_eq, @companies, :users, :nickname, :id, :username, { include_blank: 'User' }  %>
+			  <%= f.collection_select :company_id_matches, @companies, :id, :nickname, { include_blank: 'Buyer' }  %>
+			<% elsif can? :access, :buyer %>
+			  <%= f.grouped_collection_select :entry_user_id_eq, current_user.company.branches, :users, :name, :id, :username, { include_blank: 'User' }  %>
+			<% end %>
+		  <%= f.grouped_collection_select :entry_car_brand_id_eq, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: 'Brand' } %>
+		  <%= f.collection_select :var_company_id_matches, VarCompany.all, :id, :name, { include_blank: 'Shop/TP Supplier' }  %>
+			<%= f.button 'Go!', class: 'btn btn-primary' %>
+			<%= refresh_button %>
+		<% end %>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<% title @entry.model_name %>
+<% subtitle "#{@entry.variant} (#{@entry.plate_no})" %>
+
+<section id="vehicle-info">
+	<%= render 'entries/info_vehicle' %>
+</section>
+
+<%= render 'entries/public_messages' if @entry.messages.pub.present? %>
+
+<%# @entry.photos.each do |photo| %>
+	<%#= link_to((image_tag photo.photo.url(:tiny), alt: "Photo of #{@entry.plate_no}"), photo.photo.url(:large), rel: "#{@entry.id}", class: 'photo') %>
+<%# end %>
+
+<section id="parts-list">
+	<%= render 'buyer/parts_list' %>
+</section>
+
+<section id="time-line">
+	<%= content_tag :ul, class: 'breadcrumb small' do %>
+		<% Entry::TAGS_FOR_SIDEBAR.each do |tag| %>
+			<%= get_date_for_sidebar(@entry, tag) %>
+		<% end %>
+	<% end %>
+</section>
+
+
+
+

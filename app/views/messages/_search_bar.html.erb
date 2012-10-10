@@ -1,0 +1,15 @@
+<div class="navbar search">
+  <div class="navbar-inner">
+	<%= content_tag :span, 'Search', class: 'brand' %>
+		<%= search_form_for @q, url: path, html: { class: 'navbar-search' } do |f| %>
+			<% if can? :access, :all %>
+			  <%= f.text_field :entry_id_eq, class: 'input-small', placeholder: 'Entry ID' %>
+			  <%= f.grouped_collection_select :user_company_id_eq, Role.find(1,2,3), :companies, :name, :id, :nickname, { include_blank: 'Company' } %>
+			<% end %>
+			<%= f.select :open_tag_eq, [['Public', true], ['Private', false]], include_blank: 'Message Type' %>
+			<%= f.button 'Go!', class: 'btn btn-primary' %>
+			<%= refresh_button %>
+		<% end %>
+  </div>
+</div>
+

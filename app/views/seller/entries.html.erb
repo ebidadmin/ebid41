@@ -1,0 +1,55 @@
+<% title "Entries #{': ' + params[:s].titleize if params[:s]}" %>
+<%= render 'entries/search_bar', path: seller_entries_path %>
+
+<%= content_tag :div, page_entries_info(@entries), class: 'page-info' %>
+
+<%= content_tag :table, class: 'table table-condensed' do %>
+
+	<% @entries.group_by{ |e| e.updated_at.beginning_of_day }.each do |date, entries| %>
+		<tr>
+			<%= content_tag :td, colspan: 6, class: 'label label-inverse' do %>
+				<%= content_tag :b, regular_date(date, 'day') %>
+			<% end %>
+		</tr>
+
+		<% entries.each do |entry| %>
+			<tr>
+				<%= content_tag :td, class: 'span2' do %>
+					<%= content_tag :p, entry.id, class: 'muted small' %>
+					<%= tooltip_helper entry.photos.size, 'photo', 'camera' %>
+					<%= tooltip_helper entry.messages.restricted(current_user.company).size, 'message', 'comment', 'highlight' if entry.messages.restricted(current_user.company).present? %>
+				<% end %>
+
+				<%= content_tag :td, class: 'span4' do %>
+		      <%= content_tag :p, entry.model_name, class: 'lead vehicle' %>
+					<%= content_tag :p, entry.plate_no, class: 'muted' %>
+				<% end %>
+
+				<%= content_tag :td, class: 'span2' do %>
+					<%= entry_status_helper(entry) %>
+				<% end %>
+
+				<%= content_tag :td, class: "span4" do %>
+					<%= progress_bar_helper(percentage(entry.bid_rate_by_supplier(current_user))) %>
+					<p>
+						<%= parts_bidded(entry, current_user) %>
+						<%= content_tag :span, "#{pluralize entry.line_items.size, 'item'}".html_safe, class: 'pull-right' %>
+					</p>
+				<% end %>
+
+				<%= content_tag :td, class: 'span2 txtright' do %>
+					<% if entry.is_online %>
+						<%= link_to 'Bid Here', seller_show_path(entry), class: 'btn btn-primary' %>
+					<% else %>
+						<%= link_to 'View', seller_show_path(entry), class: 'btn' %>
+					<% end %>
+				<% end %>
+			</tr>
+		<% end %>
+
+	<% end %>
+<% end %>
+
+<%= will_paginate @entries, inner_window: 2 %>
+
+

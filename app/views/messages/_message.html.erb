@@ -1,0 +1,41 @@
+<tr id="message_<%= message.id %>"<%= "class=highlight" if message.read_on.nil? %> >
+	<td >
+		<% unless message.parent_id %>
+			<%= msg_sender_helper(message, current_user) %>
+		<% end %>
+	</td>
+	<td>
+		<%= msg_receiver_helper(message, current_user) unless message.parent_id %>
+	</td>
+	<td class="body">
+		<% if message.parent_id  %>
+			<%= content_tag :blockquote do %>
+			<%= content_tag :p, "#{msg_sender_helper(message, current_user)} replied:".html_safe, class: 'muted' %>
+			<%= message.message %>
+			<% end %>
+		<% else %>
+			<%= message.message %>
+		<% end %>
+	</td>
+	<% if params[:action] == 'messages' %>
+	<td class="span1 txtcenter">
+		<%= content_tag :span, (message.open_tag ? 'Public' : 'Private'), class: "badge #{message.open_tag ? 'badge-warning' : nil}" %>
+	</td>
+	<% end %>
+	<td>
+		<%= content_tag :p, (regular_date message.created_at, 'short_time'), class: 'small muted' %>
+		<%#= link_with_icon '', message_path(m), 'envelope', 'btn-mini' %>
+	</td>
+	<td class="txtright">
+		<div id="" class="btn-group">
+			<% if message.user_id != current_user.id %>
+				<%= link_to('Reply', new_message_path(r: message.user, rc: message.user.company, parent_id: message, e: @entry, o: message.order_id), remote: true, class: 'btn btn-mini btn-info') %>
+			<% end %>
+			
+			<% if message.user_id == current_user.id || can?(:access, :all) %>
+				<%= link_with_icon_js '', edit_message_path(message), 'pencil', 'btn-mini' %>
+				<%= link_with_icon_delete '', message, 'btn-mini btn-danger', true, true %>
+			<% end %>
+		</div>
+	</td>
+</tr>

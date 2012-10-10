@@ -1,0 +1,44 @@
+<% title "Profile" %>
+
+<p>
+  <strong>User:</strong>
+  <%= @profile.user_id %>
+</p>
+<p>
+  <strong>Company:</strong>
+  <%= @profile.company_id %>
+</p>
+<p>
+  <strong>Branch:</strong>
+  <%= @profile.branch_id %>
+</p>
+<p>
+  <strong>First Name:</strong>
+  <%= @profile.first_name %>
+</p>
+<p>
+  <strong>Last Name:</strong>
+  <%= @profile.last_name %>
+</p>
+<p>
+  <strong>Rank:</strong>
+  <%= @profile.rank_id %>
+</p>
+<p>
+  <strong>Phone:</strong>
+  <%= @profile.phone %>
+</p>
+<p>
+  <strong>Fax:</strong>
+  <%= @profile.fax %>
+</p>
+<p>
+  <strong>Birthdate:</strong>
+  <%= @profile.birthdate %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_profile_path(@profile) %> |
+  <%= link_to "Destroy", @profile, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", profiles_path %>
+</p>

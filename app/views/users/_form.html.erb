@@ -1,0 +1,83 @@
+<% subtitle "Fields marked with #{content_tag :b, 'asterisks (*)'} are required".html_safe %>
+
+<%= simple_form_for @user do |f| %>
+	<%= f.error_notification %>
+  <%= f.simple_fields_for :profile do |profile| %>
+
+	<fieldset>
+		<legend>Login Credentials</legend>
+		<div class="row">
+			<div class="span4">
+				<%= f.input :username, hint: 'Please give a login name, NOT your full name' %>
+				<%= current_page?(new_user_path) ? (f.input :password, hint: 'Use at least 4 characters.', required: true) : (f.input :password, label: 'Change Password', hint: 'Use at least 4 characters.', required: true) %>
+				<%= f.input :password_confirmation, label: 'Type Password again', required: true %>
+			</div>
+			<div class="span4 offset1">
+				<% if @user.new_record? || current_user.has_role?('admin') %>
+					<%=  profile.input :company, wrapper_html: { id: 'companies' }, hint: 'Call us at 892-5835 if your company is not in this list.' do %>
+					  <%= profile.grouped_collection_select :company_id,  @company_type, :companies, :name, :id, :name, {include_blank: 'Select Company'} %>
+					<% end %>
+				<% else %>
+					<%=  profile.input :company do %>
+						<%= profile.grouped_collection_select :company_id,  @company_type, :companies, :name, :id, :name, {include_blank: true}, disabled: true %>
+					<% end %>
+				<% end %>
+				<%= profile.association :branch, collection: @branches, wrapper_html: { id: 'branches' }, include_blank: 'Select Branch' %>
+			</div>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Profile</legend>
+		<div class="row">
+			<div class="span4">
+		 		<%= profile.input :first_name  %>
+		 		<%= profile.input :last_name %>
+		 		<%= profile.association :rank, label: 'Position', collection: Rank.order(:name) %>
+		 		<%= profile.input :birthdate, as: :string, input_html: {id: 'datepicker'}, placeholder: 'Click to select date', hint: 'We want to remember you on your birthday. (Format: YYYY-MM-DD)' %>
+			</div>
+			<div class="span4 offset1">
+		 		<%= profile.input :phone %>
+		 		<%= profile.input :fax %>
+				<%= f.input :email, hint: "#{content_tag :span, 'Important: Put a valid email', class: 'label important'} We need this to send you notifications and messages.".html_safe %>
+				<%= f.input :opt_in, label: 'Receive Notifications by Email?', as: :radio_buttons %>
+			</div>
+		</div>
+	</fieldset>
+	<% if can? :assign, :role %>
+		<fieldset>
+			<legend>Roles</legend>
+			<%= f.association :roles, label: false, as: :check_boxes %>
+		</fieldset>	
+	<% end %>
+	<hr>
+	
+	<div class="well">
+		<% if current_user && current_user.has_role?('admin') %>
+		  <%= link_to "Show", @user, class: 'btn' %> 
+		  <%= link_to "View All", users_path, class: 'btn' %>
+		<% end %>
+		<%= f.button :submit, class: 'btn btn-success floatright' %>
+		<%= link_to "Cancel", :back, class: 'btn floatright' %>
+	</div>
+
+  <% end %>
+<% end %>
+
+<%= content_for :javascripts do %>
+	<%= stylesheet_link_tag 'blitzer/jquery-ui-1.8.6.custom' %>
+	<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$('#datepicker').datepicker({ 
+				dateFormat: "yy-mm-dd",
+				showButtonPanel: true, 
+				showButtonPanel: true, 
+				showOn: "both",
+				buttonImage: "/assets/calendar.gif",
+				buttonImageOnly: true,
+				changeMonth: true,
+				changeYear: true,
+				yearRange: '1945:2011'
+		});
+	});
+	</script>
+<% end %>

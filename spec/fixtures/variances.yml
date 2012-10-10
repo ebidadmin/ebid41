@@ -1,0 +1,11 @@
+one:
+  user_id: 1
+  company_id: 1
+  entry_id: 1
+  var_company_id: 1
+
+two:
+  user_id: 1
+  company_id: 1
+  entry_id: 1
+  var_company_id: 1

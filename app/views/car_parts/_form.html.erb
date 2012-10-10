@@ -1,0 +1,14 @@
+<%= simple_form_for @car_part, :html => { :class => 'form-horizontal' }, remote: true do |f| %>
+	<%= hidden_field_tag :entry, params[:id] %>
+	<%= f.error_notification %>
+  <%= f.input :name, :label => 'Part Name' %>
+	<% if can? :access, :all %>
+	  <%= f.association :creator, collection: current_user.company.branches.includes(:users => :profile), as: :grouped_select, group_label_method: :name, group_method: :users, label_method: :fullname %>
+	<% else %>
+	  <%= f.input :creator, disabled: true %>
+	<% end %>
+  <div class="form-actions">
+    <%= f.submit 'Save Car Part', :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', session['referer'], :class => 'btn' %>
+  </div>
+<% end %>

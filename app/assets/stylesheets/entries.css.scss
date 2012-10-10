@@ -1,0 +1,32 @@
+.vehicle-name { font-size: 1.2em; }
+
+//.entries p, .orders p, .fees p { margin-bottom: 0; }
+select { width: auto; }
+
+.show .page-header { margin-bottom: 10px; }
+//.show table dl { margin-top: 0; margin-bottom: 0; }
+.show table dt { text-align: left; }
+.dl-horizontal dd { margin-left: 0; }
+
+.show .row.title { font-size: 1.2em; font-weight: bold; padding: 20px 0; }
+.show .bids p { padding: 0 15% 1%; }
+.show .alert { padding-right: 8px; }
+.show #line-items, .show #parts { max-height: 400px; overflow: auto; }
+.show #cart ul { max-height: 200px; overflow: auto; }
+
+.label.index { float: left; margin-left: -10px; margin-right: 10px; text-align: center; width: 15px; }
+//.show .parts { float: left; } 
+
+.show td.label { font-size: 1.2em; font-weight: normal; text-transform: uppercase; }
+//.show .table tbody tr:hover td.label { background-color: transparent !important; color: inherit; }
+.show table { margin-bottom: 0; }
+.show .btn-toolbar { margin-top: 0; }
+
+.entries .progress { margin-bottom: 5px; }
+
+#add-variant-btn { padding-top: 30px; }
+
+#parts-list {
+	div.parts { float: left; width: 90%; }
+	#add-part-box form { margin-top: 2em; text-align: left; }
+}

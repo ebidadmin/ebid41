@@ -1,0 +1,11 @@
+<div class="navbar search">
+  <div class="navbar-inner">
+	<%= content_tag :span, 'Search', class: 'brand' %>
+		<%= search_form_for @q, url: path, html: { class: 'navbar-search' } do |f| %>
+		  <%= f.text_field :username_cont, class: 'input-small', placeholder: 'Username' %>
+		  <%= f.grouped_collection_select :profile_company_id_eq, Role.where(id: [2,3]).includes(:companies), :companies, :name, :id, :nickname, { include_blank: 'Company' }  %>
+			<%= f.button 'Go!', class: 'btn btn-primary' %>
+			<%= refresh_button %>
+		<% end %>
+  </div>
+</div>

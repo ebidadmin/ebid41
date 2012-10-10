@@ -5,9 +5,18 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-puts 'SETTING UP DEFAULT USER LOGIN'
-user = User.create! :name => 'First User', :email => 'user@example.com', :password => 'please', :password_confirmation => 'please', :confirmed_at => Time.now.utc
-puts 'New user created: ' << user.name
-user2 = User.create! :name => 'Second User', :email => 'user2@example.com', :password => 'please', :password_confirmation => 'please', :confirmed_at => Time.now.utc
-puts 'New user created: ' << user2.name
-user.add_role :admin
+# puts 'SETTING UP DEFAULT USER LOGIN'
+# user = User.create! :name => 'First User', :email => 'user@example.com', :password => 'please', :password_confirmation => 'please', :confirmed_at => Time.now.utc
+# puts 'New user created: ' << user.name
+# user2 = User.create! :name => 'Second User', :email => 'user2@example.com', :password => 'please', :password_confirmation => 'please', :confirmed_at => Time.now.utc
+# puts 'New user created: ' << user2.name
+# user.add_role :admin
+# vars = Variance.all
+# vars.each do |v|
+#   entry = v.entry
+#   entry.line_items.each do |e|
+#     e.line
+#   end
+# end
+msgs = Message.where('messages.created_at < ?', 3.weeks.ago)
+msgs.update_all(read_on: Time.now)

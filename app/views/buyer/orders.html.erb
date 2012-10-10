@@ -1,0 +1,9 @@
+<% title "Orders #{': ' + params[:s].titleize if params[:s]}".html_safe %>
+<%= render 'orders/search_bar', path: buyer_orders_path %>
+
+<%= content_tag :h2, class: 'row' do %>
+	<%= content_tag :span, currency(@all_orders.total_orders, 'P '), class: 'span6' %>
+	<%#= display_seller_company %>
+<% end %>
+
+<%= render 'orders/index_list' %>

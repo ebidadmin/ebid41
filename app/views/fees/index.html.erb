@@ -1,0 +1,25 @@
+<% title "Fees" %>
+
+<table>
+  <tr>
+    <th>Bid</th>
+    <th>Bid Total</th>
+    <th>Fee Rate</th>
+    <th>Fee</th>
+    <th>Fee Type</th>
+  </tr>
+  <% for fee in @fees %>
+    <tr>
+      <td><%= fee.bid_id %></td>
+      <td><%= fee.bid_total %></td>
+      <td><%= fee.fee_rate %></td>
+      <td><%= fee.fee %></td>
+      <td><%= fee.fee_type %></td>
+      <td><%= link_to "Show", fee %></td>
+      <td><%= link_to "Edit", edit_fee_path(fee) %></td>
+      <td><%= link_to "Destroy", fee, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Fee", new_fee_path %></p>

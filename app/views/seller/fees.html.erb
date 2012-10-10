@@ -1,0 +1,124 @@
+<% if params[:t] == 'bf' %>
+	<% title "Decline Fees" %>
+	<% subtitle "#{current_user.nickname}'s share #{period_covered_helper(@all_fees, params[:q])}" %>
+<% else %>
+	<% title "Market Fees of #{current_user.company.nickname}" %>
+	<% subtitle "for paid orders #{period_covered_helper(@all_fees, params[:q])}" %>
+<% end %>
+<%= render 'fees/search_bar' %>
+
+<div class="row">
+	<%= content_tag :p, class: 'lead span3' do %>
+		<% if params[:t] == 'bf' %>
+			<%= currency(@all_fees.supplier_share) %>
+		<% else %>
+			<%= currency(@all_fees.total_fee, 'P ') %>
+		<% end %>
+	<% end %>
+	<%= content_tag :p, "Base: #{currency(@all_fees.base_fee)}", class: 'span2' %>
+	<%= content_tag :p, "VAT: #{currency(@all_fees.vat)}", class: 'span2' %>
+	<%= content_tag :p, display_buyer_company, class: 'pull-right' %>
+</div>
+<%= content_tag :h5, "#{pluralize(@all_fees.count, 'part')} for #{pluralize(@all_fees.collect(&:entry_id).uniq.count, 'vehicle')}" %>
+<hr>
+
+<% unless @all_fees.blank? %>
+	<%= content_tag :div, page_entries_info(@fees), class: 'page-info' %>
+
+	<%= content_tag :table, class: 'fees table table-condensed' do %>
+		<%= content_tag :thead do %>
+			<tr>
+				<%= content_tag :th %>
+				<th>
+					<%= content_tag :div, 'Parts', class: 'part span3' %>
+					<div class="txtright span2">
+						<% if params[:t] == 'bf' %>
+							Lowest Bid
+						<% else %>
+							PO Amount
+						<% end %>
+					</div>
+					<%= content_tag :div, 'Speed', class: 'factors txtcenter span2' %>
+					<%= content_tag :div, 'Rate', class: 'span1' %>
+					<%= content_tag :div, 'Fee', class: 'amount txtright' %>
+					<div class="txtright span2">
+						<% if params[:t] == 'bf' %>
+							Supplier Share
+						<% end %>
+					</div>
+				</th>
+			</tr>
+		<% end %>
+		
+		<% @fees.group_by{ |o| o.created_at.beginning_of_day }.each do |date, grouped_fees| %>
+			<%= content_tag :tr, class: 'label label-inverse' do %>
+				<%= content_tag :td, colspan: 2 do %>
+					<%= content_tag :b, regular_date(date, 'day') %>
+				<% end %>
+			<% end %>
+
+			<% grouped_fees.group_by(&:entry).each do |entry, fees| %>
+			<tr>
+				<%= content_tag :td, class: 'span3' do %>
+		      <%= content_tag :p, entry_link(entry) %>
+					<%= content_tag :span, entry.plate_no if entry %>
+				  <%= content_tag :p, "#{fees.count} of #{pluralize entry.line_items.size, 'item'}", class: 'small' %> 	
+				<% end %>
+
+				<td>
+					<% for f in fees %>
+						<%= div_for f do %>
+							<%= content_tag :div, f.line_item, class: 'part span3' %>
+							
+							<%= content_tag :div, class: 'txtright span2' do %>
+								<% if f.reversal? %>
+									<%= content_tag :span, f.fee_type.upcase, :class => 'label'  %>
+								<% else %>
+									<%= content_tag :span, currency(f.bid_total) %>
+									<%= content_tag :span, f.bid_type[0].upcase, class: "label" %>
+								<% end %>
+							<% end %>
+							
+							<%= content_tag :div, class: 'factors txtcenter small span2' do %>
+								<%= content_tag :em, time_in_words(f.bid_speed) if f.bid_speed %>
+							<% end %>
+							
+							<%= content_tag :div, percentage(f.fee_rate, 3, 'f'), class: 'span1 small' %>
+
+							<%= content_tag :div, class: 'amount txtright' do %>
+								<%= content_tag :b, currency(f.fee), class: "#{'negative' if f.fee < 0}" if f.fee != 0 %>
+							<% end %>
+							
+							<%= content_tag :div, class: 'txtright span2' do %>
+								<% if params[:t] == 'bf' %>
+										<%= content_tag :b, currency(f.split_amount), class: "#{'negative' if f.fee < 0}" if f.fee != 0  %>
+								<% else %>
+									<%= link_with_icon "PO# #{f.order_id}", f.order, 'shopping-cart', 'btn-mini btn-success', true %>
+									<%= content_tag :p, "Paid: #{regular_date(f.order_paid)}", class: "small" if f.order_paid.present? %>
+								<% end %>
+							<% end %>
+						<% end %>
+					<% end %>
+				</td>
+			</tr>
+			<% end %>
+		<% end %>
+		
+		<%= content_tag :tr, class: 'total' do %>
+			<%= content_tag :td %>
+			<%= content_tag :td, class: 'txtright' do %>
+				<%= content_tag :div, '', class: 'part span3' %>
+				<%= content_tag :div, 'Sub-total', class: 'span2' %>
+				<%= content_tag :div, '', class: 'factors span2' %>
+				<%= content_tag :div, '', class: 'span1' %>
+				<%= content_tag :div, currency(@fees.collect(&:fee).sum), class: 'amount' %>
+				<%= content_tag :div, currency(@fees.collect(&:split_amount).sum), class: 'span2' %>
+			<% end %>
+		<% end %>
+
+	<% end %>
+<% end %>
+
+<%= will_paginate @fees %>
+
+<%= render 'fees/datepicker' %>

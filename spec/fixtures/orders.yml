@@ -1,0 +1,57 @@
+one:
+  user_id: 1
+  company_id: 1
+  entry_id: 1
+  ref_no: MyString
+  ref_name: MyString
+  deliver_to: MyString
+  address1: MyString
+  address2: MyString
+  contact_person: MyString
+  phone: MyString
+  fax: MyString
+  instructions: MyText
+  status: MyString
+  buyer_ip: MyString
+  items_count: 1
+  order_total: 9.99
+  created_at: 2012-07-11 16:05:15
+  seller_id: 1
+  seller_company_id: 1
+  seller_confirmation: false
+  confirmed: 2012-07-11 16:05:15
+  delivered: 2012-07-11
+  due_date: 2012-07-11
+  paid_temp: 2012-07-11
+  paid: 2012-07-11
+  cancelled: 2012-07-11
+  ratings_count: 1
+
+two:
+  user_id: 1
+  company_id: 1
+  entry_id: 1
+  ref_no: MyString
+  ref_name: MyString
+  deliver_to: MyString
+  address1: MyString
+  address2: MyString
+  contact_person: MyString
+  phone: MyString
+  fax: MyString
+  instructions: MyText
+  status: MyString
+  buyer_ip: MyString
+  items_count: 1
+  order_total: 9.99
+  created_at: 2012-07-11 16:05:15
+  seller_id: 1
+  seller_company_id: 1
+  seller_confirmation: false
+  confirmed: 2012-07-11 16:05:15
+  delivered: 2012-07-11
+  due_date: 2012-07-11
+  paid_temp: 2012-07-11
+  paid: 2012-07-11
+  cancelled: 2012-07-11
+  ratings_count: 1

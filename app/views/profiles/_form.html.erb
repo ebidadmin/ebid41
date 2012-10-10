@@ -1,0 +1,40 @@
+<%= form_for @profile do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :company_id %><br />
+    <%= f.number_field :company_id %>
+  </p>
+  <p>
+    <%= f.label :branch_id %><br />
+    <%= f.number_field :branch_id %>
+  </p>
+  <p>
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name %>
+  </p>
+  <p>
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name %>
+  </p>
+  <p>
+    <%= f.label :rank_id %><br />
+    <%= f.number_field :rank_id %>
+  </p>
+  <p>
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone %>
+  </p>
+  <p>
+    <%= f.label :fax %><br />
+    <%= f.text_field :fax %>
+  </p>
+  <p>
+    <%= f.label :birthdate %><br />
+    <%= f.date_select :birthdate %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

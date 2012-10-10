@@ -1,0 +1,4 @@
+// $("div.modal").html("<%= j(render @messages) %>");
+$("div.modal").html("<%= j(render 'messages/modal') %>");
+$("div#msg-count h4").text("<%= escape_javascript(pluralize(@entry.messages.pvt.size, 'message')) %>");
+

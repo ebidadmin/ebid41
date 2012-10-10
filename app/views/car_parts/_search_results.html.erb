@@ -1,0 +1,37 @@
+<% if @car_parts.count > 0 %>
+	<%= content_tag :h3 do %>
+		Step 2: Add Parts to List
+		<%= content_tag :small, 'click on the part name to add it to your list.' %>
+	<% end %>
+
+	<ul class="unstyled parts">
+	<% @car_parts.results.in_groups_of(16, false).each do |car_part_array| %> 
+		<%= content_tag :div, class: 'row' do %>
+			<% car_part_array.in_groups_of(8, false).each do |parts| %>
+				<%= content_tag :div, class: 'span3 set' do %>
+					<% parts.each do |p| %>
+						<%= content_tag :li, select_link(p, @entry) %> 
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+		<!-- <hr> -->
+	<% end %> 
+	</ul>
+
+	<%= will_paginate @car_parts, id: 'parts-pagination', previous_label: '&laquo;', next_label: '&raquo;', inner_window: 1, outer_window: 1, remote: true %>
+
+<% else %>
+	<%= content_tag :h3 do  %>
+		Sorry, the keyword-combination <%= content_tag :em, params[:query], class: 'highlight' %> could not be found. 
+		<%= content_tag :small, 'Please check your spelling OR try another keyword.' %>
+	<% end %>
+<% end %>
+
+<div id="add-part-box" class="well txtcenter">
+	<%= content_tag :b, "Please SEARCH the parts thoroughly. Don't be lazy!" %>
+	<%= content_tag :p, 'Add new parts only as a LAST RESORT to avoid duplication.' %>
+	<%= link_to 'Add New Part', new_car_part_path(id: @entry), id: 'add-btn', class: 'btn', remote: true %>
+	<%= content_tag :div %>
+</div>
+

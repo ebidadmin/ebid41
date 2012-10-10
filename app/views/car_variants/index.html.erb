@@ -1,0 +1,40 @@
+<% title 'Car Variants' %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Count</th>
+      <th>Creator</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @car_variants.group_by(&:car_brand).each do |brand, car_variants| %>
+			<tr><%= content_tag :td, brand, colspan: 6, class: 'label label-info' %></tr>
+			<% car_variants.group_by(&:car_model).each do |cmodel, cvs| %>
+				<tr>
+					<%= content_tag :td, cmodel.name, rowspan: cvs.count + 1 %>
+				</tr>
+				<% cvs.each do |car_variant| %>
+	      <tr>
+	        <td><%= car_variant.id %></td>
+	        <td><%= link_to car_variant.name, car_variant_path(car_variant) %></td>
+	        <td><%= car_variant.entries.count %></td>
+	        <td><%= car_variant.creator if car_variant.creator  %></td>
+	        <td>
+	          <%= link_to 'Edit', edit_car_variant_path(car_variant), :class => 'btn btn-mini' %>
+	          <%= link_to 'Destroy', car_variant_path(car_variant), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+	        </td>
+	      </tr>
+				<% end %>
+			<% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @car_variants %>
+
+<%= link_to 'New', new_car_variant_path, :class => 'btn btn-primary' %>

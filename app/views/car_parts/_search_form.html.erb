@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="span8">
+		<%= form_tag search_car_parts_path(:id => params[:id]), class: 'form-search', method: :get, remote: true do |f| %>
+			<%= content_tag :h3 do %>
+				Step 1: Search Parts
+				<%= content_tag :small, 'type keywords here'  %>
+			<% end %>
+		  <%= text_field_tag :query, params[:query], class: 'search-query' %>
+		  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+		  <%= link_to 'Cancel', cancel_line_items_path(id: @entry), class: 'btn btn-danger', remote: true %>
+		<% end %>
+		<%= content_tag :div, '', id: 'search-results' %>
+	</div>
+	<div id="cart" class="span4">
+		<%= render 'cart/cart' %>
+	</div>
+</div>
+

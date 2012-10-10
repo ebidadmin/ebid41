@@ -1,0 +1,137 @@
+$iconSpritePath: asset-url('glyphicons-halflings.png', image);
+$iconWhiteSpritePath: asset-url('glyphicons-halflings-white.png', image);
+@import "bootstrap";
+
+body { font-size: 12px; line-height: 1.2em !important;  }
+//body p { margin: 0;  }
+.container { clear: both; margin: 0 auto; width: 840px; background: transparent; position: relative; overflow: hidden; }
+//section { padding-bottom: 1.5em; }
+dt, dd { float: left; }
+dt { clear: both; font-size: 0.9em; text-transform: uppercase; width: 30%; }
+dd { width: 65%; }
+
+.txtcenter { text-align: center !important; }
+.txtright { text-align: right !important; }
+.small { font-size: 0.95em; }
+.negative { color: #C00; font-weight: normal; }
+.cancelled { text-decoration: line-through; }
+code { color: black;}
+.label, .badge { font-weight: normal !important; padding: 4px 8px !important;  text-transform: uppercase; }
+
+#print-header { border-bottom: 1px solid black; margin: 0px auto; overflow: hidden; padding-bottom: 5px; position: relative; width: 840px;  }
+#print-header h1 { height: 95px; background: transparent url(../assets/ebidlogo.jpg) no-repeat; margin: 0; text-indent: -9999px; overflow: hidden;  }
+#print-nav { margin: 0; position: absolute; bottom: 5px; right: 0; }
+
+table td { border-top: 1px solid black !important; }
+//th { padding: 10px !important; }
+table .total { font-size: 1.2em; font-weight: bold; }
+td.bids { padding-right: 20px; padding-left: 20px; }
+table {
+	p { margin-bottom: 0; }
+	th, td { vertical-align: middle !important; }
+}
+
+#vehicle-info {
+	dt { text-align: left; }
+	dd { margin-left: 0; width: auto; }
+	h4 { font-size: inherit; }
+} 
+
+
+.bids p { font: 100%; text-align: right; }
+.index { float: left; padding-right: 8px; text-align: right; width: 18px; }
+.part-desc { float: left;}
+.messages { overflow: hidden;
+	h3 { clear: both; font-weight: 300; margin-bottom: 10px; }
+	h6 { clear: both; margin-bottom: 20px;  }
+	dt, dd { margin-bottom: 5px; }
+	dd { width: 620px; }
+	dt.nested { background: url(/assets/arrow_right.png) no-repeat scroll left 4px; margin-left: 30px; padding-left: 15px; }
+	dd.nested { width: 590px; }
+ 	}
+
+.order { margin-bottom: 17px;
+	.label { line-height: 20px; margin: 10px 0; text-transform: uppercase; }
+	p { margin-bottom: 0; }
+	.user { margin-top: 15px; }
+	dl { margin-top: 25px; }
+	.order-caption { border-bottom: 1px solid #DDD; margin-bottom: 10px; }
+	.delivery { border: 1px solid black; padding: 0 30px 20px 30px; }
+	.instr { padding: 5px 0; border-top: 1px dotted black; border-bottom: 1px dotted black; margin-top: 25px; }
+	.due-date { margin-top: 10px; }
+	.status-box a { margin-left: 32%; }
+	.help-block { margin-bottom: 15px; }
+	}
+	
+.fees table {
+	div { float: left; }
+	.vehicle { width: 140px; }
+	.fee { clear: both; margin-bottom: 4px; position: relative; }
+	.part { min-height: 1em; }
+	.amount { margin-left: 8px; min-height: 1em; width: 80px; }
+	.factors { margin-left: 8px; min-height: 1em; width: 65px; }
+	.close { position: absolute; top: -2px; right: -15px; }
+	}
+.fees .row .lead { 
+	margin-bottom: 0; 
+	.label { float: right; }
+	}	
+.negative { color: #C00; font-weight: normal; }
+
+.surrenders {
+	.address p { margin-bottom: 0; }
+	.prelims { font-weight: bold; }
+	.date, .address, .prelims.second, .parts { margin-bottom: 30px; }
+	.signature-line { margin-bottom: 50px; }
+	.retriever { padding-top: 5px; border-top: 1px solid black; }
+	}
+	
+	 /* DIFF TABLE
+	----------------------------------------------------------------------*/ 
+
+	#diff .vehicle { width: 25%; }
+	#diff .vehicle .button { margin-top: 15px; }
+	#diff h3 { padding: 10px 0; text-align: center; }
+	#diff div { float: left; margin-bottom: 5px; min-height: 20px; line-height: 18px; }
+	#diff td .part { clear: both; }
+	#diff .part { width: 200px; }
+	#diff .amounts { margin-left: 10px; width: 490px; }
+	#diff .labels { clear: both; font-weight: bold; width: 50px; }
+	#diff .ebid { color: #C00; }
+	#diff .manual { color: green; }
+	#diff .amount { margin-left: 10px; text-align: right; width: 135px; }
+	#diff .no-bid { color: #919191; margin-left: 10px; text-align: center; width: 420px;  }
+	#diff .company { float: right; color: #C00; font-size: 0.8em; width: 40%;}
+	#diff hr { margin-top: 0;}
+	#diff hr:last-child { display: none; }
+	#canvass_company_id { font-size: 1em; margin-right: 10px;}
+
+	.dash.diff  { width: 100%; font-size: 1.2em;}
+	#diff .dash-entry strong { width: 40%; }
+	#diff #w-ebid, #diff #manual-only, #diff #no-price { padding-left: 15px; }
+	#diff #ebid-manual, #diff #ebid-only { padding-left: 30px; }
+	#diff #ebid-lower, #diff #ebid-higher, #diff #same { padding-left: 60px; }
+
+	#diff-stats { clear: both; font-size: 18px; width: 100%; }
+	#diff-stats dt { clear: both; float: left; width: 30%; }
+	#diff-stats dd { float: left; text-align: right; width: 30%; }
+	#diff-stats .survey-count { margin-top: 20px; }
+
+	#diff-table { margin-top: 15px; text-align: center; }
+	#diff-table th, #diff-table td { color: black; border: 1px solid #000; }
+	#diff-table .column { width: 432px; }
+	#diff-table .row { height: 432px; }
+	#diff-table h4 { font-weight: bold; }
+	#diff-table b { display: block; font-weight: bold; margin: 5px 0 0; }
+	#diff-table span { font-size: 1.2em; }
+	#diff-table p.impt { font-size: 1em; margin: 0 auto; padding: 2px; width: 135px; }
+	#diff-table div { float: left; margin: 10px 10px 0 0; width: 135px; }
+	#diff-table #last { margin-right: 0; }
+	#diff-table .label { border-bottom: 1px solid #C00; color: #C00; font-size: 1.1em; padding-bottom: 4px;}
+	#diff-table .number { color: #919191; font-size: 1.5em; font-weight: bolder; margin-top: 10px; }
+
+	
+@media print {
+	#print-header, #print-nav, .navbar, .btn-toolbar, .btn, #confirmation, .close { display: none; }
+}
+

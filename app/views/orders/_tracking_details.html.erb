@@ -1,0 +1,19 @@
+<%= content_tag :div, class: 'status-box span4' do %>
+	<%= content_tag :h5, "#{@order.company}'s PO # #{@order.ref_no? ? @order.ref_no : (content_tag :small, 'not provided')}".html_safe  %>
+	<dl>
+		<%= dl_helper 'Approved by', "#{@order.branch.approver.shortname}, #{content_tag :em, @order.branch.approver.rank_name}"  if @order.branch.approver.present? %>
+		<%= dl_helper 'PO Date', long_date(@order.created_at)  %>
+		<% if @order.confirmed %>
+			<%= dl_helper 'PO Confirmed', long_date(@order.confirmed) %>
+		<% else %>
+			<%= dl_helper 'PO Confirmed', (content_tag :em, 'Waiting for seller to accept the order ...', class: 'label label-info') unless @order.cancelled%>
+		<% end %>
+		<%= dl_helper 'Delivered', regular_date(@order.delivered, 'day') + "<br> (#{pluralize @order.delivery_time, 'day'} from confirmation)" if @order.delivered %>
+		<%= dl_helper 'Payment Due', regular_date(@order.due_date), 'due-date' if @order.due_date %>
+		<%= dl_helper 'Tagged as Paid', (regular_date(@order.paid_temp) + '<br>' + confirm_payment_link(@order, current_user)).html_safe if @order.paid_temp && @order.paid.nil? %>
+		<%= dl_helper 'Paid', regular_date(@order.paid) if @order.paid %>
+		<%= dl_helper 'Cancelled', regular_date(@order.cancelled) if @order.cancelled %>
+	</dl>
+	<%= change_status_link(@order) %>
+	<%= payment_tag(@order) %>
+<% end %>

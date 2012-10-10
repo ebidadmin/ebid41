@@ -1,0 +1,53 @@
+<table class="table">
+  <thead>
+    <tr>
+			<%= content_tag :th, 'From', class: 'span1' %>
+			<%= content_tag :th, 'To', class: 'span1' %>
+			<%= content_tag :th, 'Message Preview', class: 'span5' %>
+			<%= content_tag :th, '', class: 'span1 txtcenter' %>
+			<%= content_tag :th, 'Received', class: 'span2' %>
+			<%= content_tag :th, '', class: 'span2 txtright' %>
+    </tr>
+  </thead>
+  <tbody>
+		<% @messages.group_by{ |m| m.created_at.beginning_of_day }.each do |date, messages| %>
+			<tr>
+				<%= content_tag :td, colspan: 6, class: 'label label-inverse' do %>
+					<%= content_tag :b, regular_date(date, 'day') %>
+				<% end %>
+			</tr>
+	    <% messages.each do |m| %>
+	      <tr id="message_<%= m.id %>"<%= "class=label" if m.read_on.nil? %>>
+	        <td>
+						<%= msg_sender_helper(m, current_user) %>
+					</td>
+	        <td>
+						<%= msg_receiver_helper(m, current_user) %>
+					</td>
+	        <td class="body">
+						<%= shorten m.message, 50 %>
+					</td>
+	        <td class="span1 txtcenter">
+						<%= content_tag :span, (m.open_tag ? 'Public' : 'Private'), class: "badge #{m.open_tag ? 'badge-warning' : nil}" %>
+					</td>
+	        <td>
+						<%= content_tag :p, (regular_date m.created_at, 'short_time') %>
+						<%#= link_with_icon '', message_path(m), 'envelope', 'btn-mini' %>
+						<%#= link_with_icon_js '', edit_message_path(m), 'pencil', 'btn-mini' %>
+						<%#= link_with_icon_delete '', m, 'btn-mini btn-danger', true %>
+	        </td>
+	        <td class="txtright">
+						<% if m.order_id  %>
+							<%= link_with_icon "PO# #{m.order_id}", m, 'shopping-cart', 'btn-mini btn-success', true %>
+						<% elsif m.entry_id %>
+							<%= link_to("View Entry", m, class: 'btn btn-mini btn-info')  %>
+						<% else %>
+							<%= link_with_icon '', message_path(m), 'envelope', 'btn-mini' %>
+						<% end %>
+					</td>
+	      </tr>
+	    <% end %>
+		<% end %>
+  </tbody>
+</table>
+

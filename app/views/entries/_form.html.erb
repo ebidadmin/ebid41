@@ -1,0 +1,45 @@
+<%= simple_form_for @entry, :html => { :class => 'form' } do |f| %>
+	<%= f.error_notification %>
+	<div class="well">
+		<section class="row">
+		  <%= f.input :year_model, label: 'Year', collection: Entry::YEAR_MODELS, wrapper_html: { class: 'span1' } %>
+		  <%= f.association :car_brand, label: 'Brand', collection: CarOrigin.includes(:car_brands), as: :grouped_select, group_label_method: :name, group_method: :car_brands, label_method: :name, wrapper_html: { id: 'veh-brand', class: 'span2' }  %>
+		  <%= f.association :car_model, label: 'Model', collection:  @car_models, wrapper_html: { id: 'veh-model', class: 'offset1 pull-left' }, include_blank: true %>
+		  <%= f.association :car_variant, label: 'Variant', collection:  @car_variants, wrapper_html: { id: 'veh-variant', class: 'offset1 pull-left' }, include_blank: true %>
+			<div id="add-variant-btn" class="span2">
+				<%= link_to 'Add New Variant', new_car_variant_path, class: 'btn btn-mini', rel: 'tooltip', data: { placement: 'right' }, title: 'Please SEARCH the brands and models thoroughly. Add new variants only as a LAST RESORT to avoid duplication.' %>
+			</div>
+		</section>
+		<section class="row">
+			<%= f.input :plate_no, label: 'Plate Number', wrapper_class: 'span3 control-group' %>
+			<%= f.input :serial_no, label: 'Serial Number', wrapper_class: 'span3 control-group' %>
+			<%= f.input :motor_no, label: 'Motor Number', wrapper_class: 'span3 control-group' %>
+		</section>
+		<%= f.association :term, label: 'Credit Term Request', label_method: :display  %>
+	</div>
+
+	<div class="well txtright">
+    <%= link_to 'Cancel', :back, :class => 'btn' %>
+    <%= f.button :submit, :class => 'btn-primary btn-large' %>
+	</div>
+
+	<% if can? :access, :all %>
+	<div class="well">
+		<%= content_tag :h3, 'Admin Section' %>
+		<section class="row">
+			<div class="span6">
+				<%= f.input :status, collection: Entry::STATUS_TAGS, include_blank: true %>
+				<%= f.input :online, include_blank: true %>
+				<%= f.input :bid_until, include_blank: true %>
+				<%= f.input :decided, include_blank: true %>
+			</div>
+			<div class="span6">
+				<%= f.input :expired, include_blank: true %>
+				<%= f.input :relisted, include_blank: true %>
+				<%= f.input :redecided, include_blank: true %>
+				<%= f.input :orders_count, include_blank: true %>
+			</div>
+		</section>
+	</div>
+	<% end %>
+<% end %>

@@ -1,0 +1,11 @@
+<%= content_tag :thead do %>
+	<tr>
+		<%= content_tag :th, (content_tag :h4, 'Part Description'.upcase), class: 'span4 txtcenter', rowspan: 2 %>
+		<%= content_tag :th, (content_tag :h4, "BIDS #{content_tag :span, 'Unit Price', class: 'badge badge-important'}".html_safe), class: 'txtcenter', colspan: 3 %>
+	</tr>
+	<tr>
+		<%= th_bidtype_helper('Original') %>
+		<%= th_bidtype_helper('Replacement') %>
+		<%= th_bidtype_helper('Surplus') %>
+	</tr>
+<% end %>

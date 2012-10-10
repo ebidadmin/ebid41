@@ -1,0 +1,21 @@
+one:
+  user_id: 1
+  company_id: 1
+  branch_id: 1
+  first_name: MyString
+  last_name: MyString
+  rank_id: 1
+  phone: MyString
+  fax: MyString
+  birthdate: 2012-07-11
+
+two:
+  user_id: 1
+  company_id: 1
+  branch_id: 1
+  first_name: MyString
+  last_name: MyString
+  rank_id: 1
+  phone: MyString
+  fax: MyString
+  birthdate: 2012-07-11

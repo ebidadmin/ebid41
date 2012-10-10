@@ -1,0 +1,19 @@
+<% title "Cancel Order" %>
+<% subtitle @entry.model_name %>
+
+<%= simple_form_for @message, url: confirm_cancel_order_path(@order), html: { class: 'well'}, method: :put do |f|  %>
+	<%= render 'orders/items_table', bids: @bids %>
+	<%= f.input :user_id, as: :hidden %>
+	<%= f.input :entry_id, as: :hidden %>
+	<%= f.input :message, label: "Reason for cancellation", as: :text, required: true, input_html: { rows: 2, class: 'span8' }, wrapper_html: { class: 'span8' } %>
+	<div id="order-cancel-btn" class="span3">
+		<%= f.submit "Confirm Cancellation", confirm: 'Are you really sure you want CANCEL the order items?', class: 'btn btn-danger pull-right' %>
+	</div>
+	<% if can? :access, :all %>
+		<%= f.input :user_type, collection: ['admin', 'buyer', 'seller'], label: 'Cancel As', wrapper_class: 'form-inline span11 txtright' %>
+	<% else %>
+		<%= f.input :user_type, as: :hidden %>
+	<% end %>
+	<div class="clearfix"></div>
+<% end %>
+

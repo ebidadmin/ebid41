@@ -1,0 +1,12 @@
+<table class="table table-condensed message-table">
+  <thead>
+		<%= content_tag :th, 'From', class: 'span1' %>
+		<%= content_tag :th, 'To', class: 'span1' %>
+		<%= content_tag :th, 'Message', class: 'span5' %>
+		<%= content_tag :th, 'Received', class: 'span2' %>
+		<%= content_tag :th, '', class: 'span1 txtright' %>
+  </thead>
+	<tbody>
+		<%= nested_messages @messages.arrange(order: :created_at) %>
+	</tbody>
+</table>

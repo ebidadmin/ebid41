@@ -1,0 +1,17 @@
+<% title "Ranks" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for rank in @ranks %>
+    <tr>
+      <td><%= rank.name %></td>
+      <td><%= link_to "Show", rank %></td>
+      <td><%= link_to "Edit", edit_rank_path(rank) %></td>
+      <td><%= link_to "Destroy", rank, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Rank", new_rank_path %></p>

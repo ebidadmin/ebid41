@@ -1,0 +1,13 @@
+one:
+  bid_id: 1
+  bid_total: 9.99
+  fee_rate: 9.99
+  fee: 9.99
+  fee_type: MyString
+
+two:
+  bid_id: 1
+  bid_total: 9.99
+  fee_rate: 9.99
+  fee: 9.99
+  fee_type: MyString

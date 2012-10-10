@@ -1,0 +1,7 @@
+<% if @car_variants.present? %>
+	$('div#veh-variant span.label').remove();
+	$('div#veh-variant select').show().html("<%= escape_javascript(render 'car_models/selected') %>");
+<% else %>
+  $('div#veh-variant select').empty().after("<%= escape_javascript(render 'car_models/no_var') %>")
+<% end %>
+$('.loading').remove();

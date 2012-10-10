@@ -1,0 +1,78 @@
+<% title @entry.model_name %>
+<% subtitle "#{@entry.variant} (#{@entry.plate_no})" %>
+
+
+	<div class="row">
+		<h4 class="span6">
+			<%= content_tag :span, 'Comparative Pricing Analysis' %><br>
+			<%= content_tag :small, 'positive variance means E-Bid price is better' %>
+		</h4>
+		<div class="span4 pull-right txtright">
+			<%= link_to 'Back', entries_path, class: 'btn' %>
+			<%= link_to 'View Entry', buyer_show_path(params[:entry_id]), class: 'btn' %>
+			<%= link_to 'Delete', variance_path(@variance), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+		</div>
+	</div>
+<hr>
+<div id="variance-table">
+	<table class="table">
+		<thead>
+			<%= content_tag :th, 'Parts' %>
+			<%= content_tag :th, 'Qty', class: 'txtcenter' %>
+			<%= content_tag :th, class: 'txtcenter' do %>
+				<%= content_tag :strong, @variance.var_company.name if  @variance.var_company %><br>
+				<% if @variance.var_items.first.discount? %>
+					<%= content_tag :span, "Net of #{percentage(@variance.var_items.first.discount, 0) } Discount", class: 'label label-info' %>
+				<% end %>
+			<% end %>
+			<%= content_tag :th, 'E-Bid', class: 'txtcenter' %>
+			<%= content_tag :th, 'Variance', class: 'txtcenter' %>
+		</thead>
+		<% @entry.line_items.includes(:car_part, :var_item).each_with_index do |item, index| %>
+			<tr>
+				<%= content_tag :td, class: 'span3' do %>
+					<%= content_tag :span, index + 1, class: 'label index'  %>
+					<%#= content_tag :span, item.id, class: 'small muted' if can? :access, :all %>
+					<%= content_tag :span, item %>
+				<% end %>
+
+				<%= content_tag :td, item.var_item.qty, class: 'span1 txtcenter' %>
+
+				<%= content_tag :td, class: 'span2 txtright padrt' do %>
+					<% if item.var_item && item.var_item.var_total %>
+						<%= currency(item.var_item.var_total) %>
+						<%= content_tag :span, item.var_item.var_type[0..3].upcase, class: 'badge' %>
+					<% else %>
+						 <%= content_tag :p, 'no canvass', class: 'muted' %>
+					<% end %>
+				<% end %>
+
+				<%= content_tag :td, class: 'span2 txtright padrt' do %>
+					<% if item.var_item && item.var_item.total %>
+						<%= currency(item.var_item.total) %>
+						<%= content_tag :span, item.var_item.bid_type[0..3].upcase, class: 'badge' %>
+					<% else %>
+						 <%= content_tag :p, 'no bid', class: 'muted' %>
+					<% end %>
+				<% end %>
+
+				<%= content_tag :td, class: 'span2 txtright padrt' do %>
+					<% if item.var_item && item.var_item.var_net.present? %>
+						<%= currency(item.var_item.var_net) %>
+					<% else %>
+					  <%= content_tag :p, 'not comparable', class: 'muted' %>
+					<% end %>
+				<% end %>
+			</tr>
+		<% end %>
+		<tr class="total">
+			<%= content_tag :td, '', colspan: 2 %>
+			<%= content_tag :td, currency(@variance.var_items.sum(:var_total)), class: 'txtright' %>
+			<%= content_tag :td, currency(@variance.var_items.sum(:total)), class: 'txtright' %>
+			<%= content_tag :td, currency(@variance.var_items.sum(:var_net)), class: 'txtright' %>
+		</tr>
+	</table>
+</div>
+
+<%= render 'analysis_table' %>
+

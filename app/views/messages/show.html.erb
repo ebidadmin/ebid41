@@ -1,0 +1,41 @@
+<%- model_class = Message -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:user_id) %>:</strong></dt>
+  <dd><%= @message.user_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:user_type) %>:</strong></dt>
+  <dd><%= @message.user_type %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:alias) %>:</strong></dt>
+  <dd><%= @message.alias %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:user_company_id) %>:</strong></dt>
+  <dd><%= @message.user_company_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:receiver_id) %>:</strong></dt>
+  <dd><%= @message.receiver_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:receiver_company_id) %>:</strong></dt>
+  <dd><%= @message.receiver_company_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:entry_id) %>:</strong></dt>
+  <dd><%= @message.entry_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:order_id) %>:</strong></dt>
+  <dd><%= @message.order_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:message) %>:</strong></dt>
+  <dd><%= @message.message %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:open_tag) %>:</strong></dt>
+  <dd><%= @message.open_tag %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:ancestry) %>:</strong></dt>
+  <dd><%= @message.ancestry %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              messages_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_message_path(@message), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              message_path(@message),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

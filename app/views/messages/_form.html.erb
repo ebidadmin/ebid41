@@ -1,0 +1,34 @@
+<%= simple_form_for @message do |f| %>
+	<%= f.error_notification %>
+	<%= f.hidden_field :parent_id if @message.parent %>
+	<%= f.input :message, input_html: { rows: 2, class: 'span6' } %>
+	<%= f.input :open_tag, as: :radio_buttons, collection: [['Private', false], ['Public', true]], label: 'Message Type', item_wrapper_class: 'inline' %>
+		<div class="row">
+			<div class="span3">
+				<%= f.input :user do %>
+				  <%= f.grouped_collection_select :user_id,  Company.where(:primary_role => [1,2,3]).includes(:users), :users, :nickname, :id, :username, {:include_blank => true} %>
+				<% end %>
+				<%=  f.input :user_company do %>
+				  <%= f.grouped_collection_select :user_company_id,  Role.find(1, 2, 3), :companies, :name, :id, :nickname, {:include_blank => true} %>
+				<% end %>
+				<%= f.input :user_type, collection: ['admin', 'buyer', 'seller'] %>
+			</div>
+			<div class="span3">
+				<%= f.input :receiver do %>
+				  <%= f.grouped_collection_select :receiver_id,  Company.where(:primary_role => [1,2,3]).includes(:users), :users, :nickname, :id, :username, {:include_blank => true} %>
+				<% end %>
+				<%=  f.input :receiver_company do %>
+				  <%= f.grouped_collection_select :receiver_company_id,  Role.find(1, 2, 3), :companies, :name, :id, :nickname, {:include_blank => true} %>
+				<% end %>
+			</div>
+			<div class="span3">
+				<%= f.input :entry_id %>
+				<%= f.input :order_id %>
+			  <%= f.input :alias %>
+			  <%= f.input :ancestry if @message.parent %>
+			</div>
+		</div>
+    <%= f.button :submit, :class => 'btn-primary' %>
+		<%= link_to 'Cancel', view_messages_path(id: params[:e]), class: 'btn btn-mini', remote: true %>
+<% end %>
+

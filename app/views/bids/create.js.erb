@@ -1,0 +1,38 @@
+$("td .invalid").remove();
+
+<% unless @new_bids.blank? && @existing_bids.blank? %>
+
+	$("#bidding-message .invalid").remove();
+	
+	<% @new_bids.group_by(&:line_item).each do |line_item, bids| %>
+		<% bids.each do |bid| %>
+			<% if bid.valid? %>
+				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> .bid-container").html("<%= escape_javascript(render bid) %>").effect("highlight", {}, 5000);
+				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> input").val('');    
+			<% else %>
+				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> .bid-container").html("<%= escape_javascript(render 'seller/invalid_bid_msg') %>");
+				$("#<%= line_item.id %> .invalid").animate({padding: '5'}, 'fast', 'easeOutElastic');
+			<% end %>
+		<% end %>
+	<% end %>
+
+	<% @existing_bids.group_by(&:line_item).each do |line_item, bids| %>
+		<% bids.each do |bid| %>
+			<% if bid.valid? %>
+				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> .bid-container").html("<%= escape_javascript(render bid) %>").effect("highlight", {}, 5000);
+				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> input").val('');    
+			<% else %>
+				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> .bid-container").append("<%= escape_javascript(render 'seller/invalid_bid_msg') %>");
+				$("#<%= line_item.id %> .invalid").animate({padding: '5'}, 'fast', 'easeOutElastic');
+			<% end %>
+		<% end %>
+	<% end %>
+	
+<% else %>
+
+	$("#bidding-message").html("<%= escape_javascript(content_tag :p, 'You are trying to submit blank bids. Please try again.', class: 'invalid label label-warning') %>");
+	$("#bidding-message p").animate({padding: '15'}, 'fast', 'easeOutElastic')
+	$('html, body').animate({ scrollTop: 0 }, 0);
+
+<% end %>
+$(".spinner").hide();

@@ -1,0 +1,45 @@
+<!-- create an order for each supplier -->
+<%= content_tag :h2 do %>
+	Step 1: Check order items and quantities
+	<%= content_tag :small, "You have #{content_tag :span, pluralize(@bidders.count, 'supplier')}".html_safe, class: 'highlight' %>
+<% end %>
+
+<% @bids.group_by(&:user_id).each do |seller, seller_bids| %>
+	<%= render 'orders/items_table', bids: seller_bids %>
+<% end %>
+
+<%= content_tag :h2 do %>
+	Step 2: Encode your delivery details
+	<%= content_tag :small, "Fields marked with #{content_tag :em, 'asterisks (*)'} are required.".html_safe, class: 'highlight' %>
+<% end %>
+
+<%= content_tag :div, class: 'well' do %>
+	<%= content_tag :div, class: 'row' do %>
+
+	<%= content_tag :div, class: 'span4' do %>
+		<%= f.input :ref_no, label: "What's your PO Number?" %>
+		<%= f.input :ref_name, label: "Who is the Insured?", required: true %>
+		<%= f.fields_for :entry do |e| %>
+			<%= e.input :ref_no, label: "Is this the correct Claim No.?", hint: 'Make sure this is accurate', required: true %>
+		<% end %>
+	<% end %>
+
+	<%= content_tag :div, class: 'span4' do %>
+		<%= content_tag :div, class: 'clearfix' do %>
+			<%= f.input :deliver_to, label: 'Delivery Recipient', hint: 'Name of repair shop or receiving establishment' %>
+			<%= f.label 'Address', required: true %>
+		<% end %>
+		<%= f.input :address1, label: 'Bldg or number + street', required: true %>
+		<%= f.input :address2, label: "Baranggay or district + city or province".html_safe, required: true %>
+	<% end %>
+
+	<%= content_tag :div, class: 'span3' do %>
+		<%= f.input :contact_person, label: 'Contact Person' %>
+		<%= f.input :phone %>
+		<%= f.input :fax %>
+		<%= f.input :instructions, label: 'Special Request or Instructions', input_html: { rows: 3 } %>
+	<% end %>
+
+	<% end %>
+<% end %>
+

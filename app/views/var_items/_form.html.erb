@@ -1,0 +1,60 @@
+<%= form_for @var_item do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :variance_id %><br />
+    <%= f.number_field :variance_id %>
+  </p>
+  <p>
+    <%= f.label :line_item_id %><br />
+    <%= f.number_field :line_item_id %>
+  </p>
+  <p>
+    <%= f.label :qty %><br />
+    <%= f.number_field :qty %>
+  </p>
+  <p>
+    <%= f.label :var_base %><br />
+    <%= f.text_field :var_base %>
+  </p>
+  <p>
+    <%= f.label :discount %><br />
+    <%= f.text_field :discount %>
+  </p>
+  <p>
+    <%= f.label :var_amt %><br />
+    <%= f.text_field :var_amt %>
+  </p>
+  <p>
+    <%= f.label :var_total %><br />
+    <%= f.text_field :var_total %>
+  </p>
+  <p>
+    <%= f.label :var_type %><br />
+    <%= f.text_field :var_type %>
+  </p>
+  <p>
+    <%= f.label :bid_id %><br />
+    <%= f.number_field :bid_id %>
+  </p>
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </p>
+  <p>
+    <%= f.label :total %><br />
+    <%= f.text_field :total %>
+  </p>
+  <p>
+    <%= f.label :bid_type %><br />
+    <%= f.text_field :bid_type %>
+  </p>
+  <p>
+    <%= f.label :seller_company_id %><br />
+    <%= f.number_field :seller_company_id %>
+  </p>
+  <p>
+    <%= f.label :var_net %><br />
+    <%= f.text_field :var_net %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

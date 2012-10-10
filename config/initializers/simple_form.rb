@@ -132,7 +132,7 @@ SimpleForm.setup do |config|
   # config.item_wrapper_class = nil
 
   # How the label text should be generated altogether with the required text.
-  # config.label_text = lambda { |label, required| "#{required} #{label}" }
+  config.label_text = lambda { |label, required| "#{label} #{required}" }
 
   # You can define the class to use on all labels. Default is nil.
   config.label_class = 'control-label'
@@ -144,14 +144,14 @@ SimpleForm.setup do |config|
   # config.generate_additional_classes_for = [:wrapper, :label, :input]
 
   # Whether attributes are required by default (or not). Default is true.
-  # config.required_by_default = true
+  config.required_by_default = false
 
   # Tell browsers whether to use default HTML5 validations (novalidate option).
   # Default is enabled.
   config.browser_validations = false
 
   # Collection of methods to detect if a file type was given.
-  # config.file_methods = [ :mounted_as, :file?, :public_filename ]
+  config.file_methods = [ :mounted_as, :file?, :public_filename ]
 
   # Custom mappings for input types. This should be a hash containing a regexp
   # to match as key, and the input type that will be used when the field name
@@ -165,7 +165,7 @@ SimpleForm.setup do |config|
   # config.country_priority = nil
 
   # Default size for text inputs.
-  # config.default_input_size = 50
+  config.default_input_size = 30
 
   # When false, do not use translations for labels.
   # config.translate_labels = true

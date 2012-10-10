@@ -1,0 +1,14 @@
+<%= simple_form_for @company, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :name %>
+  <%= f.input :nickname %>
+  <%= f.input :primary_role %>
+  <%= f.input :trial_start %>
+  <%= f.input :trial_end %>
+  <%= f.input :metering_date %>
+  <%= f.input :perf_ratio %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                companies_path, :class => 'btn' %>
+  </div>
+<% end %>

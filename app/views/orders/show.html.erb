@@ -1,0 +1,48 @@
+<% title "Purchase Order" %>
+<% subtitle "ID# #{@order.id}" %>
+
+<% content_for :nav do %>
+	<div class="btn-group">
+	  <%= link_with_icon("Edit", edit_order_path(@order), 'pencil', 'btn-primary', true) if can? :update, :orders %> 
+		<%= link_to_entry_helper(@entry) %>
+	  <%= link_to "Delete", @order, data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-danger' if can? :delete, :orders %> 
+
+		<% if can?(:accept, :orders) && !@order.seller_confirmation? %>
+			<%= link_to_accept(@order) %>
+		<% end %>
+	</div>
+<% end %>
+
+<%= content_tag :section, class: 'order row' do %>
+	<%= render 'buyer_details' %>
+	<%= render 'seller_details' %>
+	<%= render 'tracking_details' %>
+<% end %>
+
+
+<%= content_tag :h3, 'Order Details', id: 'order-caption'  %>
+<%= content_tag :section, class: 'order row' do %>
+	<%= render 'vehicle_details' %>
+	<%= render 'delivery_details' %>
+<% end %>
+
+<%= form_tag cancel_order_path(@order), :method => :get do  %>
+	<%= render 'orders/items_table', bids: @order.bids %>
+
+	<%= content_tag :div, class: 'btn-toolbar txtright' do %>
+		<% if @order.can_be_cancelled(current_user) %>
+			<%= submit_tag 'Cancel Checked Items', class: 'btn btn-danger' %>
+		<% end %>
+	<% end %>
+<% end %>
+
+<%= content_tag :section do %>
+	<%= content_tag :h3, 'PO Messages', id: 'order-caption'  %>
+	<% if @messages.present? %>
+		<%= render 'messages/table' %>
+	<% else %>
+		<%= content_tag :p, 'No messages.' %> 
+	<% end %>
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	</div>
+<% end %>

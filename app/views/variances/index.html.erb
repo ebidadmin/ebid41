@@ -1,0 +1,45 @@
+<%- model_class = Variance -%>
+<% title 'Comparative Pricing' %>
+<%= render 'search_bar', path: variances_path %>
+<%= content_tag :div, page_entries_info(@variances), class: 'page-info' %>
+
+<div style="max-width: 400px; margin: 0 auto 10px;">
+	<%= link_to 'Summarize', summarize_variances_path, class: 'btn btn-primary btn-block' %>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:user_id) %></th>
+      <th><%= model_class.human_attribute_name(:company_id) %></th>
+      <th><%= model_class.human_attribute_name(:entry_id) %></th>
+      <th><%= model_class.human_attribute_name(:var_company_id) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @variances.each do |variance| %>
+      <tr>
+        <td><%= link_to variance.id, variance_path(variance, entry_id: variance.entry_id) %></td>
+        <td><%= variance.user %></td>
+        <td><%= variance.company %></td>
+        <td><%= variance.entry_id %></td>
+        <td><%= variance.var_company %></td>
+        <td><%= regular_date variance.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_variance_path(variance), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      variance_path(variance),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @variances %>

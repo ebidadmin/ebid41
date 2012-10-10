@@ -1,0 +1,17 @@
+<div class="buyer-company span3">
+	<%= content_tag :p, 'Buyer', class: 'label' %>
+	<%= content_tag :address do %>
+		<%= content_tag :h5, @order.company.name %>
+		<%= @order.branch.address1  %><br>
+		<%= @order.branch.address2  %><br>
+		<%= @order.branch.city %>
+	<% end %>
+	<%= content_tag :address, class: 'user' do %>
+	  <% if @order.user != @entry.user %>
+			<%= content_tag :strong, @order.user.profile %> /
+		<% end %>
+	  <%= content_tag :strong, @entry.user.profile %><br>
+		<%= @order.user.phone %><br>
+		<%= mail_to @order.user.email %>
+	<% end %>
+</div>

@@ -1,0 +1,20 @@
+Hello <%= @entry.user.first_name %>!
+
+Your order has been delivered!
+
+	Vehicle:   <%= @entry.model_name %>
+	Plate No.: <%= @entry.plate_no %>
+
+	Parts Delivered: 
+	
+		<% @order.bids.not_cancelled.each do |li| %>
+		[ <%= li.quantity %> ]  <%= li.line_item %>
+		<% end %>
+
+	Total Order: <%= currency(@order.order_total, 'P ') %>
+	
+	LINK: <%= order_url(@order.id) %>
+		
+<%= @order.seller_company.nickname.upcase %> will send an invoice soon. Please settle on of before DUE DATE: <%= regular_date(@order.due_date) %>.
+
+Thank you!

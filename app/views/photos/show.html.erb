@@ -1,0 +1,32 @@
+<% title "Photo" %>
+
+<p>
+  <strong>Entry:</strong>
+  <%= @photo.entry_id %>
+</p>
+<p>
+  <strong>Photo File Name:</strong>
+  <%= @photo.photo_file_name %>
+</p>
+<p>
+  <strong>Photo Content Type:</strong>
+  <%= @photo.photo_content_type %>
+</p>
+<p>
+  <strong>Photo File Size:</strong>
+  <%= @photo.photo_file_size %>
+</p>
+<p>
+  <strong>Photo Updated At:</strong>
+  <%= @photo.photo_updated_at %>
+</p>
+<p>
+  <strong>Photo Processing:</strong>
+  <%= @photo.photo_processing %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_photo_path(@photo) %> |
+  <%= link_to "Destroy", @photo, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", photos_path %>
+</p>

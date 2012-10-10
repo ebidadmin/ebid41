@@ -1,0 +1,70 @@
+<% title "E-Bid vs Manual Canvass" %>
+<% subtitle @company if @company %>
+
+<table id="diff-table" class="table">
+	<tr>
+		<%= content_tag :th, '', class: 'span2' %>
+		<%= content_tag :th, 'E-Bid', class: 'column1' %>
+		<%= content_tag :th, 'No E-Bid', class: 'column2' %>
+	</tr>
+	<tr>
+		<%= content_tag :th, 'Canvass', class: 'row1' %>
+		<td>
+			<%= content_tag :p, 'Has BOTH E-Bid & Manual Canvass', class: 'lead' %>
+			<%= content_tag :p, "#{content_tag :b, 'Total E-Bid (Lowest Bids)'} #{content_tag :span, currency(@var_items.sum(:total))}".html_safe%>
+			<%= content_tag :p, "#{content_tag :b, 'Total Canvass'} #{content_tag :span, currency(@var_items.sum(:var_total))}".html_safe%>
+			<%= content_tag :p, "#{content_tag :b, 'Net Savings'} #{content_tag :span, currency(@var_items.sum(:var_net))} (#{content_tag :span, percentage(@savings_rate)})".html_safe%>
+			<%= content_tag :p, pluralize(@var_items.count, 'part'), class: 'number' %>
+				<div>
+					<%= content_tag :p, 'E-Bid is LOWER', class: 'label' %>
+					<%= content_tag :p, "#{content_tag :b, 'E-Bid (Lowest Bids)'} #{content_tag :span, currency(@ebid_lower.sum(:total))}".html_safe%>
+					<%= content_tag :p, "#{content_tag :b, 'Canvass'} #{content_tag :span, currency(@ebid_lower.sum(:var_total))}".html_safe%>
+					<%= content_tag :p, "#{content_tag :b, 'Difference'} #{content_tag :span, currency(@ebid_lower.sum(:var_net))}".html_safe %>
+					<%= content_tag :p, 'Effect: Direct Savings!', class: 'label label-success' %>
+					<%= content_tag :p, pluralize(@ebid_lower.count, 'part'), class: 'number' %>
+				</div>
+				<div>
+					<%= content_tag :p, 'E-Bid is HIGHER', class: 'label' %>
+					<% if @ebid_higher.count > 0 %>
+						<%= content_tag :p, "#{content_tag :b, 'E-Bid (Lowest Bids)'} #{content_tag :span, currency(@ebid_higher.sum(:total))}".html_safe%>
+						<%= content_tag :p, "#{content_tag :b, 'Canvass'} #{content_tag :span, currency(@ebid_higher.sum(:var_total))}".html_safe%>
+						<%= content_tag :p, "#{content_tag :b, 'Difference'} #{content_tag :span, currency(@ebid_higher.sum(:var_net))}".html_safe %>
+						<%= content_tag :p, 'Effect: Price Validation', class: 'label label-warning' %>
+					<% end %>
+					<%= content_tag :p, pluralize(@ebid_higher.count, 'part'), class: 'number' %>
+				</div>
+				<div class="last">
+					<%= content_tag :p, 'No Difference', class: 'label' %>
+					<% if @same.count > 0 %>
+						<%= content_tag :p, "#{content_tag :b, 'E-Bid (Lowest Bids)'} #{content_tag :span, currency(@same.sum(:total))}".html_safe %>
+						<%= content_tag :p, 'Effect: Price Validation', class: 'label label-warning' %>
+						<%= content_tag :p, "#{content_tag :b, 'Canvass'} #{content_tag :span, currency(@same.sum(:var_total))}".html_safe%>
+					<% end %>
+					<%= content_tag :p, pluralize(@same.count, 'part'), class: 'number' %>
+				</div>
+		</td>
+		<td>
+			<%= content_tag :p, 'Has CANVASS ONLY<br> (no E-Bid)'.html_safe, class: 'lead' %>
+			<% if @no_ebid_manual_only.count > 0 %>
+				<%= content_tag :p, "#{content_tag :b, 'Canvass'} #{content_tag :span, currency(@no_ebid_manual_only.sum(&:var_total))}".html_safe%>
+			<% end %>
+			<%= content_tag :p, pluralize(@no_ebid_manual_only.count, 'part'), class: 'number' %>
+		</td>
+	</tr>
+	<tr>
+		<%= content_tag :th, 'No Canvass', class: 'row' %>
+		<td>
+			<%= content_tag :p, 'Has E-BID ONLY (no manual canvass)', class: 'lead' %>
+			<% if @with_ebid_no_manual.count > 0 %>
+				<%= content_tag :p, "#{content_tag :b, 'E-Bid (Lowest Bids)'} #{content_tag :span, currency(@with_ebid_no_manual.sum(&:total))}".html_safe %>
+				<%= content_tag :p, "#{content_tag :b, 'Projected Canvass'} #{content_tag :span, currency(@projected_canvass)}".html_safe%>
+				<%= content_tag :p, "#{content_tag :b, 'Projected Savings'} #{content_tag :span, currency(@projected_savings)} (#{content_tag :span, percentage(@savings_rate)})".html_safe%>
+				<%= content_tag :em, 'Effect: Direct Savings!', class: 'label label-success' %>
+			<% end %>
+			<%= content_tag :p, pluralize(@with_ebid_no_manual.count, 'part'), class: 'number' %>
+		</td>
+		<td>
+			<%= content_tag :p, 'No E-Bid &<br> No Canvass'.html_safe, class: 'lead' %>
+		</td>
+	</tr>
+</table>

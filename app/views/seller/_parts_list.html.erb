@@ -1,0 +1,64 @@
+<div id="bidding-message" class="txtcenter"></div>
+
+<%= form_tag bids_path(:entry_id => @entry), remote: true do %>
+	<div id="" class="well">
+		<%= content_tag :table, class: 'table' do %>
+			<%= render 'entries/thead_show' %>
+
+			<% @entry.line_items.includes(:car_part, :bids).group_by(&:status).sort.each do |status, line_items| %>
+				<tr>
+					<%= content_tag :td, status, colspan: 4, class: 'label label-inverse' %>
+				</tr>
+				
+				<% line_items.each_with_index do |item, index| %>
+				<tr id="<%= item.id %>">
+					<td class="span4">
+						<%= content_tag :span, index + 1, class: 'label index'  %>
+						<div class="parts">
+							<%= content_tag :p, item %>
+							<%= "#{content_tag :code, 'Specs: ' + item.specs, class: 'small'}".html_safe if item.specs.present? %>
+							<%= link_with_icon "PO# #{item.order_id}", item.order, 'shopping-cart', "btn btn-mini btn-success", true if item.order && item.order.seller_id == current_user.id %>
+						</div>
+					</td>
+					
+					<%# if item.bids.by_user(current_user.company.users).present? %>
+						<% %w(original replacement surplus).each do |t| %>
+							<td class="<%= t[0..3] %> bids span2 txtcenter">
+								<%= bid_box_helper item.id, t if item.is_online %>
+								<div class="bid-container">
+									<% item.bids.group_by(&:bid_type).each do |type, bids| %>
+										<% bids.group_by(&:user).each do |user, bs| %>
+
+											<% if t == type && current_user.company.users.include?(user) %>
+												<% own_bid = bs.last %>
+												<%= render own_bid if own_bid %>									
+												<%= render 'seller/winning_bid', item: item, own_bid: own_bid, bids: bids unless current_user.id == 67 %>
+											<% end %> 
+
+										<% end %>
+									<% end %>
+								</div>
+							</td>
+						<% end %>
+					<%# else %>
+						<!-- <td class="txtcenter" colspan=3> -->
+							<%#= content_tag :p, 'You did not bid for this item', class: 'label' %>
+						<!-- </td> -->
+					<%# end %>
+					
+				</tr>
+				<% end %>
+			<% end %>
+
+		<% end %>
+	</div>
+
+	<div class="well">
+		<%= link_to 'Other Online Entries', seller_entries_path(s: 'online'), class: 'btn' %>
+		<%= submit_tag "Submit Bids", class: 'btn btn-success pull-right' if @entry.is_online %>
+	</div>
+<% end %>
+
+<% content_for :javascripts do %>
+		$('.close').tooltip();
+<% end %>

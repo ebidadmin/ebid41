@@ -1,0 +1,28 @@
+*** THIS IS A SYSTEM-GENERATED EMAIL ***
+
+Now online:
+
+	Vehicle:      <%= @entry.model_name %>
+	Plate No.:    <%= @entry.plate_no %>
+
+	Serial No.:   <%= @entry.serial_no %> 
+	Motor No.:    <%= @entry.motor_no %>
+
+
+******** ******** ******** ********
+
+Use this LINK: <%= seller_show_url(@entry.id) %>
+
+******** ******** ******** ********
+
+PARTS: 
+	<% @entry.line_items.online.includes(:car_part).each do |li| %>
+	* <%= li.car_part.name.html_safe %>
+	<% end %>
+
+******** ******** ******** ********
+
+This entry will be online until: <%= @entry.bid_until.to_s(:long) %> (maximum)
+
+Sali na sa bidding!  The more you bid ... the higher the chances to get orders.  
+

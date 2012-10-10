@@ -1,25 +1,67 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
  *= require_self
+ *= require jquery.fileupload-ui
  *= require_tree .
 */
 
-.content {
-  background-color: #eee;
-  padding: 20px;
-  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
-  -webkit-border-radius: 0 0 6px 6px;
-  -moz-border-radius: 0 0 6px 6px;
-  border-radius: 0 0 6px 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+//@font-face
+//  font-family: "HelveticaNeue-Condensed"
+//  src: url('HelveticaNeue-Condensed.otf')
+//  src: local('HelveticaNeue-Condensed')
+
+//.content {
+//  background-color: #eee;
+//  padding: 20px;
+//  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+//  -webkit-border-radius: 0 0 6px 6px;
+//  -moz-border-radius: 0 0 6px 6px;
+//  border-radius: 0 0 6px 6px;
+//  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+//  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+//  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+//}
+
+table {
+	p { margin-bottom: 0 !important; }
+	th, td { vertical-align: middle !important; }
+}
+
+.txtcenter { text-align: center !important; }
+.txtright { text-align: right !important; }
+.small { font-size: 0.8em; }
+.cancelled { text-decoration: line-through; }
+.required label { color: #C00; }
+
+.label.highlight, .label.label-highlight, .highlight { background-color: #FFF6BF; color: black; }
+.label, .badge { font-size: 1.2em; font-weight: normal !important; padding: 4px 8px !important;  text-transform: uppercase; }
+.help-block { color: #919191 !important; margin-top: 5px !important; }
+
+.navbar .navbar-search .btn { margin: 0; vertical-align: top; }
+.search { margin-top: -20px; }
+
+.pagination { text-align: center; }
+.page-info { margin-bottom: 15px; }
+
+.ui-datepicker-trigger { margin-left: 5px; vertical-align: inherit; }
+
+.control-group.error .checkbox,
+.control-group.error .radio,
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea {
+  background-color: #FFF6BF;
+}
+
+.dashboard .bottom-bar { margin-top: 10px; padding: 5px;}
+
+.modal form { margin-bottom: 0; }
+.message-table {
+	td { line-height: 16px !important; }
+	blockquote { margin-bottom: 5px; }
+	.control-group { margin-bottom: 0; }
+} 
+
+@media print {
+	.navbar, a.btn, button.btn { display: none; }
+	body {margin: 25px;}
 }

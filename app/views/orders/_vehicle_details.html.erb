@@ -1,0 +1,13 @@
+<%= content_tag :div, class: 'span4' do %>
+	<%= content_tag :h4, "#{@entry.model_name} #{content_tag :em, @entry.variant.upcase, class: 'small' if @entry.car_variant.present?}".html_safe if @order %>
+	<%= content_tag :dl, id: 'vehicle-info' do %>
+		<%= dl_helper 'Claim No.', @entry.ref_no if current_user.has_role?(:buyer) || @order %>
+		<% if @order %>
+			<%= dl_helper 'Plate No.',  @entry.plate_no %>
+			<%= dl_helper 'Insured', @order.ref_name %>
+		<% end %>
+		<%= dl_helper 'Serial No.', @entry.serial_no %>
+		<%= dl_helper 'Motor No.',  @entry.motor_no %>
+		<%= dl_helper 'Credit Term', @entry.term.display, 'important'  %>
+	<% end %>
+<% end %>

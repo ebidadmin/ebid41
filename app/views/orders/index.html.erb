@@ -1,0 +1,54 @@
+<% title "Orders #{': ' + params[:s].titleize if params[:s]}".html_safe %>
+<%= render 'orders/search_bar', path: orders_path %>
+
+
+<%= content_tag :h2, class: 'row' do %>
+	<%= content_tag :span, currency(@all_orders.total_orders, 'P '), class: 'span6' %>
+	<%#= display_seller_company %>
+<% end %>
+
+<% if @orders.present? %>
+	<%= content_tag :table, class: 'table table-condensed' do %>
+
+		<% @orders.group_by(&:entry).each do |entry, orders| %>
+			<tr>
+				<%= content_tag :td, class: 'span4', rowspan: orders.count + 1 do %>
+					<%= content_tag :p, entry.ref_no, class: 'small' %>
+		      <%= content_tag :p, link_to(entry.model_name, buyer_show_path(entry)), class: 'lead'  %>
+					<%= content_tag :span, entry.plate_no %>
+					<%= content_tag :em, "by #{entry.user.username}", class: 'small' %>
+				<% end %>
+			</tr>
+
+			<% for order in orders %>
+				<tr>
+					<%= content_tag :td, class: 'span2' do %>
+						<%= order.company.nickname %> &raquo;
+						<%= order.seller_company.nickname %>
+					<% end %>
+
+					<%= content_tag :td, class: 'span4 txtcenter' do %>
+						<%= order_status_helper(order) %>
+						<%= change_status_link(order) %>
+						<%= confirm_payment_link(order, current_user) %>
+						<%= payment_tag(order) %>
+					<% end %>
+					<%= content_tag :td, class: 'span1' do %>
+						<%= content_tag :p, order.id, class: 'muted small' %>
+						<%= tooltip_helper order.messages.size, 'message', 'comment', 'highlight' if order.messages.present? %>
+					<% end %>
+
+					<%= content_tag :td, class: 'span2 txtright' do %>
+						<%= content_tag :p, (link_to "View PO", order, class: 'btn btn-primary') %>
+						<%= content_tag :b, currency(order.order_total), class: 'btns' %> |
+						<%= content_tag :span, pluralize(order.items_count, 'part') %>
+					<% end %>
+				</tr>
+			<% end %>
+		<% end %>
+		
+	<% end %>
+<% end %>
+
+<%= will_paginate @orders, inner_window: 2 %>
+<p><%= link_to "New Order", new_order_path %></p>

@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h3 id="myModalLabel">Private Messages</h3>
+</div>
+<div class="modal-body">
+	<%= render 'messages/table' %>
+</div>
+<div class="modal-footer">
+	<%= content_tag :button, 'Close', data: { dismiss: 'modal'}, class: 'btn' %>
+	<%= link_to 'Create New Message', new_message_path(e: @entry), remote: true, class: 'btn btn-primary' %>
+</div>

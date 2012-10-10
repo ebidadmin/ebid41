@@ -1,0 +1,15 @@
+<tr id="message_<%= @message.id %>">
+	<td colspan=2>
+	</td>
+	<td colspan=3>
+	<%= simple_form_for @message, remote: true do |f| %>
+		<%= content_tag :span, 'Edit Message', class: 'label' %>
+		<%= f.input :message, label: false, input_html: { rows: 2, class: 'span6' }, wrapper_html: {class: 'span6'} %>
+		<div class="span4 txtright">
+			<%= link_to "Cancel", close_messages_path(id: @message), remote: true, class: 'btn btn-mini' %>
+			<%= f.submit 'Save Changes', class: 'btn btn-mini btn-primary' %>
+		</div>
+	<% end %>
+	</td>
+</tr>
+

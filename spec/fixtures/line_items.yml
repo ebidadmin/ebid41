@@ -1,0 +1,19 @@
+one:
+  entry_id: 1
+  car_part_id: 1
+  specs: MyString
+  quantity: 1
+  status: MyString
+  bids_count: 1
+  relisted: 2012-07-11 13:49:35
+  order_id: 1
+
+two:
+  entry_id: 1
+  car_part_id: 1
+  specs: MyString
+  quantity: 1
+  status: MyString
+  bids_count: 1
+  relisted: 2012-07-11 13:49:35
+  order_id: 1

@@ -1,0 +1,15 @@
+<section id="public-msg" class="alert alert-info">
+	<div class="row">
+		<%= content_tag :p, 'Public Messages', class: 'lead span3' %>
+		<% @entry.messages.pub.each do |message| %>
+		<div class="span2s">
+			<%= msg_sender_helper(message, current_user) %>
+			said
+		</div>
+		<div class="span6">
+			<%= message.message %>
+		</div>
+		<% end %>
+	</div>
+	<%= clearfix_div %>
+</section>
