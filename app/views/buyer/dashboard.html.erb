@@ -1,6 +1,40 @@
 <% title 'Buyer Dashboard' %>
 <% subtitle current_user.fullname %>
 
+<div class="row">
+	<div class="span4 well">
+		<%= content_tag :h2, 'Ratings', class: 'txtcenter' %>
+		<div class="row">
+			<div class="span2">
+				<%= content_tag :b, current_user.nickname %>
+			</div>
+			<div class="span2">
+				<%= star_images(@presenter.company_rating.average('stars').to_f) %>
+				<%= content_tag :p, ('based on ' + (link_to (pluralize @presenter.company_rating.count, 'rating'), user_ratings_path('all'))).html_safe %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span2">
+				<%= content_tag :b, current_user.fullname.upcase %>
+			</div>
+			<div class="span2">
+				<%= star_images(@presenter.user_rating.average('stars').to_f) %>
+				<%= content_tag :p, ('based on ' + (link_to (pluralize @presenter.user_rating.count, 'rating'), user_ratings_path(current_user))).html_safe %>
+			</div>
+		</div>
+	</div>
+	<div class="span7 well alert-info txtcenter">
+		<%= content_tag :b, "#{current_user.company.nickname }'s Order Ratio" %>
+		<%= content_tag :span, @presenter.order_ratio, class: 'lead' %>
+		<%= content_tag :p, @presenter.order_ratio_details, class: 'small' %>
+	</div>
+	<div class="span7 well alert-success txtcenter">
+		<%= content_tag :strong, 'Tip', class: 'label label-success' %>
+		<%= content_tag :span, "Target an order ratio of at least 25% to motivate the suppliers to give you better bids. So order some more ... and please pay on time!" %>
+		<%= content_tag :i, '', class: 'icon-arrow-up' %>
+	</div>
+</div>
+
 <div class="row txtcenter">
 	<div class="span4 well">
 		<%= content_tag :h2, 'Entries' %>
@@ -20,11 +54,6 @@
 	<div class="span7 well">
 		<%= content_tag :h2, 'Orders' %>
 		<div class="row">
-			<div class="span1">
-				<%= content_tag :h4, 'Order Ratio' %>
-				<%= content_tag :p, @presenter.order_ratio, class: 'lead alert-info' %>
-				<%= content_tag :p, @presenter.order_ratio_details, class: 'small' %>
-			</div>
 			<div class="span2">
 				<%= content_tag :h4, 'New' %>
 				<%= content_tag :p, @presenter.new_orders.count, class: 'lead' %>
@@ -33,7 +62,7 @@
 					<%= link_to 'View POs', buyer_orders_path(s: 'new'), class: 'btn' %>
 				<% end %>
 			</div>
-			<div class="span2">
+			<div class="span3">
 				<%= content_tag :h4, 'Delivered' %>
 				<%= content_tag :p, @presenter.delivered.count, class: 'lead' %>
 				<% unless @presenter.delivered.blank? %>

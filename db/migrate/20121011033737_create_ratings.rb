@@ -1,0 +1,12 @@
+class CreateRatings < ActiveRecord::Migration
+  def change
+    create_table :ratings do |t|
+      t.integer :order_id
+      t.integer :user_id
+      t.integer :ratee_id
+      t.decimal :stars, precision: 3, scale: 1
+      t.text :review
+      t.timestamps
+    end
+  end
+end

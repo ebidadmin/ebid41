@@ -18,6 +18,7 @@ class Order < ActiveRecord::Base
   has_many :messages
   accepts_nested_attributes_for :messages
   has_many :fees
+  has_many :ratings
 
   validates_presence_of :deliver_to, :address1, :phone
   validates_presence_of :ref_name, if: :latest_order
@@ -171,7 +172,11 @@ class Order < ActiveRecord::Base
 
   # COMPUTATIONS
   def delivery_time
-    (delivered - confirmed.to_date).to_i 
+    if confirmed < created_at
+      (delivered - confirmed.to_date).to_i 
+    else
+      (delivered - created_at.to_date).to_i 
+    end
   end
   
   def days_underdue # used in ORDERS#INDEX, RATINGS#FORM
@@ -188,6 +193,14 @@ class Order < ActiveRecord::Base
 
   def self.total_orders
     self.sum(:order_total)
+  end
+  
+  def prompt_payment?
+    diff = (paid - delivered).to_i 
+  end
+  
+  def paid_before_due_date
+    (due_date - paid).to_i
   end
     
 end

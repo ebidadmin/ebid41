@@ -1,5 +1,6 @@
 Ebid41::Application.routes.draw do
 
+
   resources :photos
 
   get "sessions/new"
@@ -8,6 +9,7 @@ Ebid41::Application.routes.draw do
 
   devise_for :users, path: :account, controllers: {sessions: "sessions"}
   resources :users, :shallow => true do
+    resources :ratings, :only => :index
     resources :entries
   end
 
@@ -36,6 +38,7 @@ Ebid41::Application.routes.draw do
   end
   
   scope 'admin' do
+    get 'dashboard' => 'admin#dashboard', as: :admin_dashboard
     get 'update_ratios' => 'admin#update_ratios', as: :update_ratios
     get 'expire_entries' => 'admin#expire_entries', as: :expire_entries
     get 'tag_payments' => 'admin#tag_payments', as: :tag_payments
@@ -98,6 +101,9 @@ Ebid41::Application.routes.draw do
       get :auto_paid
     end
     resources :ratings
+  end
+  resources :ratings, shallow: true do
+    get :auto, on: :collection
   end
 
   resources :bids do

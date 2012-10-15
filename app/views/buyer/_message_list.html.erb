@@ -1,0 +1,5 @@
+<div class="well">
+	<%= content_tag :h2, 'Latest Messages' %>
+	<%= render 'messages/table_index' %>
+	<%= content_tag :p, (link_to 'Other Messages', buyer_messages_path, class: 'btn'), class: 'txtright' %>
+</div>

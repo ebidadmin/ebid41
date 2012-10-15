@@ -1,0 +1,51 @@
+<% title "Ratings" %>
+
+<%= content_tag :div, page_entries_info(@ratings), class: 'page-info' %>
+<% if @ratings.present? %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Rater</th>
+      <th>Ratee</th>
+      <th>Rating</th>
+      <th>Review</th>
+      <%= content_tag :th if can? :access, :all %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ratings.group_by(&:order).each do |order, ratings| %>
+			<tr>
+				<td rowspan="<%= ratings.count %>">
+					<%#= link_to order.id, order, class: 'btn'  %>
+					<%= link_with_icon "PO# #{order.id}", order, 'shopping-cart', 'btn-mini btn-success', true %>
+				</td>
+				<% ratings.each do |rating| %>
+	        <td class="small">
+						<%= content_tag :p, rating.user.fullname %>
+						<%= content_tag :em, rating.user.nickname %>
+					</td>
+	        <td class="small">
+						<%= content_tag :p, rating.ratee.fullname %>
+						<%= content_tag :em, rating.ratee.nickname %>
+					</td>
+	        <td><%= star_images(rating.stars) %></td>
+	        <td><%= rating.review %></td>
+					<% if can? :access, :all %>
+	        <td>
+						<%= link_to rating.id, rating_path(rating) %>
+	          <%= link_to 'Edit', edit_rating_path(rating), class: 'btn btn-mini' %>
+	          <%= link_to 'Delete', rating_path(rating), method: :delete, data: { confirm: 'Are you sure?' },
+	                      class: 'btn btn-mini btn-danger' %>
+	        </td>
+					<% end %>
+	      </tr>
+				<% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @ratings %>
+<% end %>
+
+<%= link_to 'New', new_rating_path, class: 'btn btn-primary' if can? :access, :all %>

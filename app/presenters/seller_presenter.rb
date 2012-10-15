@@ -7,6 +7,15 @@ class SellerPresenter
     @user = user
   end
   
+  def company_rating
+    Rating.where(ratee_id: @user.company.users)
+  end
+  
+  def average_delivery_time
+    orders ||= Order.where(seller_company_id: @user.company.id, status: ['Paid', 'Closed'])
+    @average = orders.collect(&:delivery_time).sum/orders.count if orders.present?
+  end
+  
   def online_entries
     @online ||= Entry.online.unexpired.active
   end

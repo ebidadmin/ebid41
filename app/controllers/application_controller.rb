@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     flash[:error] = "You are not authorized for that action or page"
     if user_signed_in?
       if can? :access, :all # admin
-        redirect_to entries_path
+        redirect_to admin_dashboard_path
       elsif can? :create, :entries # buyer
         redirect_to buyer_dashboard_path
       elsif can? :create, :bids # seller
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   
   def after_sign_in_path_for(resource_or_scope)
     if can? :access, :all 
-      entries_path(s: 'for-decision')
+      admin_dashboard_path
     elsif can? :create, :entries 
       buyer_dashboard_path
     elsif can? :create, :bids 

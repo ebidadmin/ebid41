@@ -1,9 +1,43 @@
 <% title 'Seller Dashboard' %>
 <% subtitle current_user.fullname %>
 
+<div class="row">
+	<div class="span5 well">
+		<%= content_tag :h2, 'Ratings', class: 'txtcenter' %>
+		<div class="row">
+			<div class="span3">
+				<%= content_tag :b, current_user.fullname.upcase %>
+			</div>
+			<div class="span2">
+				<%= star_images(@presenter.company_rating.average('stars').to_f) %>
+				<%= content_tag :p, ('based on ' + (link_to (pluralize @presenter.company_rating.count, 'rating'), user_ratings_path('all'))).html_safe %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<%= content_tag :b, 'Average Delivery Time' %>
+			</div>
+			<div class="span2">
+				<%= pluralize @presenter.average_delivery_time, 'day' %>
+			</div>
+		</div>
+	</div>
+	<div class="span6 well alert-success txtcenter">
+		<%= content_tag :b, 'Total orders you got from E-Bid: ' %>
+		<%= content_tag :span, (currency @presenter.total_orders, 'P'), class: 'lead' %>
+		<%= content_tag :i, '', class: 'icon-arrow-down' %>
+	</div>
+</div>
+
+
 <div class="row txtcenter">
 	<div class="span5 well">
 		<%= content_tag :h2, 'Entries' %>
+		<div class="alert alert-info txtcenter">
+			<%= content_tag :b, 'Bidding Ratio' %>
+			<%= content_tag :span, @presenter.bidding_ratio, class: 'lead' %>
+			<%= content_tag :p, @presenter.bidding_ratio_details, class: 'small' %>
+		</div>
 		<div class="row">
 			<div class="span2">
 				<%= content_tag :h4, 'Online' %>
@@ -15,22 +49,16 @@
 				<%= content_tag :p, @presenter.for_decision_entries.count, class: 'lead' %>
 				<%= link_to 'View Entries', seller_entries_path(s: 'for-decision'), class: 'btn' %>
 			</div>
-			<div class="span5 alert-info bottom-bar">
-				<%= content_tag :b, 'Bidding Ratio' %>
-				<%= content_tag :span, @presenter.bidding_ratio, class: 'lead' %>
-				<%= content_tag :p, @presenter.bidding_ratio_details, class: 'small' %>
-			</div>
-			<% if @presenter.bidding_ratio < "25%" %>
-			<div class="span5 alert-success bottom-bar">
-				<%= content_tag :strong, 'Tip', class: 'label label-success' %>
-				<%= content_tag :span, "Target a bidding ratio of at least 25% to get a steady number of orders. So keep on bidding!" %>
-				<%= content_tag :i, '', class: 'icon-arrow-right' %>
-			</div>
-			<% end %>
 		</div>
 	</div>
 	<div class="span6 well">
 		<%= content_tag :h2, 'Orders' %>
+		<% if @presenter.bidding_ratio < "25%" %>
+			<div class="alert alert-success txtcenter">
+				<%= content_tag :strong, 'Tip', class: 'label label-success' %>
+				<%= content_tag :span, "Target a bidding ratio of at least 25% to get a steady<br> number of orders. So keep on bidding!".html_safe %>
+			</div>
+		<% end %>
 		<div class="row">
 			<div class="span2">
 				<%= content_tag :h4, 'New' %>
@@ -57,10 +85,6 @@
 					<%= content_tag :h5, 'We follow-up!' %>
 					<%= content_tag :p, (link_to 'View POs', seller_orders_path(s: 'overdue'), class: 'btn btn-danger') %>
 				<% end %>
-			</div>
-			<div class="span6 alert-info bottom-bar">
-				<%= content_tag :b, 'Total orders you got from E-Bid: ' %>
-				<%= content_tag :span, (currency @presenter.total_orders, 'P'), class: 'lead' %>
 			</div>
 		</div>
 	</div>

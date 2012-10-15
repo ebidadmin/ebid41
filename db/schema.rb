@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120918030221) do
+ActiveRecord::Schema.define(:version => 20121011033737) do
 
   create_table "bids", :force => true do |t|
     t.integer  "user_id"
@@ -287,6 +287,7 @@ ActiveRecord::Schema.define(:version => 20120918030221) do
     t.string   "ancestry"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.datetime "read_on"
   end
 
   add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
@@ -368,6 +369,16 @@ ActiveRecord::Schema.define(:version => 20120918030221) do
     t.string "name"
   end
 
+  create_table "ratings", :force => true do |t|
+    t.integer  "order_id"
+    t.integer  "user_id"
+    t.integer  "ratee_id"
+    t.decimal  "stars",      :precision => 3, :scale => 1
+    t.text     "review"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
   create_table "regions", :force => true do |t|
     t.string "name"
   end
@@ -387,8 +398,6 @@ ActiveRecord::Schema.define(:version => 20120918030221) do
     t.integer "user_id"
     t.integer "role_id"
   end
-
-  add_index "roles_users", ["user_id", "role_id"], :name => "index_roles_users_on_user_id_and_role_id"
 
   create_table "terms", :force => true do |t|
     t.integer "name"
@@ -443,8 +452,6 @@ ActiveRecord::Schema.define(:version => 20120918030221) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  add_index "var_companies", ["creator_id"], :name => "index_var_companies_on_creator_id"
 
   create_table "var_items", :force => true do |t|
     t.integer  "variance_id"

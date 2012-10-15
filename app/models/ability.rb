@@ -19,6 +19,7 @@ class Ability
       can :access, [:variances, :var_companies, :var_items, :photos]
       can [:create, :read, :update, :destroy, :view, :close], :messages
       can :print, :fees
+      can :access, :ratings
     elsif user.has_role? :seller
       can :access, :seller
       can :access, [:home, :bids]
@@ -27,6 +28,7 @@ class Ability
       can :confirm_payment, :orders
       can [:create, :read, :update, :destroy, :view, :close], :messages
       can :access, :users, id: user.id
+      can :access, :ratings
     else
       can :access, :home
       can :create, [:users, :profiles, :companies, :branches]

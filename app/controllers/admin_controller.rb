@@ -1,4 +1,4 @@
 class AdminController < ApplicationController
-  def nav
+  def dashboard
   end
 end

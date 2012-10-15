@@ -7,6 +7,14 @@ class BuyerPresenter
     @user = user
   end
   
+  def company_rating
+    Rating.where(ratee_id: @user.company.users)
+  end
+  
+  def user_rating
+    Rating.where(ratee_id: @user.id)
+  end
+  
   def draft_entries
     if @user.has_role? :powerbuyer
       @drafts ||= Entry.where(status: ['New', 'Edited'], company_id: @user.company.id)
