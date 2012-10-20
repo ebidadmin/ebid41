@@ -1,0 +1,3 @@
+$('#add-btn').show();
+$('#add-part-box form').remove();
+$("div#cart").html("<%= escape_javascript(render 'cart/cart') %>").hide().slideDown('slow');

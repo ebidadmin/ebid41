@@ -6,7 +6,7 @@
 	<% if can? :access, :all %>
 		<%= f.input :creator_id, collection: Company.where(primary_role: 2).includes(:users), as: :grouped_select, group_label_method: :nickname, group_method: :users, label_method: :username %>
   <% else %>
-     <%= f.association :creator, collection: current_user.company.branches.includes(:users => :profile), as: :grouped_select, group_label_method: :name, group_method: :users, label_method: :fullname %>
+    <%= f.association :creator, collection: current_user.company.branches.includes(:users => :profile), as: :grouped_select, group_label_method: :name, group_method: :users, label_method: :fullname, disabled: true %>
 	<% end %>
 
 	<% if can? :access, :all %>
@@ -14,7 +14,7 @@
 	  <%= f.input :end_year %>
 	<% end %>
   <div class="form-actions">
-		<%= f.submit 'Create Variant', class: 'btn btn-primary pull-right' %>
+		<%= f.submit 'Create Variant', class: 'btn btn-primary' %>
 		<% if can? :access, :all %>
 			<%= link_to "Cancel", :back, class: 'btn' %> 
 		  <%= link_to "View All", car_variants_path, class: 'btn' %>

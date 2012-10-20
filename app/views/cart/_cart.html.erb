@@ -1,29 +1,5 @@
 <%= content_tag :h3, 'Your Parts List' %>
 
-<div class="alert alert-block">
-	<%= content_tag :h4, 'New Parts' %>
-	<% if @cart.cart_items.present? %>
-		<%= form_tag line_items_path(id: @entry), remote: true do %>
-			<ul class="unstyled">
-				<% @cart.cart_items.includes(:car_part).each_with_index do |item, index| %>
-				<li>
-					<%= content_tag :span, index + 1, class: 'label index'  %>
-					<%= content_tag :span, item.car_part %>
-					<%= link_to 'add specs', '#', class: 'pull-right' %>
-				</li>
-				<% end %>
-			</ul>
-			<hr>
-			<%= content_tag :h3, 'Step 3: Save this list' %>
-			<%#= link_to "Save", line_items_path(id: @entry), class: 'btn btn-success', remote: true %>
-			<%= submit_tag 'Save Parts List', class: 'btn btn-success', data: { confirm: 'Are you sure you want to add the parts and start online bidding?'}  %>
-			or <%= link_to "remove all", cart_clear_path(id: @entry), remote: true %>
-		<% end %>
-	<% else %>
-		<%= content_tag :h6, 'Your list is empty.' %>
-	<% end %>
-</div>
-
 <% if @entry.line_items.present? %>
 	<div class="alert alert-info">
 		<%= content_tag :h4, 'Existing Parts' %>
@@ -37,3 +13,26 @@
 		</ul>
 	</div>
 <% end %>
+
+<div class="alert alert-success">
+	<%= content_tag :h4, 'New Parts' %>
+	<% if @cart.cart_items.present? %>
+		<%= form_tag line_items_path(id: @entry), remote: true do %>
+			<ul class="unstyled">
+				<% @cart.cart_items.includes(:car_part).each_with_index do |item, index| %>
+				<li>
+					<%= content_tag :span, index + 1, class: 'label index'  %>
+					<%= content_tag :span, item.car_part %>
+				</li>
+				<% end %>
+			</ul>
+			<hr>
+			<%= content_tag :h3, 'Step 3: Save this list' %>
+			<%= submit_tag 'Save Parts List', class: 'btn btn-success', data: { confirm: 'Are you sure you want to add the parts and start online bidding?'}  %>
+			or <%= link_to "remove all", cart_clear_path(id: @entry), remote: true %>
+		<% end %>
+	<% else %>
+		<%= content_tag :h6, 'Your list is empty.' %>
+	<% end %>
+</div>
+

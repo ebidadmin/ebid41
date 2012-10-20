@@ -8,7 +8,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 	gem "therubyracer", :platform => :ruby
 	gem "twitter-bootstrap-rails"
-	gem "jquery-fileupload-rails"
 end
 group :development do
 	gem "nifty-generators"
@@ -27,6 +26,7 @@ end
 gem "rspec-rails", ">= 2.10.1", :group => [:development, :test]
 gem "factory_girl_rails", ">= 3.3.0", :group => [:development, :test]
 gem 'jquery-rails'
+gem "jquery-fileupload-rails"
 gem "devise", ">= 2.1.0"
 gem "devise_invitable", ">= 1.0.2"
 gem "devise-encryptable"

@@ -80,16 +80,6 @@ module OrdersHelper
     end
   end
   
-  def link_to_entry_helper(entry)
-    if can? :access, :all
-		  link_with_icon "Review Entry/Photos", @entry, 'folder-open', 'btn-primary', true 
-		elsif can? :create, :entries                                                       
-		  link_with_icon "Review Entry/Photos", buyer_show_path(@entry), 'folder-open', 'btn-primary', true 
-		else                                                                             
-		  link_with_icon "Review Entry/Photos", seller_show_path(@entry), 'folder-open', 'btn-primary', true 
-		end
-  end
-
   def link_to_accept(order)
     # link_to "Accept Order", accept_order_path(order), rel: 'popover', data: { content: 'Accept the order to confirm.', "original-title" => 'Can you deliver?'}, class: 'accept btn btn-success floatright'    
     link_to "Accept Order", accept_order_path(order), rel: 'tooltip', data: { placement: 'right'}, title: "Accept the order to confirm<br> if you can deliver.".html_safe, class: 'accept btn btn-success'		

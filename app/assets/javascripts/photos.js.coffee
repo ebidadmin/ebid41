@@ -1,16 +1,10 @@
 jQuery ->
-  $('#fileupload').fileupload
-    dataType: "script"
-    add: (e, data) ->
-      types = /(\.|\/)(gif|jpe?g|png)$/i
-      file = data.files[0]
-      if types.test(file.type) || types.test(file.name)
-        data.context = $(tmpl("template-upload", file))
-        $('#fileupload').append(data.context)
-        data.submit()
-      else
-        alert("#{file.name} is not a gif, jpeg, or png image file")
-    progress: (e, data) ->
-      if data.context
-        progress = parseInt(data.loaded / data.total * 100, 10)
-        data.context.find('.bar').css('width', progress + '%')
+	fileUploadErrors =
+	  maxFileSize: "File is too big"
+	  minFileSize: "File is too small"
+	  acceptFileTypes: "Filetype not allowed"
+	  maxNumberOfFiles: "Max number of files exceeded"
+	  uploadedBytes: "Uploaded bytes exceed file size"
+	  emptyResult: "Empty file upload result"
+	
+	$("#fileupload").fileupload()

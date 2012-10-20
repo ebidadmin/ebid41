@@ -25,8 +25,9 @@ class CarPartsController < ApplicationController
         format.html { redirect_back_or_default(add_line_items_path(id: params[:entry])) }
         format.js
       else
-        format.html { render :action => 'new' }
-        format.js { render :action => 'new' }
+        params[:id] = params[:entry]
+        format.html { render action: 'new' }
+        format.js { render action: 'new' }
       end
     end
   end
@@ -57,5 +58,9 @@ class CarPartsController < ApplicationController
       format.html { redirect_to :back }
       format.js
     end
+  end
+  
+  def cancel
+    
   end
 end

@@ -11,8 +11,8 @@ class Ability
       can :access, :buyer
       can :access, :cart
       can :access, [:car_brands, :car_models, :car_variants, :regions]
-      can [:create, :read, :update, :search], :car_parts
-      can [:create, :update, :add_photos, :save_photos, :attach_photos, :put_online, :reveal, :relist, :rebid], :entries
+      can [:create, :read, :update, :search, :cancel], :car_parts
+      can [:create, :update, :add_photos, :save_photos, :attach_photos, :put_online, :reveal, :relist, :rebid, :destroy], :entries
       can [:create, :read, :update, :add, :cancel], :line_items
       can :accept, :bids
       can [:create, :update, :read, :print, :change_status, :cancel, :confirm_cancel], :orders#, user_id: user.id

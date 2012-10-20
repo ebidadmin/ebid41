@@ -1,4 +1,16 @@
 module EntriesHelper
+  def link_to_entry_helper(entry, text = "Review Entry/Photos", klass = nil)
+    if can? :access, :all
+      path = entry 
+    elsif can? :create, :entries                                                       
+      path = buyer_show_path(entry) 
+    else      
+      path = seller_show_path(entry)                                                                      
+    end
+
+    link_with_icon text, path, 'folder-open', "btn-primary #{klass if klass}", true 
+  end
+
 	def get_date_for_sidebar(entry, tag)
     date = case tag
 	  when 'created' then regular_date entry.created_at, 'short_daytime'

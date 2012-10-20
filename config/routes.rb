@@ -128,8 +128,11 @@ Ebid41::Application.routes.draw do
   resources :companies
 
   resources :car_parts do
-    get :search, on: :collection
-    get :add_more, on: :collection
+    collection do
+      get :search
+      # get :add_more
+      get :cancel
+    end
   end
 
 

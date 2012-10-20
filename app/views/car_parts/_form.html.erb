@@ -5,10 +5,11 @@
 	<% if can? :access, :all %>
 	  <%= f.association :creator, collection: current_user.company.branches.includes(:users => :profile), as: :grouped_select, group_label_method: :name, group_method: :users, label_method: :fullname %>
 	<% else %>
-	  <%= f.input :creator, disabled: true %>
+	  <%= f.input :creator, value: :fullname, disabled: true %>
 	<% end %>
   <div class="form-actions">
     <%= f.submit 'Save Car Part', :class => 'btn btn-primary' %>
-    <%= link_to 'Cancel', session['referer'], :class => 'btn' %>
+    <%#= link_to 'Cancel', session['referer'], :class => 'btn' %>
+    <%= link_to 'Cancel', cancel_car_parts_path, :class => 'btn', remote: true %>
   </div>
 <% end %>

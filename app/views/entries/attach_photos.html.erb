@@ -1,8 +1,17 @@
-<%= form_for @entry, url: save_photos_entry_path(@entry), method: :put, html: {id: 'fileupload'},  multipart: true do |f| %>
-	<%= f.fields_for :photos do |p| %>
-	<%= p.file_field :photo, multiple: true %>
+<% title 'Attach Photos' %>
+<% subtitle "#{@entry.model_name}" %>
+
+<%= form_for @entry, html: {id: 'fileupload',  multipart: true} do |f| %>
+	<%= f.fields_for :photos do |photo| %>
+	<%= image_tag photo.object.photo.url(:tiny), class: "span1" unless photo.object.new_record?  %>
+	<%#= link_to((image_tag photo.object.photo.url(:tiny), alt: "Photo of #{@entry.plate_no}"), photo.object.photo.url(:large), rel: "#{@entry.id}", class: 'photo') unless photo.object.new_record? %>
+		<%= content_tag :span, class: "btn btn-success fileinput-button" do %>
+			<%= content_tag :i, '', class: "icon-plus icon-white"%>
+			<%= content_tag :span, 'Add files...'%>
+	    <%= photo.file_field :photo %>
+		<% end %>
 	<% end %>
-	<p class="button"><%= f.submit %></p>
+	<%= f.submit "Save Changes", class: 'btn btn-primary' %>
 <% end %>
 
 <script id="template-upload" type="text/x-tmpl">

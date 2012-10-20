@@ -34,13 +34,9 @@ class EntriesController < ApplicationController
   def create
     @entry = current_user.entries.build(params[:entry])
     if current_user.company.entries << @entry
-      flash[:success] = "Successfully created entry. Next step is to search and add parts."
-      if can? :access, :all
-        redirect_to @entry
-      else
-        redirect_to buyer_show_path(@entry)
-      end
-    else
+      flash[:success] = "Successfully created entry."
+      redirect_to add_photos_entry_path(@entry)
+   else
       @car_models = CarModel.where(car_brand_id: @entry.car_brand_id)
       @car_variants = CarVariant.where(car_model_id: @entry.car_model_id)
       @entry.term_id = params[:entry][:term_id]
@@ -48,54 +44,30 @@ class EntriesController < ApplicationController
     end
   end
   
-  def attach_photos
-    @entry = Entry.find(params[:id])
-    @entry.photos.build
-  end
-  
   def add_photos
+    session['referer'] = request.env["HTTP_REFERER"]
     @entry = Entry.find(params[:id])
-    # @entry.photos.build
   end
   
-  def save_photos
-    @entry = Entry.find(params[:id])
-    respond_to do |format|
-      if @entry.update_attributes(params[:entry])
-        format.html {
-          render :json => [@entry.photos.to_jq_upload].to_json,
-          :content_type => 'text/html',
-          :layout => false
-        }
-        format.json { render json: [@entry.photos.to_jq_upload].to_json, status: :created, location: @upload }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @entry.errors, status: :unprocessable_entity }
-      end
-    end
-    
-  end
-
   def edit
     session['referer'] = request.env["HTTP_REFERER"]
     @entry = Entry.find(params[:id])
+    @photos = @entry.photos
     @car_models = CarModel.where(car_brand_id: @entry.car_brand_id)
     @car_variants = CarVariant.where(car_model_id: @entry.car_model_id)
     @entry.photos.build if @entry.photos.nil?
   end
 
   def update
-    # raise params.to_yaml
     @entry = Entry.find(params[:id])
     if @entry.update_attributes(params[:entry])
       flash[:notice] = "Successfully updated entry."
       respond_to do |format|
-        if can? :access, :all
-          format.html { redirect_to @entry }
-        else
-          format.html { redirect_to buyer_show_path(@entry) }
-        end
-        format.js
+       if can? :access, :all
+         format.html { redirect_to @entry }
+       else
+         format.html { redirect_to buyer_show_path(@entry) }
+       end
       end
     else
       @car_models = CarModel.where(car_brand_id: @entry.car_brand_id)
@@ -106,12 +78,19 @@ class EntriesController < ApplicationController
   end
 
   def destroy
+    raise params.to_yaml
     store_location
     @entry = Entry.find(params[:id])
     @entry.destroy
 
     respond_to do |format|
-      format.html { redirect_to redirect_back_or_default entries_url }
+      format.html { 
+        if can? :access, :all
+          redirect_to redirect_back_or_default entries_path
+        else
+          redirect_to redirect_back_or_default buyer_entries_path(s: nil)
+        end 
+        }
       format.json { head :no_content }
     end
   end

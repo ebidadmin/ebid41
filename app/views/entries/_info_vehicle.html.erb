@@ -11,18 +11,18 @@
 			</td>
 			<td class="span2 txtcenter">
 				<%= content_tag :h4, pluralize(@entry.line_items.size, "part"), id: 'parts-count' %>
-				<%= link_with_icon_js 'Add Parts', add_line_items_path(id: @entry), 'plus', 'btn-mini' if can? :access, :buyer %>
+				<%= link_with_icon_js 'Add Parts', add_line_items_path(id: @entry), 'plus', 'btn-mini btn-primary', true if can? :access, :buyer %>
 			</td>
 			<td class="span2 txtcenter">
 				<%= content_tag :h4, pluralize(@entry.photos.size, "photo"), id: 'parts-count' %>
-				<%= link_to 'Attach Photos', add_photos_entry_path(@entry) if can? :access, :buyer %>
+				<%= link_to 'Attach Photos', add_photos_entry_path(@entry), class: 'btn btn-mini btn-primary' if can? :access, :buyer  %>
 			</td>
 			<td id="msg-count" class="span2 txtcenter">
 				<%= content_tag :h4, pluralize(@entry.messages.pvt.restricted(current_user.company).size, "message") %>
 				<% if @entry.messages.restricted(current_user.company).pvt.size > 0 %>
-					<%= link_to 'View', view_messages_path(id: @entry), class: 'btn btn-mini btn-primary', data: { toggle: 'modal', target: "#myModal"}, remote: true %>
+					<%= link_to 'View', view_messages_path(id: @entry), class: 'btn btn-mini btn-primary', data: { toggle: 'modal', target: "#myModal"}, remote: true if params[:action] != 'print' %>
 				<% else %>
-					<%= link_to 'Create New Message', new_message_path(e: @entry), remote: true, data: { toggle: 'modal', target: "#myModal"}, class: 'btn btn-mini btn-primary' %>
+					<%= link_to 'Create New Message', new_message_path(e: @entry), remote: true, data: { toggle: 'modal', target: "#myModal"}, class: 'btn btn-mini btn-primary' if params[:action] != 'print' %>
 				<% end %>
 			</td>
 			<td class="span2 txtright">

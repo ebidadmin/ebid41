@@ -1,6 +1,6 @@
 class PhotosController < ApplicationController
   def index
-    @photos = Photo.all
+    @photos = Photo.paginate(page: params[:page], per_page: 25)
   end
 
   def show
@@ -14,6 +14,7 @@ class PhotosController < ApplicationController
   def create
     # raise params.to_yaml
     @photo = Photo.new(params[:photo])
+    @entry = Entry.find(@photo.entry_id)
 
     respond_to do |format|
       if @photo.save
@@ -23,6 +24,7 @@ class PhotosController < ApplicationController
           :layout => false
         }
         format.json { render json: [@photo.to_jq_upload].to_json, status: :created, location: @photo }
+        format.js
       else
         format.html { redirect_to :back }
         format.json { render json: @photo.errors, status: :unprocessable_entity }
@@ -46,6 +48,6 @@ class PhotosController < ApplicationController
   def destroy
     @photo = Photo.find(params[:id])
     @photo.destroy
-    redirect_to photos_url, :notice => "Successfully destroyed photo."
+    redirect_to :back, :notice => "Successfully destroyed photo."
   end
 end

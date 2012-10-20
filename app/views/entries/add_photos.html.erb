@@ -1,138 +1,51 @@
-<div class="container">
-  <h2>Upload file</h2>
-  <%= form_for Photo.new, :html => { :id => "fileupload"  } do |f| %>
-    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-    <div class="row fileupload-buttonbar">
-      <div class="span7">
-        <!-- The fileinput-button span is used to style the file input field as button -->
-        <span class="btn btn-success fileinput-button">
-          <i class="icon-plus icon-white"></i>
-          <span>Add files...</span>
-          <%= f.file_field :photo %>
-        </span>
-        <button type="submit" class="btn btn-primary start">
-          <i class="icon-upload icon-white"></i>
-          <span>Start upload</span>
-        </button>
-        <button type="reset" class="btn btn-warning cancel">
-          <i class="icon-ban-circle icon-white"></i>
-          <span>Cancel upload</span>
-        </button>
-        <button type="button" class="btn btn-danger delete">
-          <i class="icon-trash icon-white"></i>
-          <span>Delete</span>
-        </button>
-        <input type="checkbox" class="toggle">
-      </div>
-      <div class="span5">
-        <!-- The global progress bar -->
-        <div class="progress progress-success progress-striped active fade">
-          <div class="bar" style="width:0%;"></div>
-        </div>
-      </div>
+<% title 'Attach Photos' %>
+<% subtitle "#{@entry.model_name} (#{@entry.plate_no})" %>
+
+<%= form_for Photo.new, html: { multipart: true, id: "fileupload" } do |f| %>
+	<%= f.hidden_field :entry_id, value: params[:id] %>
+  <div class="row fileupload-buttonbar">
+    <div class="span12">
+			<%= content_tag :span, class: "btn btn-success fileinput-button" do %>
+				<%= content_tag :i, '', class: "icon-plus icon-white"%>
+				<%= content_tag :span, 'Add files...'%>
+	      <%= f.file_field :photo, multiple: true, name: "photo[photo]" %>
+			<% end %>
+			<%= content_tag :button, type: 'submit', class: "btn btn-primary start" do %>
+				<%= content_tag :i, '', class: "icon-upload icon-white" %>
+				<%= content_tag :span, 'Start upload'%>
+			<% end %>
+			<%= content_tag :button, type: 'reset', class: "btn btn-warning cancel" do %>
+				<%= content_tag :i, '', class: "icon-ban-circle icon-white" %>
+				<%= content_tag :span, 'Cancel upload'%>
+			<% end %>
+			<%= link_to_entry_helper(@entry, 'Done!', 'pull-right') %>
     </div>
-    <!-- The loading indicator is shown during image processing -->
-    <div class="fileupload-loading"></div>
-    <br>
-    <!-- The table listing the files available for upload/download -->
-    <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
-    </table>
-  <% end %>
-
-</div>
-<% content_for :javascripts do %>
-	<script>
-	  var fileUploadErrors = {
-	  maxFileSize: 'File is too big',
-	  minFileSize: 'File is too small',
-	  acceptFileTypes: 'Filetype not allowed',
-	  maxNumberOfFiles: 'Max number of files exceeded',
-	  uploadedBytes: 'Uploaded bytes exceed file size',
-	  emptyResult: 'Empty file upload result'
-	  };
-	</script>
-
-	<!-- The template to display files available for upload -->
-	<script id="template-upload" type="text/x-tmpl">
-	  {% for (var i=0, file; file=o.files[i]; i++) { %}
-	  <tr class="template-upload fade">
-	    <td class="preview"><span class="fade"></span></td>
-	    <td class="name"><span>{%=file.name%}</span></td>
-	    <td class="size"><span>{%=o.formatFileSize(file.photo_file_size)%}</span></td>
-	    {% if (file.error) { %}
-	    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-	    {% } else if (o.files.valid && !i) { %}
-	    <td>
-	      <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
-	    </td>
-	    <td class="start">{% if (!o.options.autoUpload) { %}
-	      <button class="btn btn-primary">
-	        <i class="icon-upload icon-white"></i>
-	        <span>{%=locale.fileupload.start%}</span>
-	      </button>
-	      {% } %}</td>
-	    {% } else { %}
-	    <td colspan="2"></td>
-	    {% } %}
-	    <td class="cancel">{% if (!i) { %}
-	      <button class="btn btn-warning">
-	        <i class="icon-ban-circle icon-white"></i>
-	        <span>{%=locale.fileupload.cancel%}</span>
-	      </button>
-	      {% } %}</td>
-	  </tr>
-	  {% } %}
-	</script>
-	<!-- The template to display files available for download -->
-	<script id="template-download" type="text/x-tmpl">
-	  {% for (var i=0, file; file=o.files[i]; i++) { %}
-	    <tr class="template-download fade">
-	      {% if (file.error) { %}
-	        <td></td>
-	        <td class="name"><span>{%=file.photo_file_name%}</span></td>
-	        <td class="size"><span>{%=o.formatFileSize(file.photo_file_size)%}</span></td>
-	        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-	        {% } else { %}
-	        <td class="preview">{% if (file.thumbnail_url) { %}
-	          <a href="{%=file.url%}" title="{%=file.photo_file_name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-	          {% } %}</td>
-	        <td class="name">
-	          <a href="{%=file.url%}" title="{%=file.photo_file_name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.photo_file_name%}">{%=file.photo_file_name%}</a>
-	        </td>
-	        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-	        <td colspan="2"></td>
-	        {% } %}
-	      <td class="delete">
-	        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-	          <i class="icon-trash icon-white"></i>
-	          <span>{%=locale.fileupload.destroy%}</span>
-	        </button>
-	        <input type="checkbox" name="delete" value="1">
-	      </td>
+  </div>
+  <div class="fileupload-loading"></div>
+  <br>
+  <table class="table table-striped">
+		<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+			<% for photo in @entry.photos %>
+	    <tr class="template-upload">
+				<td class="preview span1">
+					<%= link_to((image_tag photo.photo.url(:tiny), alt: "Photo of #{@entry.plate_no}"), photo.photo.url(:large), rel: "#{@entry.id}", class: 'photo') %>
+				</td>
+				<td class="name span2">
+					<%= content_tag :span, photo.photo_file_name %>
+				</td>
+				<td class="size span2 txtright">
+					<%= number_to_human_size photo.photo_file_size %>
+				</td>
+				<%= content_tag :td, content_tag(:span, 'Uploaded', class: 'label label-success'), class: "span2" %>
+				<%= content_tag :td, '', class: "span1" %>
+				<td class="delete span2 txtcenter">
+					<%= link_with_icon_delete 'Delete', photo, "btn btn-danger", true %>
+				</td>
 	    </tr>
-	    {% } %}
-	</script>
-
-	<script type="text/javascript" charset="utf-8">
-	  $(function () {
-	      // Initialize the jQuery File Upload widget:
-	      $('#fileupload').fileupload();
-	      // 
-	      // Load existing files:
-	      $.getJSON($('#fileupload').prop('action'), function (files) {
-	        var fu = $('#fileupload').data('fileupload'), 
-	          template;
-	        fu._adjustMaxNumberOfFiles(-files.length);
-	        console.log(files);
-	        template = fu._renderDownload(files)
-	          .appendTo($('#fileupload .files'));
-	        // Force reflow:
-	        fu._reflow = fu._transition && template.length &&
-	          template[0].offsetWidth;
-	        template.addClass('in');
-	        $('#loading').remove();
-	      });
-
-	  });
-	</script>
+			<% end %>
+		</tbody>
+  </table>
 <% end %>
+
+
+<%= render 'add_photos_js' %>

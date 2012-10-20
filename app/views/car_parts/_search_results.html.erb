@@ -8,14 +8,13 @@
 	<% @car_parts.results.in_groups_of(16, false).each do |car_part_array| %> 
 		<%= content_tag :div, class: 'row' do %>
 			<% car_part_array.in_groups_of(8, false).each do |parts| %>
-				<%= content_tag :div, class: 'span3 set' do %>
+				<%= content_tag :div, class: 'span4 set' do %>
 					<% parts.each do |p| %>
 						<%= content_tag :li, select_link(p, @entry) %> 
 					<% end %>
 				<% end %>
 			<% end %>
 		<% end %>
-		<!-- <hr> -->
 	<% end %> 
 	</ul>
 

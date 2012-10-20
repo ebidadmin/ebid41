@@ -1,7 +1,1 @@
-<div class="photo">
-  <%= link_to image_tag(photo.image_url(:thumb)), photo if photo.photo? %>
-  <div class="actions">
-    <%= link_to "edit", edit_photo_path(photo) %> |
-    <%= link_to "remove", photo, :confirm => 'Are you sure?', :method => :delete %>
-  </div>
-</div>
+<%= image_tag photo.photo.url(:tiny) if photo.photo? %>

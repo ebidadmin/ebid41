@@ -3,6 +3,8 @@ class Entry < ActiveRecord::Base
   :date_of_loss, :decided, :expired, :line_items_count, :motor_no, :online, :bid_until, :orders_count, :photos_count, :plate_no, :redecided, :ref_no, 
   :relist_count, :relisted, :serial_no, :status, :term_id, :user_id, :year_model, :photos_attributes, :photo
   
+  before_save :convert_numbers
+  
   belongs_to :user, counter_cache: true
   belongs_to :company
   belongs_to :car_brand
@@ -15,7 +17,7 @@ class Entry < ActiveRecord::Base
   accepts_nested_attributes_for :photos, allow_destroy: true, :reject_if => proc { |a| a['photo'].blank? }
   has_many :line_items, dependent: :destroy
   has_many :car_parts, through: :line_items
-  has_many :bids, dependent: :destroy
+  has_many :bids
   has_many :orders, validate: true
   accepts_nested_attributes_for :orders, allow_destroy: true, reject_if: proc { |obj| obj.blank? }
   has_many :messages, dependent: :destroy
@@ -251,5 +253,16 @@ class Entry < ActiveRecord::Base
     else nil
     end
   end
+	
+	private
+	
+	def convert_numbers
+    self.ref_no.upcase! if self.ref_no
+    self.plate_no.upcase!
+    self.motor_no.upcase!
+    self.serial_no.upcase!
+    # %w(self.ref_no, self.plate_no, self.motor_no, self.serial_no).each { |n| n.strip.upcase! if n }
+	end
+	
 	
 end

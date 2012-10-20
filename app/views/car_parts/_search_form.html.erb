@@ -1,18 +1,25 @@
-<div class="row">
-	<div class="span8">
+<div class="navbar">
+  <div class="navbar-inner">
+		<div class="row">
 		<%= form_tag search_car_parts_path(:id => params[:id]), class: 'form-search', method: :get, remote: true do |f| %>
-			<%= content_tag :h3 do %>
+			<%= content_tag :h3, class: 'span6' do %>
 				Step 1: Search Parts
 				<%= content_tag :small, 'type keywords here'  %>
 			<% end %>
-		  <%= text_field_tag :query, params[:query], class: 'search-query' %>
-		  <%= submit_tag 'Search', class: 'btn btn-primary' %>
-		  <%= link_to 'Cancel', cancel_line_items_path(id: @entry), class: 'btn btn-danger', remote: true %>
+			<div class="parts-search-fields">
+			  <%= text_field_tag :query, params[:query], class: 'search-query' %>
+			  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+			  <%= link_to 'Cancel', cancel_line_items_path(id: @entry), class: 'btn btn-danger', remote: true %>
+			</div>
 		<% end %>
-		<%= content_tag :div, '', id: 'search-results' %>
 	</div>
+	</div>
+</div>
+
+<div class="row">
 	<div id="cart" class="span4">
 		<%= render 'cart/cart' %>
 	</div>
+	<%= content_tag :div, '', id: 'search-results', class: 'span8' %>
 </div>
 

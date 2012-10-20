@@ -1,10 +1,25 @@
-.vehicle-name { font-size: 1.2em; }
-
-//.entries p, .orders p, .fees p { margin-bottom: 0; }
 select { width: auto; }
 
+#new_entry {
+	#veh-brand, #veh-model, #veh-variant { margin-left: 10px; 
+		.help-inline { display: block; }
+		}
+	#add-variant-btn { padding-top: 25px; }
+	section { margin-bottom: 10px; }
+	input, select { margin-bottom: 0; }
+}
+
+//.vehicle-name { font-size: 1.2em; }
+.form-search {
+	.parts-search-fields { float: right; margin-top: 15px; }
+	.btn { margin-top: 0; }
+}
+#search-results {
+	.set { margin-bottom: 20px; }
+	li { margin-bottom: 2px; }
+}
+#vehicle-info { margin-bottom: 10px; }
 .show .page-header { margin-bottom: 10px; }
-//.show table dl { margin-top: 0; margin-bottom: 0; }
 .show table dt { text-align: left; }
 .dl-horizontal dd { margin-left: 0; }
 
@@ -24,7 +39,6 @@ select { width: auto; }
 
 .entries .progress { margin-bottom: 5px; }
 
-#add-variant-btn { padding-top: 30px; }
 
 #parts-list {
 	div.parts { float: left; width: 90%; }

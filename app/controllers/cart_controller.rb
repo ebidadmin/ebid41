@@ -5,8 +5,6 @@ class CartController < ApplicationController
   def add
     @entry = Entry.find(params[:id])
     @item = @cart.add(params[:part])
-    # @index = @cart.cart_items.count - 1
- 
   end
 
   def remove
