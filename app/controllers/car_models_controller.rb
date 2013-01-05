@@ -8,7 +8,7 @@ class CarModelsController < ApplicationController
   end
 
   def new
-    @car_model = CarModel.new
+    @car_model = CarModel.new(creator_id: current_user.id)
   end
 
   def create

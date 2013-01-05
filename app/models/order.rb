@@ -23,6 +23,8 @@ class Order < ActiveRecord::Base
   validates_presence_of :deliver_to, :address1, :phone
   validates_presence_of :ref_name, if: :latest_order
 
+  TAGS_FOR_EDIT = ['Pending', 'New PO', 'For-Delivery', 'Delivered', 'Paid', 'Closed', 'Cancelled']
+
   default_scope order('orders.created_at DESC')
   scope :delivered, where(status: 'Delivered')
   scope :payment_valid, where('orders.paid IS NOT NULL')

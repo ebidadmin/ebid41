@@ -6,12 +6,15 @@ class Bid < ActiveRecord::Base
   belongs_to :user, counter_cache: true
   belongs_to :entry, counter_cache: true
   belongs_to :line_item, counter_cache: true
+  belongs_to :car_brand
   belongs_to :order
   
   has_many :fees
   has_one :var_item, dependent: :destroy
 
   validates :amount, numericality: { greater_than: 1 }, presence: true
+
+  STATUS_TAGS = %w(New Updated For-Decision For-Delivery Delivered Overdue Paid Closed Lose Declined Dropped Cancelled)
 
   default_scope includes(:user).order('amount DESC').order('bid_speed DESC')
   scope :by_user, lambda { |user| where(user_id: user) }

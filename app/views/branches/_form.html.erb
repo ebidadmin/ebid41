@@ -1,28 +1,14 @@
-<%= form_for @branch do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :address1 %><br />
-    <%= f.text_field :address1 %>
-  </p>
-  <p>
-    <%= f.label :address2 %><br />
-    <%= f.text_field :address2 %>
-  </p>
-  <p>
-    <%= f.label :zip_code %><br />
-    <%= f.number_field :zip_code %>
-  </p>
-  <p>
-    <%= f.label :city_id %><br />
-    <%= f.number_field :city_id %>
-  </p>
-  <p>
-    <%= f.label :approver_id %><br />
-    <%= f.number_field :approver_id %>
-  </p>
-  <p><%= f.submit %></p>
+<%= simple_form_for @branch, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.association :company %>
+  <%= f.input :name %>
+  <%= f.input :address1 %>
+  <%= f.input :address2 %>
+  <%= f.input :zip_code %>
+  <%= f.association :city %>
+  <%= f.association :approver %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                branches_path, :class => 'btn' %>
+  </div>
 <% end %>

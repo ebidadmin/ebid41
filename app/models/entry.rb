@@ -65,7 +65,7 @@ class Entry < ActiveRecord::Base
     when 'ordered' then with_orders
     when 'declined' then declined.order('expired DESC', 'created_at DESC')
     when 'expired' then unscoped.with_orders.where('expired >= ?', Date.today.beginning_of_month).order('expired DESC', 'created_at DESC')
-    when 'all' then for_seller
+    when 'all' then scoped.for_seller
     else scoped.for_seller
     end
   end
@@ -86,11 +86,13 @@ class Entry < ActiveRecord::Base
 		  else
 			  li.status = 'Online'
 		  end
+      line_items.new_items.update_all(status: 'Online')
 			line_items << li 
 		end
     cart.cart_items.destroy_all
     if line_items.additional.present?
       update_attributes(status: 'Additional', bid_until: 1.week.from_now, relisted: Time.now, relist_count: self.relist_count += 1, chargeable_expiry: nil, expired: nil)
+      # create message
     else
       update_attributes(status: "Online", online: Time.now, bid_until: 1.week.from_now)
     end
@@ -107,8 +109,8 @@ class Entry < ActiveRecord::Base
 
   def send_online_mailer
     self.company.friends.includes(:users => :profile).each do |friend|
-      if friend.users.opt_in.present?
-        sellers = friend.users.opt_in.includes(:profile).collect { |u| "#{u.profile} <#{u.email}>" }
+      if friend.users.enabled.opt_in.present?
+        sellers = friend.users.enabled.opt_in.includes(:profile).collect { |u| "#{u.profile} <#{u.email}>" }
         Notify.delay.online_entry(sellers, self)#.deliver 
       end
     end
@@ -257,7 +259,7 @@ class Entry < ActiveRecord::Base
 	private
 	
 	def convert_numbers
-    self.ref_no.upcase! if self.ref_no
+    self.ref_no.upcase! if self.ref_no.present?
     self.plate_no.upcase!
     self.motor_no.upcase!
     self.serial_no.upcase!

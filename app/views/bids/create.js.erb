@@ -7,7 +7,7 @@ $("td .invalid").remove();
 	<% @new_bids.group_by(&:line_item).each do |line_item, bids| %>
 		<% bids.each do |bid| %>
 			<% if bid.valid? %>
-				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> .bid-container").html("<%= escape_javascript(render bid) %>").effect("highlight", {}, 5000);
+				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %>").html("<%= escape_javascript(render bid) %>").effect("highlight", {}, 5000);
 				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> input").val('');    
 			<% else %>
 				$("#<%= line_item.id %> .<%= bid.bid_type[0..3] %> .bid-container").html("<%= escape_javascript(render 'seller/invalid_bid_msg') %>");

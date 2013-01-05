@@ -1,5 +1,5 @@
 class Notify < ActionMailer::Base
-  default from: "E-Bid Admin <cymarquez@ebid.com.ph>"
+  default from: "no_reply@ebid.com.ph"
   helper :application
   include ActionView::Helpers::NumberHelper
   include ApplicationHelper

@@ -1,55 +1,5 @@
 <% title "Messages" %>
 <%= render 'search_bar', path: messages_path %>
 
-<table class="table">
-  <thead>
-    <tr>
-			<%= content_tag :th, 'ID', class: 'span1 txtcenter' %>
-			<%= content_tag :th, 'Sender', class: 'span2' %>
-			<%= content_tag :th, 'Receiver', class: 'span2' %>
-			<%= content_tag :th, 'Message', class: 'span8' %>
-			<%= content_tag :th, 'Entry ID/Order ID', class: 'span2 txtcenter' %>
-			<%= content_tag :th, 'Actions', class: 'span2' %>
-    </tr>
-  </thead>
-  <tbody>
-		<% @messages.group_by{ |m| m.created_at.beginning_of_day }.each do |date, messages| %>
-			<tr>
-				<%= content_tag :td, colspan: 6, class: 'label label-inverse' do %>
-					<%= content_tag :b, regular_date(date, 'day') %>
-				<% end %>
-			</tr>
-	    <% messages.each do |m| %>
-	      <tr>
-	        <td class="span1 txtcenter">
-						<%= link_to m.id, message_path(m) %>
-						<%= content_tag :span, (m.open_tag ? 'Public' : 'Private'), class: "badge #{m.open_tag ? 'badge-warning' : nil}" %>
-					</td>
-	        <td>
-						<%= content_tag :p, link_to(m.user.username, m.user) %>
-						<%= content_tag :em, m.user_company.nickname, class: 'small' %>
-					</td>
-	        <td>
-						<%= content_tag :p, link_to(m.receiver.username, m.receiver), class: '' if m.receiver %>
-						<%= content_tag :em, m.receiver_company.nickname, class: 'small' if m. receiver %>
-					</td>
-	        <td>
-						<%= m.message %>
-					</td>
-	        <td class="txtcenter">
-						<%= content_tag :p, link_to(m.entry_id, buyer_show_path(m.entry)) if m.entry_id %>
-						<%= content_tag :p, link_to("PO# #{m.order_id}", m.order, class: 'btn btn-mini btn-success') if m.order_id %>
-					</td>
-	        <td>
-						<%= link_to('edit', edit_message_path(m), class: 'btn btn-mini') %>
-						<%= link_to('delete', m, data: { confirm: 'Are you sure you want to delete this message?' }, method: :delete, class: 'btn btn-mini btn-danger') %>
-	        </td>
-	      </tr>
-	    <% end %>
-		<% end %>
-  </tbody>
-</table>
-
-<%= will_paginate %>
-
-<%= link_to 'New', new_message_path, :class => 'btn btn-primary' %>
+<%= render 'messages/table_index' %>
+<%= will_paginate @messages %>

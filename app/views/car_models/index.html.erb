@@ -1,11 +1,12 @@
 <% title "Car Models" %>
-<h1>Car Models</h1>
+<%= link_to 'New', new_car_model_path, :class => 'btn btn-large btn-primary' %>
 <table class="table table-striped">
   <thead>
     <tr>
       <th>ID</th>
       <th>Car brand</th>
       <th>Name</th>
+      <th>Creator</th>
       <th>Count</th>
       <th>Actions</th>
     </tr>
@@ -16,6 +17,7 @@
         <td><%= car_model.id %></td>
         <td><%= car_model.car_brand.name %></td>
         <td><%= link_to car_model.name, car_model_path(car_model) %></td>
+        <td><%= car_model.creator %></td>
         <td><%= car_model.entries.count %></td>
         <td>
           <%= link_to 'Edit', edit_car_model_path(car_model), :class => 'btn btn-mini' %>
@@ -28,4 +30,3 @@
 
 <%= will_paginate @car_models %>
 
-<%= link_to 'New', new_car_model_path, :class => 'btn btn-primary' %>

@@ -41,8 +41,8 @@ class Fee < ActiveRecord::Base
     if search_query.present?
      scoped
     else
-      # where(created_at: Date.today.beginning_of_month..Date.today)
-      where(created_at: 2.months.ago..Date.today)
+      where(created_at: Date.today.beginning_of_month..Date.today)
+      # where(created_at: 2.months.ago..Date.today)
     end
   end
   
@@ -143,7 +143,7 @@ class Fee < ActiveRecord::Base
   end
   
   def self.base_fee
-    if self.last.created_at && (self.last.created_at < "2012-01-31".to_date)
+    if self.last.present? && (self.last.created_at < "2012-01-31".to_date)
       self.sum(:fee) / (1 + VAT_RATE)
     else
       self.sum(:fee)

@@ -1,27 +1,46 @@
 <% title "Photos" %>
 
-<table>
-  <tr>
-    <th>Entry</th>
-    <th>Photo File Name</th>
-    <th>Photo Content Type</th>
-    <th>Photo File Size</th>
-    <th>Photo Updated At</th>
-    <th>Photo Processing</th>
-  </tr>
-  <% for photo in @photos %>
-    <tr>
-      <td><%= photo.entry_id %></td>
-      <td><%= photo.photo_file_name %></td>
-      <td><%= photo.photo_content_type %></td>
-      <td><%= photo.photo_file_size %></td>
-      <td><%= photo.photo_updated_at %></td>
-      <td><%= photo.photo_processing %></td>
-      <td><%= link_to "Show", photo %></td>
-      <td><%= link_to "Edit", edit_photo_path(photo) %></td>
-      <td><%= link_to "Destroy", photo, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
-  <% end %>
-</table>
+<div class="navbar search">
+  <div class="navbar-inner">
+	<%= content_tag :span, 'Search', class: 'brand' %>
+		<%= search_form_for @q, url: request.path, html: { class: 'navbar-search' } do |f| %>
+		  <%= f.text_field :entry_plate_no_cont, class: 'input-small', placeholder: 'Plate Number' %>
+		  <%= f.grouped_collection_select :entry_car_brand_id_eq, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: 'Brand' } %>
+		  <%= f.collection_select :entry_company_id_matches, Company.where(primary_role: 2), :id, :nickname, { include_blank: 'Buyer' }  %>
+			<%= f.button 'Go!', class: 'btn btn-primary' %>
+			<%= refresh_button %>
+		<% end %>
+  </div>
+</div>
 
-<p><%= link_to "New Photo", new_photo_path %></p>
+<%= content_tag :div, page_entries_info(@photos), class: 'page-info' %>
+
+<% @photos.group_by(&:entry).each do |entry, photos| %>
+	<h4>
+		<%= link_to(entry.model_name, buyer_show_path(entry)) %>
+		<%= content_tag :small, entry.plate_no %>
+	</h4>
+	<%= content_tag :p, entry.user, class: 'muted' %>
+	<% photos.each do |photo| %>
+		<%= link_to((image_tag photo.photo.url(:tiny), alt: "Photo of #{entry.plate_no}"), photo.photo.url(:large), rel: "#{entry.id}", class: 'photo') %>
+	<% end %>
+	<hr>
+<% end %>	
+
+<%= will_paginate @photos %>
+	
+<% content_for :javascripts2 do %>
+	<% stylesheet 'fancybox/jquery.fancybox-1.3.4.css' %>
+	<%= javascript_include_tag 'fancybox/jquery.fancybox-1.3.4.pack.js' %>
+	<%= javascript_include_tag 'fancybox/jquery.mousewheel-3.0.4.pack.js' %>
+	<script type="text/javascript" charset="utf-8">
+	$('a.photo').fancybox({
+		'transitionIn'		: 'elastic',
+		'transitionOut'		: 'elastic',
+		'titlePosition' 	: 'over',
+		'titleFormat'		: function(title, currentArray, currentIndex, currentOpts) {
+			return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+		}
+	});
+	</script>
+<% end %>

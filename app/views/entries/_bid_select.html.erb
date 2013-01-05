@@ -1,0 +1,29 @@
+<% %w(original replacement surplus).each do |t| %>
+
+	<td class="<%= t[0..3] %> bids span2 txtright">
+
+		<% item.bids.group_by(&:bid_type).each do |type, bids| %>
+			<% if t == type %>
+
+				<%= fields_for 'bids[]', item do |f| %>
+					<% bids.each do |bid| %>
+						<%= content_tag :p, class: "#{bid.status_color_for_buyer}" do %>
+							<%= f.radio_button 'id', bid.id, class: 'pull-left' if item.can_be_ordered && !bid.cancelled? %>
+							<%= content_tag :span, link_to(currency(bid.amount), edit_bid_path(bid)), class: 'bid-amount' %>
+							<%= content_tag :em, bid.user.username, class: 'small' %>
+						<% end %>
+						<%= content_tag :div do %>
+							<%= content_tag :span, time_in_words(bid.bid_speed), class: 'small muted' %>
+							<%= content_tag :span, "| #{bid.status}", class: 'small'  %>
+							<%#= link_with_icon_delete '', bid, 'btn-mini btn-danger', true, true  %>
+						<% end %>
+					<% end %>
+				<% end %>
+				
+			<% end %> 
+		<% end %>
+
+	</td>
+<% end %>
+
+

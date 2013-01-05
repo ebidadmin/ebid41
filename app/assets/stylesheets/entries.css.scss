@@ -1,6 +1,6 @@
 select { width: auto; }
 
-#new_entry {
+.entries.new, .entries.edit {
 	#veh-brand, #veh-model, #veh-variant { margin-left: 10px; 
 		.help-inline { display: block; }
 		}
@@ -29,8 +29,8 @@ select { width: auto; }
 .show #line-items, .show #parts { max-height: 400px; overflow: auto; }
 .show #cart ul { max-height: 200px; overflow: auto; }
 
-.label.index { float: left; margin-left: -10px; margin-right: 10px; text-align: center; width: 15px; }
-//.show .parts { float: left; } 
+div.index { color: #999; font-size: 1.3em; float: left; margin-left: -10px; margin-right: 15px; text-align: center; width: 25px; }
+div.partdesc { float: left; width: 80%;} 
 
 .show td.label { font-size: 1.2em; font-weight: normal; text-transform: uppercase; }
 //.show .table tbody tr:hover td.label { background-color: transparent !important; color: inherit; }

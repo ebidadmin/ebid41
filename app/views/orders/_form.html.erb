@@ -5,7 +5,9 @@
 <% end %>
 
 <% @bids.group_by(&:user_id).each do |seller, seller_bids| %>
-	<%= render 'orders/items_table', bids: seller_bids %>
+	<div class="well">
+		<%= render 'orders/items_table', bids: seller_bids %>
+	</div>
 <% end %>
 
 <%= content_tag :h2 do %>

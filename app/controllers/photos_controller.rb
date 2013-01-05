@@ -1,6 +1,7 @@
 class PhotosController < ApplicationController
   def index
-    @photos = Photo.paginate(page: params[:page], per_page: 25)
+    @q = Photo.search(params[:q])
+    @photos = @q.result.order('entry_id DESC').paginate(page: params[:page], per_page: 25)
   end
 
   def show

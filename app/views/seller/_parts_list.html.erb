@@ -13,7 +13,7 @@
 				<% line_items.each_with_index do |item, index| %>
 				<tr id="<%= item.id %>">
 					<td class="span4">
-						<%= content_tag :span, index + 1, class: 'label index'  %>
+						<%= content_tag :div, index + 1, class: 'index'  %>
 						<div class="parts">
 							<%= content_tag :p, item %>
 							<%= "#{content_tag :code, 'Specs: ' + item.specs, class: 'small'}".html_safe if item.specs.present? %>

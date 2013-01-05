@@ -1,7 +1,7 @@
 <%= simple_form_for @car_model, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.association :car_brand %>
+	<%= f.association :car_brand, label: 'Brand', collection: CarOrigin.includes(:car_brands), as: :grouped_select, group_label_method: :name, group_method: :car_brands, label_method: :name  %>
   <%= f.input :name %>
-  <%= f.association :creator, label_method: :username %>
+  <%= f.association :creator, collection: Company.where(primary_role: [1,2]).includes(:users).order('nickname'), as: :grouped_select, group_method: :users, group_label_method: :nickname, label_method: :username  %>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

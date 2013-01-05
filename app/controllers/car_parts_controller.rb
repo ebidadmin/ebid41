@@ -1,5 +1,7 @@
 class CarPartsController < ApplicationController
   def index
+    # @q = CarPart.search(params[:q])
+    # @car_parts = @q.includes(:line_items).page(params[:page]).per_page(20)
     @car_parts = CarPart.includes(:line_items).page(params[:page]).per_page(20)
   end
 

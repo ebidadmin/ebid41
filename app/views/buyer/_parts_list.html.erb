@@ -17,16 +17,16 @@
 					</tr>
 
 					<% line_items.each_with_index do |item, index| %>
-						<tr>
+						<tr id="item-<%= item.id %>">
 							<%= content_tag :td, class: 'span4' do %>
-								<%= content_tag :span, index + 1, class: 'label index'  %>
+								<%= content_tag :div, index + 1, class: 'index' if @entry.line_items.size > 1 %>
 								<div class="parts">
 									<%= content_tag :p, item %>
 									<% if item.specs.present? %>
 										<%= "#{content_tag :code, 'Specs: ' + item.specs, class: 'small'}".html_safe  %>
-									  <%= link_to 'edit specs', '#', class: 'btn btn-mini' %>
+									  <%#= link_to 'edit specs', '#', class: 'btn btn-mini' %>
 									<% else %>
-									  <%= link_to 'add specs', '#', class: 'btn btn-mini btn-warning' %>
+									  <%#= link_to 'add specs', add_spec_line_item_path(item), class: 'btn btn-mini btn-warning', remote: true %>
 									<% end %>
 									<% if item.bids.present? && !item.is_online %>
 										<%= content_tag :p, class: 'small' do %>
@@ -42,7 +42,13 @@
 							<% if item.bids.present? %>
 								<%= render 'buyer/bid_select', item: item, f: f %>
 							<% else %>
-								<%= content_tag :td, 'No bidders.', colspan: 3, class: 'txtcenter' %>
+								<%= content_tag :td, colspan: 3, class: 'txtcenter' do %>
+									<% if item.is_online %>
+										No bidders. Bidding is ongoing.
+									<% else %>
+										No bidders. Bidding ended.
+									<% end %>
+								<% end %>
 							<% end %>
 						</tr>
 					<% end %>

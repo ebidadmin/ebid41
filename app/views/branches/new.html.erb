@@ -1,5 +1,6 @@
-<% title "New Branch" %>
-
-<%= render 'form' %>
-
-<p><%= link_to "Back to List", branches_path %></p>
+<%- model_class = Branch -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
+                                 :default => "New #{model_class.model_name.human}") %></h1>
+</div>
+<%= render :partial => 'form' %>

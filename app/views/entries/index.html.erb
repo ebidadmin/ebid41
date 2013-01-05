@@ -45,7 +45,8 @@
 				<% end %>
 
 				<%= content_tag :td, class: 'span2 txtright' do %>
-					<%= link_to 'View Entry', entry, class: 'btn btn-primary' %>
+					<%= link_to 'View', entry %>
+					<%= link_to 'Edit', edit_entry_path(entry) %>
 				<% end %>
 			</tr>
 		<% end %>

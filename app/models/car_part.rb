@@ -16,7 +16,7 @@ class CarPart < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :message => "Sorry, that car part is already in our list. You can either cancel, or type a unique name for the new part."
 
-  default_scope order(:name)
+  default_scope order('id DESC')
 
   def to_s
     name

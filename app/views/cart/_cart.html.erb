@@ -6,8 +6,8 @@
 		<ul class="unstyled">
 			<% @entry.line_items.includes(:car_part).each_with_index do |item, index| %>
 			<li>
-				<%= content_tag :span, index + 1, class: 'label index'  %>
-				<%= content_tag :span, item.car_part %>
+				<%= content_tag :div, index + 1, class: 'index'  %>
+				<%= content_tag :div, item.car_part, class: 'partdesc' %>
 			</li>
 			<% end %>
 		</ul>
@@ -21,8 +21,8 @@
 			<ul class="unstyled">
 				<% @cart.cart_items.includes(:car_part).each_with_index do |item, index| %>
 				<li>
-					<%= content_tag :span, index + 1, class: 'label index'  %>
-					<%= content_tag :span, item.car_part %>
+					<%= content_tag :div, index + 1, class: 'index'  %>
+					<%= content_tag :div, item.car_part, class: 'partdesc' %>
 				</li>
 				<% end %>
 			</ul>

@@ -1,4 +1,7 @@
-<h1>Car Parts</h1>
+<% title 'Car Parts' %>
+
+<%= content_tag :div, page_entries_info(@car_parts), class: 'page-info' %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -13,8 +16,8 @@
     <% @car_parts.each do |car_part| %>
       <tr>
         <td><%= car_part.id %></td>
-        <td><%= link_to car_part.name, car_part_path(car_part) %></td>
-        <td><%= car_part.line_items.count %></td>
+        <td><%= link_to car_part.name, car_part %></td>
+        <td><%= car_part.line_items.size %></td>
         <td><%= car_part.creator %></td>
         <td>
           <%= link_to 'Edit', edit_car_part_path(car_part), :class => 'btn btn-mini' %>

@@ -78,8 +78,6 @@ class EntriesController < ApplicationController
   end
 
   def destroy
-    raise params.to_yaml
-    store_location
     @entry = Entry.find(params[:id])
     @entry.destroy
 

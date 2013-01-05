@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   devise :encryptable, :encryptor => :authlogic_sha512
 
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :opt_in, 
-    :profile_attributes, :role_ids
+    :profile_attributes, :role_ids, :enabled
   
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile, allow_destroy: true, reject_if: proc { |obj| obj.blank? }
@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   has_many :variances, dependent: :destroy
   
   scope :opt_in, where(opt_in: true)
+  scope :enabled, where(enabled: true)
 
   delegate :address1, :address2, :city, to: :branch, allow_nil:true
   delegate :first_name, :shortname, :phone, :fax, :birthdate, :rank_name, :fullname, to: :profile, allow_nil:true

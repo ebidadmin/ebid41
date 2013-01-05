@@ -1,8 +1,8 @@
 module BidsHelper
   def th_bidtype_helper(bidtype)
     desc = case bidtype
-    when 'Original' then 'OEM (Brand New)'
-    when 'Replacement' then 'Third Party (Brand New)'
+    when 'Original' then 'OEM (New)'
+    when 'Replacement' then '3rd Party (New)'
     when 'Surplus' then 'USED'
     end
     
@@ -41,7 +41,7 @@ module BidsHelper
   
    def check_box_helper(bid, order, user, action)
      if (action == 'cancel' || action == 'show') && order.can_be_cancelled(user)
-       bid.cancelled? ? nil : check_box_tag('bid_ids[]', bid.id, true)
+       bid.cancelled? ? nil : check_box_tag('bid_ids[]', bid.id, false)
      end
    end
   

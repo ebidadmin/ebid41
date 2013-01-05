@@ -1,38 +1,20 @@
 <% title @entry.model_name %>
 <% subtitle "#{@entry.variant} (#{@entry.plate_no})" %>
 
-<%= content_tag :div, @entry.status, id: 'entry-status' %>
-<%= content_tag :div, @entry.bid_until %>
-<div class="row subhead">
-	<dl class="dl-horizontal span5">
-	  <dt>Serial No.</dt>
-	  <dd><%= @entry.serial_no %></dd>
-	  <dt>Motor No.</dt>
-	  <dd><%= @entry.motor_no %></dd>
-	</dl>
-	<div class="span2">
-		<%= content_tag :h3, pluralize(@entry.line_items.size, "part"), id: 'parts-count' %>
-	</div>
-	<div class="span2">
-		<%= content_tag :h3, pluralize(@entry.photos.size, "photo") %>
-	</div>
-	<div class="span2">
-		<%= content_tag :h3, pluralize(@entry.messages.size, "message") %>
-	</div>
-</div>
-<hr>
-<%# @entry.photos.each do |photo| %>
-	<%#= link_to((image_tag photo.photo.url(:tiny), alt: "Photo of #{@entry.plate_no}"), photo.photo.url(:large), rel: "#{@entry.id}", class: 'photo') %>
-<%# end %>
+<section id="vehicle-info">
+	<%= render 'entries/info_vehicle' %>
+</section>
 
-<div id="parts-list">
-		<%= render 'entries/parts_list' %>
-</div>
+<%= render 'entries/public_messages' if @entry.messages.pub.present? %>
 
+<section id="parts-list">
+	<%= render 'entries/parts_list' %>
+</section>
 
-
-<div class="form-actions">
-  <%= link_to 'Back', entries_path, :class => 'btn'  %>
-  <%= link_to 'Edit', edit_entry_path(@entry), :class => 'btn' %>
-  <%= link_to 'Delete', entry_path(@entry), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
-</div>
+<section id="time-line">
+	<%= content_tag :ul, class: 'breadcrumb small' do %>
+		<% Entry::TAGS_FOR_SIDEBAR.each do |tag| %>
+			<%= get_date_for_sidebar(@entry, tag) %>
+		<% end %>
+	<% end %>
+</section>

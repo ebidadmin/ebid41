@@ -4,7 +4,7 @@
 	<%= f.association :car_model, label: 'Model', collection:  @car_models, wrapper_html: { id: 'veh-model' }, include_blank: true, hint: 'example: Fortuner' %>
   <%= f.input :name, label: 'New Variant', hint: "#{content_tag :strong, 'Example: 2.5 MT Special'}".html_safe %>
 	<% if can? :access, :all %>
-		<%= f.input :creator_id, collection: Company.where(primary_role: 2).includes(:users), as: :grouped_select, group_label_method: :nickname, group_method: :users, label_method: :username %>
+  <%= f.association :creator, collection: Company.where(primary_role: [1,2]).includes(:users).order('nickname'), as: :grouped_select, group_method: :users, group_label_method: :nickname, label_method: :username  %>
   <% else %>
     <%= f.association :creator, collection: current_user.company.branches.includes(:users => :profile), as: :grouped_select, group_label_method: :name, group_method: :users, label_method: :fullname, disabled: true %>
 	<% end %>

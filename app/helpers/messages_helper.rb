@@ -18,8 +18,8 @@ module MessagesHelper
   def msg_sender_helper(message, current_user)
     if message.user_company_id == current_user.company.id
       case message.user_id
-      when current_user.id then content_tag :span, 'YOU', class: 'label'
       when 1 then content_tag :span, 'ADMIN', class: 'label label-important'
+      when current_user.id then content_tag :span, 'YOU', class: 'label label-info'
       else content_tag :span, message.user.fullname, class: 'small'
       end
     else
@@ -39,8 +39,8 @@ module MessagesHelper
   def msg_receiver_helper(message, current_user)
     if message.receiver_company_id == current_user.company.id
       case message.receiver
-      when current_user then content_tag :span, 'YOU', class: 'label'
       when 1 then content_tag :span, 'ADMIN', class: 'label label-important'
+      when current_user then content_tag :span, 'YOU', class: 'label label-info'
       else content_tag :span, message.receiver.fullname, class: 'small'
       end
     else

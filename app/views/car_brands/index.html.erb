@@ -1,4 +1,7 @@
-<h1>Car Brands</h1>
+<% title 'Car Brands' %>
+
+<%= link_to 'New', new_car_brand_path, :class => 'btn btn-large btn-primary' %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -25,4 +28,3 @@
   </tbody>
 </table>
 
-<%= link_to 'New', new_car_brand_path, :class => 'btn btn-primary' %>

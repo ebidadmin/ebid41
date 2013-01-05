@@ -117,6 +117,7 @@ Ebid41::Application.routes.draw do
       get :add
       get :cancel
     end
+    get :add_spec, on: :member
   end
 
   resources :profiles

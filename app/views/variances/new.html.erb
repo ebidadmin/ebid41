@@ -42,7 +42,7 @@
 					<%= vi.input :var_base, label: false, input_html: { class: 'span2 txtright' } %>
 				<% end %>
 				<%= content_tag :td, class: 'txtcenter' do %>
-					<%= vi.input :var_type, label: false, collection: Variance::TYPES, as: :radio, checked: 'original' %>
+					<%= vi.input :var_type, label: false, collection: Variance::TYPES, as: :radio, checked: 'original', item_wrapper_class: 'inline' %>
 				<% end %>
 			<% end %>
 			</tr>

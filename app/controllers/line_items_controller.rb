@@ -46,4 +46,8 @@ class LineItemsController < ApplicationController
     @entry = Entry.find(params[:id], include: :line_items)
     @line_items = @entry.line_items.includes(:car_part, :bids, :order).order('status DESC')
   end
+  
+  def add_spec
+    edit
+  end
 end

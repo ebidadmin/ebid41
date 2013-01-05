@@ -1,72 +1,76 @@
-<%= form_for @bid do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :user_id %><br />
-    <%= f.number_field :user_id %>
-  </p>
-  <p>
-    <%= f.label :entry_id %><br />
-    <%= f.number_field :entry_id %>
-  </p>
-  <p>
-    <%= f.label :line_item_id %><br />
-    <%= f.number_field :line_item_id %>
-  </p>
-  <p>
-    <%= f.label :car_brand_id %><br />
-    <%= f.number_field :car_brand_id %>
-  </p>
-  <p>
-    <%= f.label :amount %><br />
-    <%= f.text_field :amount %>
-  </p>
-  <p>
-    <%= f.label :quantity %><br />
-    <%= f.number_field :quantity %>
-  </p>
-  <p>
-    <%= f.label :total %><br />
-    <%= f.text_field :total %>
-  </p>
-  <p>
-    <%= f.label :bid_type %><br />
-    <%= f.text_field :bid_type %>
-  </p>
-  <p>
-    <%= f.label :bid_speed %><br />
-    <%= f.number_field :bid_speed %>
-  </p>
-  <p>
-    <%= f.label :lot %><br />
-    <%= f.check_box :lot %>
-  </p>
-  <p>
-    <%= f.label :status %><br />
-    <%= f.text_field :status %>
-  </p>
-  <p>
-    <%= f.label :ordered %><br />
-    <%= f.date_select :ordered %>
-  </p>
-  <p>
-    <%= f.label :order_id %><br />
-    <%= f.number_field :order_id %>
-  </p>
-  <p>
-    <%= f.label :delivered %><br />
-    <%= f.date_select :delivered %>
-  </p>
-  <p>
-    <%= f.label :paid %><br />
-    <%= f.date_select :paid %>
-  </p>
-  <p>
-    <%= f.label :cancelled %><br />
-    <%= f.date_select :cancelled %>
-  </p>
-  <p>
-    <%= f.label :declined %><br />
-    <%= f.date_select :declined %>
-  </p>
-  <p><%= f.submit %></p>
+<% subtitle @bid.id if @bid.id %>
+<%= simple_form_for @bid do |f| %>
+	<div class="row">
+		<div class="span4">
+		  <%= f.association :user, collection: Company.where(primary_role: 3).includes(:users).order('nickname'), as: :grouped_select, group_method: :users, group_label_method: :nickname, label_method: :username  %>
+			<%= f.input :entry_id %>
+			<%= f.input :line_item_id %>
+			<%= f.input :order_id %>
+		</div>
+		<div class="span4">
+			<%= f.input :amount %>
+			<%= f.input :quantity %>
+			<%= f.input :bid_type, collection: ['original', 'replacement', 'surplus'] %>
+			<%= f.input :status, collection: Bid::STATUS_TAGS %>
+		</div>
+		<div class="span4">
+			<%= f.association :car_brand %>
+			<%= f.input :bid_speed %>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="span4">
+			<%= f.input :created_at do %>
+			  <%= f.text_field :created_at, :class => 'datepicker', :size => 25, :placeholder => 'Click to select date' %>
+			<% end %>
+			<%= f.input :updated_at do %>
+			  <%= f.text_field :updated_at, :class => 'datepicker', :size => 25, :placeholder => 'Click to select date' %>
+			<% end %>
+		</div>
+		<div class="span4">
+			<%= f.input :ordered do %>
+			  <%= f.text_field :ordered, :class => 'datepicker', :size => 25, :placeholder => 'Click to select date' %>
+			<% end %>
+			<%= f.input :delivered do %>
+			  <%= f.text_field :delivered, :class => 'datepicker', :size => 25, :placeholder => 'Click to select date' %>
+			<% end %>
+			<%= f.input :paid do %>
+			  <%= f.text_field :paid, :class => 'datepicker', :size => 25, :placeholder => 'Click to select date' %>
+			<% end %>
+		</div>
+		<div class="span4">
+			<%= f.input :cancelled do %>
+			  <%= f.text_field :cancelled, :class => 'datepicker', :size => 25, :placeholder => 'Click to select date' %>
+			<% end %>
+			<%= f.input :declined do %>
+			  <%= f.text_field :declined, :class => 'datepicker', :size => 25, :placeholder => 'Click to select date' %>
+			<% end %>
+			<%= f.input :expired do %>
+			  <%= f.text_field :expired, :class => 'datepicker', :size => 25, :placeholder => 'Click to select date' %>
+			<% end %>
+		</div>
+	</div>
+	<div class='well txtcenter'>
+	  <%= f.button :submit, class: 'btn btn-large btn-primary'  %>
+		<%= link_to "Show", @bid, class: 'btn' %>
+	  <%= link_to "View All", bids_path, class: 'btn' %>
+	</div>
+<% end %>
+
+<% content_for :javascripts do %>
+	<% stylesheet 'blitzer/jquery-ui-1.8.6.custom' %>
+	$(function() {
+		$('.datepicker').each(function(){
+		    $(this).datepicker({ 
+						dateFormat: "yy-mm-dd",
+						maxDate: 0,
+						numberOfMonths: 2,
+						showButtonPanel: true, 
+						showOn: "both",
+						buttonImage: "/assets/calendar.gif",
+						buttonImageOnly: true
+				});
+		});
+	});
 <% end %>

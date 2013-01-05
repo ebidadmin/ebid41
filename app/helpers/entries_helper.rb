@@ -89,7 +89,13 @@ module EntriesHelper
   end
   
   def progress_bar_helper(bar_size)
-    content_tag :div, class: 'progress progress-success progress-striped active' do
+    if bar_size && bar_size == '100.00%'
+      bar = 'progress-success'
+    else
+      bar = 'progress-warning'
+    end
+    
+    content_tag :div, class: "progress #{bar} progress-striped active" do
       content_tag :div, '', class: 'bar', style: "width: #{bar_size}"
     end
   end

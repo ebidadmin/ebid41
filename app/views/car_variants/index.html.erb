@@ -1,5 +1,20 @@
 <% title 'Car Variants' %>
 
+<div class="navbar search">
+  <div class="navbar-inner">
+	<%= content_tag :span, 'Search', class: 'brand' %>
+		<%= search_form_for @q, url: request.path, html: { class: 'navbar-search' } do |f| %>
+		  <%= f.grouped_collection_select :car_brand_id_eq, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: 'Brand' } %>
+			<%= f.button 'Go!', class: 'btn btn-primary' %>
+			<%= refresh_button %>
+		<% end %>
+  </div>
+</div>
+
+<%= link_to 'New', new_car_variant_path, :class => 'btn btn-primary' %>
+
+<%= content_tag :div, page_entries_info(@car_variants), class: 'page-info' %>
+
 <table class="table">
   <thead>
     <tr>
@@ -13,10 +28,10 @@
   </thead>
   <tbody>
     <% @car_variants.group_by(&:car_brand).each do |brand, car_variants| %>
-			<tr><%= content_tag :td, brand, colspan: 6, class: 'label label-info' %></tr>
+			<tr><%= content_tag :td, brand, colspan: 6, class: 'well lead' %></tr>
 			<% car_variants.group_by(&:car_model).each do |cmodel, cvs| %>
 				<tr>
-					<%= content_tag :td, cmodel.name, rowspan: cvs.count + 1 %>
+					<%= content_tag :td, (cmodel.name if cmodel), rowspan: cvs.count + 1 %>
 				</tr>
 				<% cvs.each do |car_variant| %>
 	      <tr>
@@ -37,4 +52,3 @@
 
 <%= will_paginate @car_variants %>
 
-<%= link_to 'New', new_car_variant_path, :class => 'btn btn-primary' %>

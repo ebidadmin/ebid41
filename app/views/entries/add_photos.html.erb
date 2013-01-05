@@ -18,7 +18,7 @@
 				<%= content_tag :i, '', class: "icon-ban-circle icon-white" %>
 				<%= content_tag :span, 'Cancel upload'%>
 			<% end %>
-			<%= link_to_entry_helper(@entry, 'Done!', 'pull-right') %>
+			<%= link_to_entry_helper(@entry, 'Done!', 'pull-right btn-large') %>
     </div>
   </div>
   <div class="fileupload-loading"></div>
@@ -38,7 +38,7 @@
 				</td>
 				<%= content_tag :td, content_tag(:span, 'Uploaded', class: 'label label-success'), class: "span2" %>
 				<%= content_tag :td, '', class: "span1" %>
-				<td class="delete span2 txtcenter">
+				<td class="delete span2 txtright">
 					<%= link_with_icon_delete 'Delete', photo, "btn btn-danger", true %>
 				</td>
 	    </tr>

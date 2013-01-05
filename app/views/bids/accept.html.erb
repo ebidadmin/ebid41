@@ -11,11 +11,13 @@
 	<!-- create an order for each supplier -->
 	<%= content_tag :h2 do %>
 		Step 1: Check order items and quantities
-		<%= content_tag :small, "You have #{content_tag :span, pluralize(@bidders.count, 'supplier')}".html_safe, class: 'highlight' %>
+		<%= content_tag :small, "You have #{content_tag :span, pluralize(@bidders.count, 'supplier')}".html_safe, class: 'label label-info' %>
 	<% end %>
 
 	<% @bids.group_by(&:user_id).each do |seller, seller_bids| %>
-		<%= render 'orders/items_table', bids: seller_bids %>
+		<div class="well">
+			<%= render 'orders/items_table', bids: seller_bids %>
+		</div>
 	<% end %>
 
 	<%= content_tag :h2 do %>
@@ -59,7 +61,7 @@
 
 	<%= content_tag :div, class: 'well' do %>
 		<%= link_to "Cancel", :back, class: 'btn offset1' %>
-		<%= f.submit 'Create PO', class: 'btn btn-success btn-large' %> 
+		<%= f.submit 'Create PO', class: 'btn btn-success btn-large', data: { confirm: 'Are you sure about this PO? You CANNOT CANCEL after the PO is released!' } %> 
 		<%= content_tag :p, class: 'span7' do %>
 			<%= content_tag :span, 'Important', class: 'label label-important' %>
 			Please ensure the correctness of your order above. 

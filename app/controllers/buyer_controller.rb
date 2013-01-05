@@ -7,6 +7,7 @@ class BuyerController < ApplicationController
   end
   
   def entries
+    store_location
     @q = Entry.by_this_buyer(current_user).find_status(params[:s], true).search(params[:q])
     @entries = @q.result.includes(:user, :car_brand, :car_model, :bids, :orders, :messages, :variance).paginate(page: params[:page], per_page: 12)#.order('bid_until DESC')
   end

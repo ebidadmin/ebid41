@@ -9,6 +9,7 @@ class LineItem < ActiveRecord::Base
   has_many :fees
   has_one :var_item#, dependent: :destroy
 
+  scope :new_items, where(status: 'New')
   scope :additional, where(status: 'Additional')
   scope :online, where(status: ['Online', 'Relisted', 'Additional', 'Re-bidding'])
   scope :declined, where(status: ['Declined', 'Expired'])

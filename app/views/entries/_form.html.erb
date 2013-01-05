@@ -28,12 +28,13 @@
 		<%= content_tag :h3, 'Admin Section' %>
 		<section class="row">
 			<div class="span6">
+			  <%= f.association :user, collection: Company.where(primary_role: 2).includes(:users).order('nickname'), as: :grouped_select, group_method: :users, group_label_method: :nickname, label_method: :username  %>
 				<%= f.input :status, collection: Entry::STATUS_TAGS, include_blank: true %>
 				<%= f.input :online, include_blank: true %>
 				<%= f.input :bid_until, include_blank: true %>
 				<%= f.input :decided, include_blank: true %>
 			</div>
-			<div class="span6">
+			<div class="span5">
 				<%= f.input :expired, include_blank: true %>
 				<%= f.input :relisted, include_blank: true %>
 				<%= f.input :redecided, include_blank: true %>
