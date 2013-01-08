@@ -79,7 +79,7 @@ Ebid41::Application.configure do
   #   password: ENV["GMAIL_PASSWORD"]
   # }
   config.action_mailer.delivery_method = :letter_opener
-
+  LetterOpener.cannot_write_to_file_system!
 
 
   # Log the query plan for queries taking more than this (works
