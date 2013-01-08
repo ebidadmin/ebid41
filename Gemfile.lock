@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/alexrothenberg/letter_opener.git
+  revision: 50b077315f11872f1173d092ddf81b9176c9badf
+  branch: on_a_server
+  specs:
+    letter_opener (0.0.2)
+      fakefs
+      launchy
+
+GIT
   remote: git://github.com/ryanb/cancan.git
   revision: f1cebde51a87be149b4970a3287826bb63c0ac0b
   branch: 2.0
@@ -113,6 +122,7 @@ GEM
     factory_girl_rails (4.1.0)
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
+    fakefs (0.4.2)
     ffi (1.1.5)
     fssm (0.2.9)
     gherkin (2.11.5)
@@ -137,8 +147,6 @@ GEM
     less-rails (2.2.3)
       actionpack (>= 3.1)
       less (~> 2.2.0)
-    letter_opener (1.0.0)
-      launchy (>= 2.0.4)
     libv8 (3.3.10.4)
     libwebsocket (0.1.5)
       addressable
@@ -292,7 +300,7 @@ DEPENDENCIES
   jquery-fileupload-rails
   jquery-rails
   launchy (>= 2.1.0)
-  letter_opener
+  letter_opener!
   machinist
   mocha
   mysql2
