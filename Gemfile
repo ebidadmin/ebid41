@@ -11,7 +11,7 @@ group :assets do
 end
 group :development do
 	gem "nifty-generators"
-	gem "letter_opener"
+	# gem "letter_opener"
 	gem "capistrano"
 end
 group :test do
