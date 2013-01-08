@@ -61,7 +61,7 @@ Ebid41::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # config.action_mailer.default_url_options = { :host => 'example.com' }
+  config.action_mailer.default_url_options = { :host => 'ebid.com.ph' }
   # # ActionMailer Config
   # # Setup for production - deliveries, no errors raised
   # config.action_mailer.delivery_method = :smtp
@@ -78,7 +78,6 @@ Ebid41::Application.configure do
   #   user_name: ENV["GMAIL_USERNAME"],
   #   password: ENV["GMAIL_PASSWORD"]
   # }
-  config.action_mailer.default_url_options = { :host => 'ebid.com.ph' }
   config.action_mailer.delivery_method = :letter_opener
 
 
