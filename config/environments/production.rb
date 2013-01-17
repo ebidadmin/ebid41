@@ -78,7 +78,7 @@ Ebid41::Application.configure do
     :password       => 'cymarquez',
     :enable_starttls_auto => true 
   }
-  # Mail.register_interceptor(MailInterceptor)
+  Mail.register_interceptor(MailInterceptor)
 
 
   # Log the query plan for queries taking more than this (works
