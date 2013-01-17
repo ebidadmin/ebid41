@@ -9,6 +9,9 @@ class LineItem < ActiveRecord::Base
   has_many :fees
   has_one :var_item#, dependent: :destroy
 
+  STATUS_TAGS = ['New', 'Online', 'Additional', 'Relisted', 'Re-bidding', 'For-Decision',
+    'New PO', 'For-Delivery', 'Delivered', 'Paid.', 'Paid', 'Closed', 'Lose', 'Cancelled']
+
   scope :new_items, where(status: 'New')
   scope :additional, where(status: 'Additional')
   scope :online, where(status: ['Online', 'Relisted', 'Additional', 'Re-bidding'])
@@ -25,7 +28,7 @@ class LineItem < ActiveRecord::Base
     case status
     when 'Online', 'Additional', 'Relisted', 'Re-bidding' then 0
     when 'For-Decision' then 1
-    when 'New PO', 'PO Released', 'For-Delivery', 'Delivered', 'Paid!', 'Paid', 'Closed' then 2
+    when 'New PO', 'PO Released', 'For-Delivery', 'Delivered', 'Paid.', 'Paid', 'Closed' then 2
     when 'Expired', 'Declined' then 3
     when 'Cancelled by admin', 'Cancelled by buyer', 'Cancelled by seller', 'Cancelled' then 4
     else 5

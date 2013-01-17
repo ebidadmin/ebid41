@@ -6,6 +6,7 @@ body { font-size: 12px; line-height: 1.2em !important;  }
 //body p { margin: 0;  }
 .container { clear: both; margin: 0 auto; width: 840px; background: transparent; position: relative; overflow: hidden; }
 //section { padding-bottom: 1.5em; }
+.alert p { margin-bottom: 0 !important; }
 dt, dd { float: left; }
 dt { clear: both; font-size: 0.9em; text-transform: uppercase; width: 30%; }
 dd { width: 65%; }
@@ -37,7 +38,12 @@ table {
 	h4 { font-size: inherit; }
 } 
 
-
+.modal { width: 80%; margin-left: -40%; }
+.modal form { margin-bottom: 0; }
+.hidden {
+    display: none;
+    visibility: hidden;
+}
 .bids p { font: 100%; text-align: right; }
 .index { float: left; padding-right: 8px; text-align: right; width: 18px; }
 .part-desc { float: left;}

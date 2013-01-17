@@ -29,7 +29,11 @@
 	<td class="txtright">
 		<div id="" class="btn-group">
 			<% if message.user_id != current_user.id %>
-				<%= link_to('Reply', new_message_path(r: message.user, rc: message.user.company, parent_id: message, e: @entry, o: message.order_id), remote: true, class: 'btn btn-mini btn-info') %>
+				<% if @order.present? %>
+					<%= link_to('Reply', new_message_path(r: message.user, rc: message.user.company, parent_id: message, e: @entry, o: message.order_id), remote: true, data: { toggle: 'modal', target: "#myModal"}, class: 'btn btn-mini btn-info') %>
+				<% else %>
+					<%= link_to('Reply', new_message_path(r: message.user, rc: message.user.company, parent_id: message, e: @entry, o: message.order_id), remote: true, data: { target: "#myModal"}, class: 'btn btn-mini btn-info') %>
+				<% end %>
 			<% end %>
 			
 			<% if message.user_id == current_user.id || can?(:access, :all) %>

@@ -34,13 +34,20 @@ class VariancesController < ApplicationController
     # raise params.to_yaml
     @entry = Entry.find(params[:entry_id])
     @variance = @entry.build_variance(params[:variance])
-    @variance.populate(current_user, params[:variance][:discount], @entry)
-    if current_user.variances << @variance
-      redirect_to variance_path(@variance, entry_id: @entry)
+    unless params[:variance][:var_company_id].blank?
+      @variance.populate(current_user, params[:variance][:discount], @entry)
+      if current_user.variances << @variance
+        redirect_to variance_path(@variance, entry_id: @entry)
+      else
+        @var_companies = VarCompany.order(:name).collect { |vc| [vc.name, vc.id] }
+        @available_discounts = Variance::DISCOUNTS.collect { |d| [d + '%', d ] }
+        render 'new'
+      end
     else
       @var_companies = VarCompany.order(:name).collect { |vc| [vc.name, vc.id] }
       @available_discounts = Variance::DISCOUNTS.collect { |d| [d + '%', d ] }
-      render 'new'
+      flash[:error] = "No details."
+      redirect_to :back
     end
   end
 

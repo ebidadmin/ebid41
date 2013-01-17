@@ -15,6 +15,7 @@
 	<% end %>
 
 	<% @bids.group_by(&:user_id).each do |seller, seller_bids| %>
+		<%= content_tag :h6, "Supplier # #{seller}" %>
 		<div class="well">
 			<%= render 'orders/items_table', bids: seller_bids %>
 		</div>

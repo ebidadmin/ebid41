@@ -56,9 +56,13 @@ module EntriesHelper
   
   def parts_bidded(entry, supplier)
     if entry.bid_rate_by_supplier(supplier) > 0
-      content_tag :span, "#{percentage(entry.bid_rate_by_supplier(current_user), 0)} bidded", class: 'label' 
+      color = case entry.bid_rate_by_supplier(supplier)
+      when 100 then ' badge-success'
+      else ' badge-warning'
+      end
+      content_tag :span, "#{percentage(entry.bid_rate_by_supplier(current_user), 0)} bidded", class: "badge#{color}" 
     else
-      content_tag :span, 'You have no bids', class: 'label label-important'
+      content_tag :span, 'You have no bids', class: 'badge badge-important'
     end
   end
   
@@ -97,6 +101,14 @@ module EntriesHelper
     
     content_tag :div, class: "progress #{bar} progress-striped active" do
       content_tag :div, '', class: 'bar', style: "width: #{bar_size}"
+    end
+  end
+  
+  def message_count_helper
+    if can? :access, :all
+      pluralize(@entry.messages.pvt.size, "message")
+    else
+      pluralize(@entry.messages.pvt.restricted(current_user.company).size, "message")
     end
   end
 end

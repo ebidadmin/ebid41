@@ -5,6 +5,7 @@ class CompaniesController < ApplicationController
 
   def show
     @company = Company.find(params[:id])
+    @friends = @company.friends
   end
 
   def new
@@ -35,7 +36,13 @@ class CompaniesController < ApplicationController
 
   def destroy
     @company = Company.find(params[:id])
-    @company.destroy
+    @company.destroy # WARNING: should not DESTROY IF WITH ENTRIES/BIDS
     redirect_to companies_url, :notice => "Successfully destroyed company."
   end
+  
+  def selected
+    @branches = Branch.where(company_id: params[:id]).order(:name)
+  end
+  
+  
 end

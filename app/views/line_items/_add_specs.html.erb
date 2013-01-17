@@ -1,0 +1,36 @@
+<%= content_tag :h2, 'Add Details to Parts' %>
+
+<div class="well">
+
+<%= form_tag save_specs_line_items_path, method: :post, remote: true do  %>
+	<%= hidden_field_tag :id, @entry.id %>
+	<table class="table">
+		<thead>
+			<tr>
+				<%= content_tag :th, 'Part Description'.upcase, class: 'span4 txtcenter' %>
+				<%= content_tag :th, 'Details'.upcase %>
+			</tr>
+		</thead>
+		<tbody>
+			<% @line_items.each_with_index do |item, index| %>
+				<tr>
+					<%= content_tag :td, class: 'span4' do %>
+						<%= content_tag :div, index + 1, class: 'index' if @entry.line_items.size > 1 %>
+						<%= content_tag :p, item %>
+					<% end %>
+					<%= content_tag :td do %>
+						<%= text_field_tag "items[#{item.id}][]", item.specs, class: 'span6' %>
+					<% end %>
+				</tr>
+			<% end %>
+			<tr>
+				<td colspan="4" class="txtcenter">
+				  <%= link_to 'Cancel', cancel_line_items_path(id: @entry), class: 'btn btn-danger', remote: true %>
+					<%= submit_tag 'Save Details', class: 'btn btn-success btn-large'  %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<% end %>
+
+</div>

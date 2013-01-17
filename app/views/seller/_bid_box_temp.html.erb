@@ -1,0 +1,19 @@
+<% %w(original replacement surplus).each do |t| %>
+	<td class="<%= t[0..3] %> bids span2 txtcenter">
+		<%#= bid_box_helper item.id, t if item.is_online %>
+		<%= bid_box_helper(item.id, t, current_user) if item.is_online %>
+		<div class="bid-container">
+			<% item.bids.group_by(&:bid_type).each do |type, bids| %>
+				<% bids.group_by(&:user).each do |user, bs| %>
+
+					<% if t == type && current_user.company.users.include?(user) %>
+						<% own_bid = bs.last %>
+						<%= render own_bid if own_bid %>									
+						<%= render 'seller/winning_bid', item: item, own_bid: own_bid, bids: bids unless current_user.id == 67 %>
+					<% end %> 
+
+				<% end %>
+			<% end %>
+		</div>
+	</td>
+<% end %>

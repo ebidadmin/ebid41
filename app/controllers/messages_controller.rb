@@ -78,6 +78,7 @@ class MessagesController < ApplicationController
 
   def destroy
     @message = Message.find(params[:id])
+    @entry = @message.entry
     @message.destroy
     respond_to do |format|
       format.html { redirect_to :back, notice: "Deleted the message." }
@@ -92,6 +93,7 @@ class MessagesController < ApplicationController
     else
       @messages = Message.where(entry_id: @entry).pvt.restricted(current_user.company)
     end
+    @messages.each { |m| m.update_attribute(:read_on, Time.now) if m.receiver == current_user && m.read_on.blank?}
   end
   
   def close

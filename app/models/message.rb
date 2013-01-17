@@ -1,4 +1,6 @@
 class Message < ActiveRecord::Base
+  include ActionView::Helpers
+  
   attr_accessible :user_id, :user_type, :alias, :user_company_id, :receiver_id, :receiver_company_id, 
   :entry_id, :order_id, :message, :open_tag, :ancestry, :parent_id, :msg_for, :read_on
   
@@ -25,6 +27,10 @@ class Message < ActiveRecord::Base
   def self.restricted(company)
     where('user_company_id = ? OR receiver_company_id = ?', company, company)
   end
+  
+  def self.this_user(user)
+    where('user_id = ? OR receiver_id = ?', user, user)
+  end
 
   def for_cancelled_order(current_user, msg_sender, order, cancelled_bids, reason)
     case msg_sender
@@ -50,8 +56,25 @@ class Message < ActiveRecord::Base
     # order.messages << msg
     # Notify.delay.cancelled_order(order, msg)#.deliver
   end
+  
+  def self.for_additional_parts(entry, line_items)
+    m = self.new(
+      user_id: entry.user_id, user_company_id: entry.company_id, user_type: entry.user.roles.first.name,
+      entry_id: entry.id, read_on: Time.now
+      )
+    m.message = "#{entry.status.upcase} (#{line_items.count}): #{line_items.map(&:car_part).to_sentence} (online # #{entry.relist_count + 1})"
+    m.save!
+  end
 
-
+  def self.for_rebidding(user, entry)
+    m = user.messages.build(
+      user_company_id: user.company.id, user_type: user.roles.first.name,
+      entry_id: entry.id, read_on: Time.now
+      )
+    m.message = "#{entry.status.upcase}: #{entry.relisted.to_s(:long)} (online # #{entry.relist_count + 1}) | #{user}"
+    m.save!
+  end
+  
   private
   
   def strip_blanks

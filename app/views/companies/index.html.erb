@@ -1,16 +1,19 @@
 <% title 'Companies' %>
+<div class="txtright">
+	<%= link_to 'Add Company', new_company_path, :class => 'btn btn-primary btn-large' %>
+</div>
+
 <table class="table table-striped">
   <thead>
     <tr>
       <th>ID</th>
       <th>Name</th>
-		  <th>Nickname</th>
 		  <th>Primary Role</th>
-		  <th>Trial Start</th>
-		  <th>Trial End</th>
 		  <th>Metering Date</th>
-		  <th>Perf Ratio</th>
-      <th>Actions</th>
+		  <th class="txtcenter">Friends</th>
+		  <th class="txtcenter">Users</th>
+		  <th class="txtcenter">Perf Ratio</th>
+      <th class="txtright">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -18,13 +21,12 @@
       <tr>
         <td><%= company.id %></td>
         <td><%= link_to company.name, company_path(company) %></td>
-		    <td><%= company.nickname %></td>
-		    <td><%= company.primary_role %></td>
-		    <td><%= company.trial_start %></td>
-		    <td><%= company.trial_end %></td>
-		    <td><%= company.metering_date %></td>
-		    <td><%= company.perf_ratio %></td>
-        <td>
+		    <td><%= company.role.name if company.primary_role %></td>
+		    <td><%= regular_date company.metering_date if company.metering_date %></td>
+				<td class="txtcenter"><%= company.friends.size %></td>
+				<td class="txtcenter"><%= company.users.size %></td>
+		    <td class="txtcenter"><%= percentage company.perf_ratio, 2 %></td>
+        <td class="txtright">
           <%= link_to 'Edit', edit_company_path(company), :class => 'btn btn-mini' %>
           <%= link_to 'Destroy', company_path(company), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
         </td>
@@ -33,4 +35,3 @@
   </tbody>
 </table>
 
-<%= link_to 'New', new_company_path, :class => 'btn btn-primary' %>

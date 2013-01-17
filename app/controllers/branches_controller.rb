@@ -8,7 +8,7 @@ class BranchesController < ApplicationController
   end
 
   def new
-    @branch = Branch.new
+    @branch = Branch.new(company_id: params[:c])
   end
 
   def create

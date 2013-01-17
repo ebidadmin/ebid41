@@ -36,7 +36,7 @@
 					<!-- provision for reorder from next lowest -->
 					<%= fields_for 'bids[]', item do |f| %>
 						<%= content_tag :p, class: "#{lo_next.status_color}" do %>
-							<%= f.radio_button 'id', lo_next.id if item.can_be_ordered && !lo_next.cancelled? %>
+							<%= f.radio_button 'id', lo_next.id, class: 'pull-left'  if item.can_be_ordered && !lo_next.cancelled? %>
 							<%= content_tag :b, currency(lo_next.amount), class: 'bid-amount' %>
 							<%= content_tag :em, 'L' %>
 						<% end %>

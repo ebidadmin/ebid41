@@ -43,4 +43,10 @@ class VarCompaniesController < ApplicationController
     # raise params.to_yaml
     @var_company = VarCompany.new(creator_id: current_user.id)
   end
+  
+  def close
+    respond_to do |format|
+      format.js
+    end
+  end
 end

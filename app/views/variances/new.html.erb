@@ -9,9 +9,8 @@
 <%= simple_form_for [@entry, @variance] do |f| %>
 	<div class="well">
 		<div class="row">
-			<div id="var-company" class="span3">
-				<%= f.association :var_company, collection: @var_companies, label: 'Source of Canvass' %>
-				<%= link_to 'Add Shop/Supplier', add_var_companies_path(f, @entry_id), remote: true %>
+			<div id="var-company" class="span4">
+				<%= render 'variances/select_var_company', f: f %>
 			</div>
 			<div class="span2">
 				<%= f.input :discount, collection: @available_discounts, include_blank: true %>
@@ -49,8 +48,8 @@
 		<% end %>
 	</table>
 	<div class="txtcenter">
+		<%= link_to 'Cancel', session['referer'], class: 'btn'  %>
 		<%= f.submit 'Compute', class: 'btn btn-primary btn-large span4' %>	
-		<%= link_to 'Cancel', session['referer'] %>
 	</div>
 <% end %>
 

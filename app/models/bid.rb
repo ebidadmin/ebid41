@@ -14,7 +14,7 @@ class Bid < ActiveRecord::Base
 
   validates :amount, numericality: { greater_than: 1 }, presence: true
 
-  STATUS_TAGS = %w(New Updated For-Decision For-Delivery Delivered Overdue Paid Closed Lose Declined Dropped Cancelled)
+  STATUS_TAGS = %w(New Updated Re-bidding For-Decision For-Delivery Delivered Overdue Paid Closed Lose Declined Dropped Cancelled)
 
   default_scope includes(:user).order('amount DESC').order('bid_speed DESC')
   scope :by_user, lambda { |user| where(user_id: user) }
@@ -22,6 +22,7 @@ class Bid < ActiveRecord::Base
   scope :cancelled, where('bids.status LIKE ?', "%Cancelled%") 
   scope :not_cancelled, where('bids.status NOT LIKE ?', "%Cancelled%") 
   scope :with_orders, where('bids.order_id IS NOT NULL')
+  scope :without_orders, where('bids.order_id IS NULL')
   
   # ACTIONS
   def self.populate(user, entry, line_item, amount, type)
@@ -94,7 +95,7 @@ class Bid < ActiveRecord::Base
   end
   
   def cancelled?
-    status.include?('Cancelled')
+    status.include?('Cancelled') || status.include?('Dropped')
   end
   
   def orig?
@@ -118,7 +119,7 @@ class Bid < ActiveRecord::Base
     when 'Dropped' then 'label-highlight cancelled'
     else nil
     end
-    color = 'label-black' if self.cancelled?
+    color = 'label-inverse' if self.cancelled?
     "label #{color}" unless online?
   end
   
@@ -130,7 +131,7 @@ class Bid < ActiveRecord::Base
     when 'Dropped' then 'label-highlight cancelled'
     else nil
     end
-    color = 'label-black' if self.cancelled?
+    color = 'label-inverse' if self.cancelled?
     "label #{color}" unless online?
   end
   

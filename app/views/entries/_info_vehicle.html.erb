@@ -18,13 +18,13 @@
 			<td class="span2 txtcenter">
 				<%= content_tag :h4, pluralize(@entry.photos.size, "photo"), id: 'parts-count' %>
 				<% if @entry.photos.size > 0 %>
-					<%= link_to 'View Photos', add_photos_entry_path(@entry), class: 'btn btn-mini btn-primary' if can? :access, :buyer  %>
+					<%= link_to 'View/Edit Photos', add_photos_entry_path(@entry), class: 'btn btn-mini btn-primary' if can? :access, :buyer  %>
 				<% else %>
 					<%= link_to 'Upload Photos', add_photos_entry_path(@entry), class: 'btn btn-mini btn-primary' if can? :access, :buyer  %>
 				<% end %>
 			</td>
 			<td id="msg-count" class="span2 txtcenter">
-				<%= content_tag :h4, pluralize(@entry.messages.pvt.restricted(current_user.company).size, "message") %>
+				<%= content_tag :h4, message_count_helper %>
 				<% if @entry.messages.restricted(current_user.company).pvt.size > 0 %>
 					<%= link_to 'View', view_messages_path(id: @entry), class: 'btn btn-mini btn-primary', data: { toggle: 'modal', target: "#myModal"}, remote: true if params[:action] != 'print' %>
 				<% else %>

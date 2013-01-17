@@ -27,7 +27,7 @@
 						<%= order.seller_company.nickname %>
 					<% end %>
 
-					<%= content_tag :td, class: 'span4 txtcenter' do %>
+					<%= content_tag :td, class: 'span4' do %>
 						<%= order_status_helper(order) %>
 						<%= change_status_link(order) %>
 						<%= confirm_payment_link(order, current_user) %>

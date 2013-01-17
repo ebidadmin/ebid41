@@ -1,9 +1,10 @@
-<%= simple_form_for @var_company do |vc| %>
+<%= simple_form_for @var_company, remote: true do |vc| %>
 	<%= vc.input :name, label: 'Name of Shop' %>
 	<% if can? :access, :all %>
 		<%= vc.input :creator_id, collection: Company.where(primary_role: [1,2]).includes(:users), as: :grouped_select, group_label_method: :nickname, group_method: :users, label_method: :username %>
   <% else %>
      <%= vc.input :creator_id, collection: Company.includes(:users), as: :grouped_select, group_label_method: :nickname, group_method: :users, label_method: :username, disabled: true %>
 	<% end %>
+	<%= link_to 'Cancel', close_var_companies_path(f: f), class: 'btn btn-danger', remote: true %>
   <%= vc.submit 'Add Shop', :class => 'btn btn-primary' %>
 <% end %>

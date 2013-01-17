@@ -1,9 +1,9 @@
 jQuery ->
 	loading = "<span class='loading'><img src='/assets/loading.gif'></span>"	
 	# $('div#veh-variant select').hide()
-	$('div#veh-brand select').change ->
+	$('div#veh-brand select, select#veh-brand').change ->
 		brand_id = $(@).val()
-		$('div#veh-model select').after(loading)
+		$('div#veh-model select, select#veh-model').after(loading)
 		$('div#veh-variant select').empty().hide()
 		$.ajax
 			type: 'get'

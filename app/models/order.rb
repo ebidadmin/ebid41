@@ -171,6 +171,10 @@ class Order < ActiveRecord::Base
       status == 'New PO' || status == 'PO Released' || status == 'For-Delivery'
     end
   end
+  
+  def was_cancelled
+    status == 'Cancelled'
+  end
 
   # COMPUTATIONS
   def delivery_time

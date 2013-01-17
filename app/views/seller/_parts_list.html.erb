@@ -21,30 +21,15 @@
 						</div>
 					</td>
 					
-					<%# if item.bids.by_user(current_user.company.users).present? %>
-						<% %w(original replacement surplus).each do |t| %>
-							<td class="<%= t[0..3] %> bids span2 txtcenter">
-								<%= bid_box_helper item.id, t if item.is_online %>
-								<div class="bid-container">
-									<% item.bids.group_by(&:bid_type).each do |type, bids| %>
-										<% bids.group_by(&:user).each do |user, bs| %>
-
-											<% if t == type && current_user.company.users.include?(user) %>
-												<% own_bid = bs.last %>
-												<%= render own_bid if own_bid %>									
-												<%= render 'seller/winning_bid', item: item, own_bid: own_bid, bids: bids unless current_user.id == 67 %>
-											<% end %> 
-
-										<% end %>
-									<% end %>
-								</div>
-							</td>
-						<% end %>
-					<%# else %>
-						<!-- <td class="txtcenter" colspan=3> -->
-							<%#= content_tag :p, 'You did not bid for this item', class: 'label' %>
-						<!-- </td> -->
-					<%# end %>
+					<% %w(original replacement surplus).each do |t| %>
+						<td class="<%= t[0..3] %> bids span2 txtcenter">
+							<% if item.bids.where(user_id: current_user.company.users, bid_type: t).present? %>
+								<%= render item.bids.where(user_id: current_user.company.users, bid_type: t) %>
+							<% else %>
+								<%= bid_box_helper(item.id, t) if item.is_online %>
+							<% end %>
+						</td>
+					<% end %>
 					
 				</tr>
 				<% end %>

@@ -47,7 +47,25 @@ class LineItemsController < ApplicationController
     @line_items = @entry.line_items.includes(:car_part, :bids, :order).order('status DESC')
   end
   
-  def add_spec
-    edit
+  def add_specs
+    @entry = Entry.find(params[:id], include: :line_items)
+    @line_items = @entry.line_items.includes(:car_part).order('status DESC')
+  end
+  
+  def save_specs
+    # raise params.to_yaml
+    @entry = Entry.find(params[:id], include: :line_items)
+    @line_items = LineItem.find(params[:items].map { |k,v| k.to_i })
+    @line_items.each do |li|
+      li.update_attribute(:specs, params[:items].fetch(li.id.to_s)[0])
+    end
+    respond_to do |format|
+      if can? :access, :all
+       format.html { redirect_to @entry }
+      else
+       format.html { redirect_to buyer_show_path(@entry) }
+      end
+      format.js { render action: :cancel }
+    end
   end
 end

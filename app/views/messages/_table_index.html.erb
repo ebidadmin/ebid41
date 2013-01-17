@@ -44,6 +44,10 @@
 						<% else %>
 							<%= link_with_icon '', message_path(m), 'envelope', 'btn-mini' %>
 						<% end %>
+						
+						<% if m.read_on.nil? %>
+							<%= content_tag :i, '', class: 'icon-envelope' %>
+						<% end %>
 					</td>
 	      </tr>
 	    <% end %>

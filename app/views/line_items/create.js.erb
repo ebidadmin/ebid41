@@ -1,7 +1,9 @@
 <% if can? :access, :all %>
 	$('#parts-list').html("<%= j(render 'entries/parts_list') %>").hide().slideDown('slow');
+	$("#msg-count h4").text("<%= j(pluralize(@entry.messages.size, 'message')) %>");
 <% else %>
 	$('#parts-list').html("<%= j(render 'buyer/parts_list') %>").hide().slideDown('slow');
+	$("#msg-count h4").text("<%= j(pluralize(@entry.messages.restricted(current_user.company).pvt.size, 'message')) %>");
 <% end %>
 $('.entry-status').replaceWith("<%= j entry_status_helper(@entry, 'entry-status') %>").effect("highlight", {}, 4000);
 $('#parts-count').text("<%= pluralize(@entry.line_items.size, 'part') %>").effect("highlight", {}, 4000);

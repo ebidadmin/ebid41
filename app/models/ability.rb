@@ -13,7 +13,7 @@ class Ability
       can :access, [:car_brands, :car_models, :car_variants, :regions]
       can [:create, :read, :update, :search, :cancel], :car_parts
       can [:create, :update, :add_photos, :save_photos, :attach_photos, :put_online, :reveal, :relist, :rebid, :destroy], :entries
-      can [:create, :read, :update, :add, :cancel, :add_spec, :destroy], :line_items
+      can [:create, :read, :update, :add, :cancel, :add_specs, :save_specs, :destroy], :line_items
       can :accept, :bids
       can [:create, :update, :read, :print, :change_status, :cancel, :confirm_cancel], :orders#, user_id: user.id
       can :access, [:variances, :var_companies, :var_items, :photos]
@@ -30,10 +30,12 @@ class Ability
       can [:create, :read, :update, :destroy, :view, :close], :messages
       can :access, :users, id: user.id
       can :access, :ratings
+      can :selected, [:companies, :car_brands]
     else
       can :access, :home
       can :create, [:users, :profiles, :companies, :branches]
       can :read, [:users, :profiles, :companies, :branches]
+      can :selected, :companies
     end
     # Define abilities for the passed in user here. For example:
     #

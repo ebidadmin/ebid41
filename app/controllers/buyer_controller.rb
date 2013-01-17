@@ -1,15 +1,26 @@
 class BuyerController < ApplicationController
   before_filter :initialize_cart, :only => [:show]
+  before_filter :search_car_models, only: [:entries, :orders]
 
   def dashboard
     @presenter = BuyerPresenter.new(current_user)
-    @messages = Message.restricted(current_user.company).limit(5).order('id DESC')
+    if current_user.has_role? :powerbuyer
+      @messages = Message.restricted(current_user.company).limit(5).order('id DESC')
+    else
+      @messages = Message.this_user(current_user).limit(5).order('id DESC')
+    end
   end
   
   def entries
     store_location
     @q = Entry.by_this_buyer(current_user).find_status(params[:s], true).search(params[:q])
     @entries = @q.result.includes(:user, :car_brand, :car_model, :bids, :orders, :messages, :variance).paginate(page: params[:page], per_page: 12)#.order('bid_until DESC')
+
+    if params[:q] && params[:q][:car_brand_id_eq].present?
+      @car_models = CarModel.where(car_brand_id: params[:q][:car_brand_id_eq])
+    else
+      @car_models = []
+    end
   end
 
   def show
@@ -44,7 +55,11 @@ class BuyerController < ApplicationController
   end
   
   def messages
-    @q = Message.restricted(current_user.company).search(params[:q])
+    if current_user.has_role? :powerbuyer
+      @q = Message.restricted(current_user.company).search(params[:q])
+    else
+      @q = Message.this_user(current_user).search(params[:q])
+    end
     @messages = @q.result.order('created_at DESC').page(params[:page]).per_page(20)
     @companies = Company.where(primary_role: 2)
   end

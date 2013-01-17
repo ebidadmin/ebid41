@@ -26,14 +26,30 @@
 	<%= render 'delivery_details' %>
 <% end %>
 
-<%= form_tag cancel_order_path(@order), :method => :get do  %>
-	<%= render 'orders/items_table', bids: @order.bids %>
+<% if @order.can_be_cancelled(current_user) %>
 
-	<%= content_tag :div, class: 'btn-toolbar txtright' do %>
-		<% if @order.can_be_cancelled(current_user) %>
-			<%= submit_tag 'Cancel Checked Items', class: 'btn btn-danger' %>
+	<%= form_tag cancel_order_path(@order), :method => :get do  %>
+		<%= render 'orders/items_table', bids: @order.bids %>
+
+		<%= content_tag :div, class: 'btn-toolbar txtright' do %>
+				<%= submit_tag 'Cancel Checked Items', class: 'btn btn-danger' %>
 		<% end %>
 	<% end %>
+
+<% elsif @order.was_cancelled %>
+
+	<%= form_tag uncancel_order_path(@order), :method => :get do  %>
+		<%= render 'orders/items_table', bids: @order.bids %>
+
+		<%= content_tag :div, class: 'btn-toolbar txtright' do %>
+				<%= submit_tag 'Un-Cancel Items', class: 'btn btn-success' %>
+		<% end %>
+	<% end %>
+	
+<% else %>
+	  <%= render 'orders/items_table', bids: @order.bids %>
+		
+
 <% end %>
 
 <%= content_tag :section do %>

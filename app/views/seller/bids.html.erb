@@ -4,7 +4,8 @@
 	<%= content_tag :span, 'Search', class: 'brand' %>
 		<%= search_form_for @q, url: request.path, html: { class: 'navbar-search' } do |f| %>
 		  <%= f.text_field :entry_plate_no_cont, class: 'input-small', placeholder: 'Plate Number' %>
-		  <%= f.grouped_collection_select :car_brand_id_eq, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: 'Brand' } %>
+		  <%= f.grouped_collection_select :car_brand_id_eq, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: 'Brand' }, id: 'veh-brand' %>
+		  <%= f.collection_select :entry_car_model_id_eq, @car_models, :id, :name, { include_blank: 'Model' }, id: 'veh-model' %>
 			<%= f.button 'Go!', class: 'btn btn-primary' %>
 			<%= refresh_button %>
 		<% end %>

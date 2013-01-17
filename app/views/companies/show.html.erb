@@ -1,33 +1,74 @@
-<%- model_class = @company.class -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+<% title @company.name %>
+
+<div class="row">
+	<div class="span2">
+		<%= content_tag :h5, @company.pr_label %>
+		<%= content_tag :h1,number_to_percentage(@company.perf_ratio, precision: 2), class: 'marketing-byline' %>
+	</div>
+	<div class="span6">
+		<%= content_tag :h5, 'Friends' %>
+		<% if @friends.present?  %>
+			<ol class="small">
+				<% for friend in @friends %>
+					<li class="friend"><%= friend.name %></li>
+				<% end %>
+			</ol>	
+		<% else %>
+			<p class="lead">
+				None. <small><%= link_to 'Edit', edit_company_path(@company) %></small> to add some friends.
+			</p>
+		<% end %>
+	</div>
+	<div class="pull-right">
+	  <%= link_to 'Back', companies_path, :class => 'btn'  %>
+	  <%= link_to 'Edit', edit_company_path(@company), :class => 'btn' %>
+	  <%= link_to 'Delete', company_path(@company), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+	</div>
 </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @company.name %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:nickname) %>:</strong></dt>
-  <dd><%= @company.nickname %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:primary_role) %>:</strong></dt>
-  <dd><%= @company.primary_role %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:trial_start) %>:</strong></dt>
-  <dd><%= @company.trial_start %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:trial_end) %>:</strong></dt>
-  <dd><%= @company.trial_end %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:metering_date) %>:</strong></dt>
-  <dd><%= @company.metering_date %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:perf_ratio) %>:</strong></dt>
-  <dd><%= @company.perf_ratio %></dd>
-</dl>
 
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              companies_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_company_path(@company), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              company_path(@company),
-              :method => 'delete',
-              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
-              :class => 'btn btn-danger' %>
-</div>
+<%= content_tag :h2, 'Registered Branches' %>
+<table class="table table-condensed table-bordered">
+	<thead>
+		<tr>
+			<%= content_tag :th, 'Branch Name', class: 'lead' %>
+			<%= content_tag :th, 'Users', colspan: 4, class: 'lead txtcenter' %>
+		</tr>
+		<tr>
+			<%= content_tag :th, link_to('Add Branch', new_branch_path(c: @company.id), class: 'btn btn-primary btn-mini') %>
+			<%= content_tag :th, 'Enabled' %>
+			<%= content_tag :th, 'Full Name' %>
+			<%= content_tag :th, 'Username' %>
+			<%= content_tag :th %>
+		</tr>
+	</thead>
+	<tbody>
+		<% for branch in @company.branches %>
+			<tr>
+				<%= content_tag :td, class: 'span4', rowspan: branch.users.present? ? branch.users.size + 1 : nil do %>
+					<address>
+						<%= content_tag :strong, branch.name %><br/>
+						<small>
+							<%= branch.address1 %>
+							<%= "<br/> #{branch.address2}".html_safe if branch.address2 %>
+						</small>
+					</address>
+					<%= link_to 'Edit Branch', edit_branch_path(branch), class: 'btn btn-mini btn-warning' %>
+					<%= link_to 'Add User', new_user_path(c: @company.id, b: branch.id), class: 'btn btn-mini' %>
+				<% end %>
+				<% if branch.users.blank? %>
+					<%= content_tag :td, link_to('Add User', new_user_path(c: @company.id), class: 'btn'), colspan: 3 %>
+				<% end %>
+			</tr>
+				<% for user in branch.users %>
+					<tr>
+						<td><%= content_tag :span, user.enabled? ? 'ON' : 'OFF', class: "label #{user.enabled? ? 'label-success' : nil }" %></td>
+						<td><%= user.profile %></td>
+						<td><%= link_to user, user %></td>
+						<td class="txtright"><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-mini' %></td>
+					</tr>
+				<% end %>
+		<% end %>
+	</tbody>
+</table>
+

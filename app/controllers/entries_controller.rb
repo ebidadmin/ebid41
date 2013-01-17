@@ -5,6 +5,12 @@ class EntriesController < ApplicationController
     @q = Entry.search(params[:q])
     @entries = @q.result.find_status(params[:s]).includes([:user => :profile], :car_brand, :car_model, :bids, :messages, :orders, :variance).paginate(page: params[:page], per_page: 12)#.order('bid_until DESC')
     @companies = Company.where(primary_role: 2).includes(:users).order('users.username ASC')
+
+    if params[:q] && params[:q][:car_brand_id_eq].present?
+      @car_models = CarModel.where(car_brand_id: params[:q][:car_brand_id_eq])
+    else
+      @car_models = []
+    end
   end
 
   def show
@@ -34,7 +40,7 @@ class EntriesController < ApplicationController
   def create
     @entry = current_user.entries.build(params[:entry])
     if current_user.company.entries << @entry
-      flash[:success] = "Successfully created entry."
+      flash[:notice] = "Successfully created entry."
       redirect_to add_photos_entry_path(@entry)
    else
       @car_models = CarModel.where(car_brand_id: @entry.car_brand_id)
@@ -96,7 +102,7 @@ class EntriesController < ApplicationController
   def put_online
     @entry = Entry.find(params[:id], include: [:line_items => :car_part])
     if @entry
-      flash[:success] = @entry.put_online 
+      flash[:notice] = @entry.put_online 
       redirect_to :back
     else
       flash[:error] = "Wait! Your entry is not yet complete. Please complete the photos and parts before you proceed."
@@ -108,9 +114,9 @@ class EntriesController < ApplicationController
     @entry = Entry.find(params[:id])
     unless @entry.bids.blank?
       if @entry.status == 'Re-bidding'
-        flash[:success] = @entry.reveal2
+        flash[:notice] = @entry.reveal2
       else
-        flash[:success] = @entry.reveal
+        flash[:notice] = @entry.reveal
       end
     else
       flash[:warning] = "Sorry, there no bids to reveal."
@@ -120,7 +126,8 @@ class EntriesController < ApplicationController
 
   def rebid
     @entry = Entry.find(params[:id])
-    flash[:success] = @entry.rebid
+    flash[:notice] = @entry.rebid
+    Message.for_rebidding(current_user, @entry)
     redirect_to :back
   end
   

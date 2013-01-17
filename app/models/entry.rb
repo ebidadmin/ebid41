@@ -59,7 +59,7 @@ class Entry < ActiveRecord::Base
       if buyer == true
         online.unexpired #.active
       else
-        online.unexpired#unscoped.online.order('bid_until DESC', 'status ASC')
+        online.active.unexpired#unscoped.online.order('bid_until DESC', 'status ASC')
       end
     when 'for-decision' then for_decision.unexpired.order('decided DESC')
     when 'ordered' then with_orders
@@ -92,7 +92,7 @@ class Entry < ActiveRecord::Base
     cart.cart_items.destroy_all
     if line_items.additional.present?
       update_attributes(status: 'Additional', bid_until: 1.week.from_now, relisted: Time.now, relist_count: self.relist_count += 1, chargeable_expiry: nil, expired: nil)
-      # create message
+      Message.for_additional_parts(self, line_items.additional)
     else
       update_attributes(status: "Online", online: Time.now, bid_until: 1.week.from_now)
     end
@@ -131,10 +131,13 @@ class Entry < ActiveRecord::Base
   end
 
 	def rebid
-	  # don't rebid if PO
     if self.update_attributes(status: 'Re-bidding', bid_until: 3.days.from_now, relisted: Time.now, relist_count: self.relist_count += 1, chargeable_expiry: nil, expired: nil)
-	    line_items.update_all(status: 'Re-bidding', relisted: Time.now) 
-      bids.not_cancelled.update_all(status: 'Re-bidding') if bids.present?
+      # line_items.update_all(status: 'Re-bidding', relisted: Time.now) 
+      # bids.not_cancelled.without_orders.update_all(status: 'Re-bidding') if bids.present?
+      line_items.each do |item|
+        item.update_attributes(status: 'Re-bidding', relisted: Time.now) if item.order.blank? # don't rebid if PO
+        item.bids.not_cancelled.without_orders.update_all(status: 'Re-bidding') if item.bids.present?
+      end
       send_online_mailer
       flash = "Entry is now online for re-bidding."
 	  end

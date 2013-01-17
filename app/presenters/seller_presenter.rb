@@ -17,11 +17,11 @@ class SellerPresenter
   end
   
   def online_entries
-    @online ||= Entry.online.unexpired.active
+    @online ||= Entry.online.unexpired.active.joins{company.friends}.where(:friendships => { :friend_id => @user.company.id})
   end
   
   def for_decision_entries
-    @fd ||= Entry.for_decision.unexpired
+    @fd ||= Entry.for_decision.unexpired.joins{company.friends}.where(:friendships => { :friend_id => @user.company.id})
   end
   
   def bidding_ratio

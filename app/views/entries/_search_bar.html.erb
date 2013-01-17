@@ -8,7 +8,8 @@
 			<% elsif can? :access, :buyer %>
 			  <%= f.grouped_collection_select :user_id_eq, current_user.company.branches.includes(:users), :users, :name, :id, :username, { include_blank: 'User' }  %>
 			<% end %>
-		  <%= f.grouped_collection_select :car_brand_id_eq, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: 'Brand' } %>
+		  <%= f.grouped_collection_select :car_brand_id_eq, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: 'Brand' }, id: 'veh-brand' %>
+		  <%= f.collection_select :car_model_id_eq, @car_models, :id, :name, { include_blank: 'Model' }, id: 'veh-model' %>
 			<%= f.button 'Go!', class: 'btn btn-primary' %>
 			<%= refresh_button %>
 		<% end %>

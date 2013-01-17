@@ -41,13 +41,14 @@ class BidsController < ApplicationController
   end
 
   def edit
+    store_location
     @bid = Bid.find(params[:id])
   end
 
   def update
     @bid = Bid.find(params[:id])
     if @bid.update_attributes(params[:bid])
-      redirect_to @bid, :notice  => "Successfully updated bid."
+      redirect_back_or_default bids_path
     else
       render :action => 'edit'
     end
@@ -74,6 +75,10 @@ class BidsController < ApplicationController
       flash[:error] = ("Ooops! Select the <strong>Low Bids</strong> first before you create a PO.").html_safe
       redirect_to :back
     end
+  end
+  
+  def revise
+    edit
   end
 
   private

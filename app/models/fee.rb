@@ -1,5 +1,7 @@
 class Fee < ActiveRecord::Base
-  # attr_accessible :bid_id, :bid_total, :fee_rate, :fee, :fee_type
+  attr_accessible :buyer_company_id, :buyer_id, :seller_company_id, :seller_id, :entry_id, :line_item_id, :order_id, 
+  :bid_id, :bid_total, :bid_type, :bid_speed, :perf_ratio, :fee_rate, :fee, :fee_type, :order_paid, :created_at, 
+  :billed, :paid, :split_amount, :split_remitted
 
   belongs_to :entry
   belongs_to :line_item

@@ -11,7 +11,7 @@ class Notify < ActionMailer::Base
   
   def new_order(order)
     @order = order
-    mail to: "#{order.seller.profile} <#{order.seller.email}>", subject: "New PO: #{ph_currency order.order_total}", 
+    mail to: "#{order.seller.profile} <#{order.seller.email}>", subject: "New PO: #{currency order.order_total, 'P '}", 
       bcc: "Efren Magtibay <epmagtibay@ebid.com.ph>"
   end
   
@@ -25,7 +25,7 @@ class Notify < ActionMailer::Base
   def payment_tagged(order, entry)
     @order = order
     @entry = entry
-    mail to: "#{order.seller.profile} <#{order.seller.email}>", subject: "PO Tagged as 'Paid'"
+    mail to: "#{order.seller.profile} <#{order.seller.email}>", subject: "PO Tagged as 'Paid':  #{currency order.order_total, 'P '}"
   end
   
 end

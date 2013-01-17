@@ -1,14 +1,31 @@
 <%= simple_form_for @company, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :name %>
-  <%= f.input :nickname %>
-  <%= f.input :primary_role %>
-  <%= f.input :trial_start %>
-  <%= f.input :trial_end %>
-  <%= f.input :metering_date %>
-  <%= f.input :perf_ratio %>
-  <div class="form-actions">
+	<div class="span5">
+	  <%= f.input :name %>
+	  <%= f.input :nickname %>
+	  <%= f.association :role %>
+	  <%= f.input :trial_start, as: :string, input_html: { size: 25, class: 'datepicker'} %>
+	  <%= f.input :trial_end, as: :string, input_html: { size: 25, class: 'datepicker'} %>
+	  <%= f.input :metering_date, as: :string, input_html: { size: 25, class: 'datepicker'} %>
+	  <%= f.input :perf_ratio, disabled: true %>
+	</div>
+	<div class="span5">
+		<%= f.association :friends, as: :check_boxes, collection: Company.where("id != 1 AND primary_role != #{@company.primary_role}").order(:name) if @company.primary_role.present? %>
+	</div>
+  <div class="well span12 txtright">
     <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                companies_path, :class => 'btn' %>
+    <%= link_to 'Cancel', companies_path, :class => 'btn' %>
   </div>
+<% end %>
+
+<% content_for :javascripts do %>
+	<% stylesheet 'blitzer/jquery-ui-1.8.6.custom' %>
+	$(function() {
+		$('.datepicker').each(function(){
+		    $(this).datepicker({ 
+						dateFormat: "yy-mm-dd",
+						maxDate: 0,
+						numberOfMonths: 2
+				});
+		});
+	});
 <% end %>

@@ -1,1 +1,2 @@
-$("div#bid_<%= @bid.id %>").fadeOut();
+// $("div#bid_<%= @bid.id %>").fadeOut();
+$("#bid_<%= @bid.id %>").html("<%= j bid_box_helper(@bid.line_item.id, @bid.bid_type) %>");

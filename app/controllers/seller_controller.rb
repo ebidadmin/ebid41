@@ -1,4 +1,6 @@
 class SellerController < ApplicationController
+  before_filter :search_car_models, only: [:entries, :bids, :orders]
+  
   def dashboard
     @presenter = SellerPresenter.new(current_user)
     @messages = Message.restricted(current_user.company).limit(5).order('id DESC')
@@ -6,7 +8,8 @@ class SellerController < ApplicationController
   
   def entries
     @q ||= Entry.find_status(params[:s]).search(params[:q])
-    @entries = @q.result.includes(:photos, :car_brand, :car_model, :line_items, :bids, :messages).page(params[:page]).per_page(8)
+    @entries = @q.result.joins{company.friends}.where(:friendships => { :friend_id => current_user.company.id}).includes(:photos, :car_brand, :car_model, :line_items, :bids, :messages).page(params[:page]).per_page(8)
+
   end
 
   def worksheet
@@ -42,4 +45,6 @@ class SellerController < ApplicationController
     @q = Message.restricted(current_user.company).search(params[:q])
     @messages = @q.result.order('created_at DESC').page(params[:page]).per_page(20)
   end
+  
+  
 end

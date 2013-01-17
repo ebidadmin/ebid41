@@ -73,6 +73,7 @@ Ebid41::Application.routes.draw do
   resources :var_items
   resources :var_companies do
     get :add, on: :collection
+    get :close, on: :collection
   end
 
   scope 'fees' do
@@ -96,6 +97,8 @@ Ebid41::Application.routes.draw do
       get :print
       get :cancel
       put :confirm_cancel
+      get :uncancel
+      put :confirm_uncancel
     end
     collection do
       get :auto_paid
@@ -110,14 +113,16 @@ Ebid41::Application.routes.draw do
     collection do
       post :accept
     end
+    get :revise, on: :member
   end
 
   resources :line_items do
     collection do
       get :add
       get :cancel
+      get :add_specs
+      post :save_specs
     end
-    get :add_spec, on: :member
   end
 
   resources :profiles
@@ -126,7 +131,9 @@ Ebid41::Application.routes.draw do
 
   resources :branches
 
-  resources :companies
+  resources :companies do
+    get :selected, on: :member
+  end
 
   resources :car_parts do
     collection do

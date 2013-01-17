@@ -152,6 +152,15 @@ module ApplicationHelper
     end
   end
   
+  def delete_icon(name, page, klass = nil, white = false, remote = false)
+    icon = content_tag(:i, '', class: "icon-trash#{' icon-white' if white == true}")
+    if remote == true
+      link_to (icon + ' ' + name), page, class: "#{klass}", data: { confirm: 'Are you sure you want to delete?' }, method: :delete, remote: true
+    else                                         
+      link_to (icon + ' ' + name), page, class: "#{klass}", data: { confirm: 'Are you sure you want to delete?' }, method: :delete
+    end
+  end
+  
   def tooltip_helper(tooltip_content, singular_form, icon_name, klass = nil)
     content_tag :span, class: "#{klass}", rel: 'tooltip', title: "#{pluralize tooltip_content, singular_form}" do
       content_tag(:i, '', class: "icon-#{icon_name}") + content_tag(:span, tooltip_content)

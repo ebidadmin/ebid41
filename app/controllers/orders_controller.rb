@@ -108,7 +108,7 @@ class OrdersController < ApplicationController
       @entry = @order.entry
       @bids = Bid.find(params[:bid_ids])
       @message = current_user.messages.build(
-        user_id: current_user, user_type: current_user.roles.first.name,
+        user_id: current_user.id, user_type: current_user.roles.first.name,
         entry_id: @entry.id
         )
       flash[:error] = "Please indicate your reason for cancelling the order."

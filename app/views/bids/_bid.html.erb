@@ -1,9 +1,13 @@
 <%= div_for bid do %>
 	<%= bid_amount_helper bid %>
-	<%= content_tag :div do %>
-		<%= content_tag :span, time_in_words(bid.bid_speed), class: 'small muted' %>
-		<%= content_tag :span, "| #{bid.status}", class: 'small' if can? :access, :all %>
+		<%#= content_tag :span, time_in_words(bid.bid_speed), class: 'small muted' %>
+	<%#= content_tag :div do %>
+		<%= content_tag :span, bid.status.upcase, class: 'small' %>
+		<%#= content_tag :span, "| #{bid.status}", class: 'small' if can? :access, :all %>
 		<%#= content_tag :span, bid.bid_type, class: 'small' %>
-		<%= link_with_icon_delete '', bid, 'btn-mini btn-danger', true, true if bid.online? %>
-	<% end %>
+	<%# end %>
+	<span class="links">
+		<%= link_to 'edit', revise_bid_path(bid), class: 'small', remote: true if bid.online? %>
+		<%= delete_icon '', bid, nil, false, true if bid.online? %>
+	</span>
 <% end %>

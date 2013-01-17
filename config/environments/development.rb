@@ -15,7 +15,16 @@ Ebid41::Application.configure do
 
   # ActionMailer Config
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.smtp_settings = {
+    :address        => 'smtp.gmail.com',
+    :port           => 587,
+    :domain         => 'www.ebid.com.ph',
+    :authentication => :plain,
+    :user_name      => 'cymarquez@ebid.com.ph',
+    :password       => 'cymarquez',
+    :enable_starttls_auto => true 
+  }
+  Mail.register_interceptor(MailInterceptor)
   # config.action_mailer.delivery_method = :smtp
   # change to true to allow email to be sent during development
   # config.action_mailer.perform_deliveries = false
@@ -51,6 +60,6 @@ Ebid41::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = false
+  config.assets.debug = true
   
 end

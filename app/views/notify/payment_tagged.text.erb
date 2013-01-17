@@ -8,7 +8,7 @@ Hello <%= @order.seller.profile.first_name %>!
 	Parts Delivered: 
 	
 		<% @order.bids.each do |li| %>
-		[ <%= li.quantity %> ]  <%= li.line_item %>
+		[ <%= li.quantity %> ]  <%= li.line_item %> - <%= li.bid_type.upcase %>
 		<% end %>
 	
 	Total Order: <%= currency(@order.order_total, 'P ') %>

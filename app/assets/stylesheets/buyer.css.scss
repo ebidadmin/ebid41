@@ -13,3 +13,8 @@
 
 .message { clear: both; float: left; margin-bottom: 10px; }
 .modal { width: 80%; margin-left: -40%; }
+.modal form { margin-bottom: 0; }
+
+.variances {
+	.control-group { margin: 0; }
+}

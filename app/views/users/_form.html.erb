@@ -14,15 +14,11 @@
 			</div>
 			<div class="span4 offset1">
 				<% if @user.new_record? || current_user.has_role?('admin') %>
-					<%=  profile.input :company, wrapper_html: { id: 'companies' }, hint: 'Call us at 892-5835 if your company is not in this list.' do %>
-					  <%= profile.grouped_collection_select :company_id,  @company_type, :companies, :name, :id, :name, {include_blank: 'Select Company'} %>
-					<% end %>
+				  <%= profile.association :company, collection: Role.find([1,2,3]), as: :grouped_select, group_method: :companies, group_label_method: :name, label_method: :nickname, wrapper_html: { id: 'companies' }  %>
 				<% else %>
-					<%=  profile.input :company do %>
-						<%= profile.grouped_collection_select :company_id,  @company_type, :companies, :name, :id, :name, {include_blank: true}, disabled: true %>
-					<% end %>
+				  <%= profile.input :company, disabled: true  %>
 				<% end %>
-				<%= profile.association :branch, collection: @branches, wrapper_html: { id: 'branches' }, include_blank: 'Select Branch' %>
+				<%= profile.association :branch, collection: @branches, wrapper_html: { id: 'branches' } %>
 			</div>
 		</div>
 	</fieldset>
@@ -66,8 +62,7 @@
 <% end %>
 
 <%= content_for :javascripts do %>
-	<%= stylesheet_link_tag 'blitzer/jquery-ui-1.8.6.custom' %>
-	<script type="text/javascript" charset="utf-8">
+	<% stylesheet 'blitzer/jquery-ui-1.8.6.custom' %>
 	$(function() {
 		$('#datepicker').datepicker({ 
 				dateFormat: "yy-mm-dd",
@@ -81,5 +76,4 @@
 				yearRange: '1945:2011'
 		});
 	});
-	</script>
 <% end %>

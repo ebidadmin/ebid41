@@ -27,7 +27,7 @@
 				<% end %>
 				<%= content_tag :td, class: 'span5' do %>
 					<%= content_tag :b, user.username %>
-					<%= content_tag :em, user.nickname, class: 'small' if user.company %>
+					<%= content_tag :em, link_to(user.nickname, user.company), class: 'small' if user.company %>
 					<%= content_tag :p, user.phone, class: 'small' if user.profile %>  
 					<%= content_tag :p, user.email, class: 'small' if user.profile %>  
 				<% end %>

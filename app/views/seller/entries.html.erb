@@ -12,7 +12,8 @@
 			<% end %>
 		</tr>
 
-		<% entries.each do |entry| %>
+		<% entries.group_by(&:status).each do |status, es| %>
+			<% es.each do |entry| %>
 			<tr>
 				<%= content_tag :td, class: 'span2' do %>
 					<%= content_tag :p, entry.id, class: 'muted small' %>
@@ -23,6 +24,7 @@
 				<%= content_tag :td, class: 'span4' do %>
 		      <%= content_tag :p, entry.model_name, class: 'lead vehicle' %>
 					<%= content_tag :p, entry.plate_no, class: 'muted' %>
+					<%= content_tag :p, entry.user, class: 'muted' %>
 				<% end %>
 
 				<%= content_tag :td, class: 'span2' do %>
@@ -30,7 +32,7 @@
 				<% end %>
 
 				<%= content_tag :td, class: "span4" do %>
-					<%= progress_bar_helper(percentage(entry.bid_rate_by_supplier(current_user))) %>
+					<%= progress_bar_helper(percentage(entry.bid_rate_by_supplier(current_user))) if entry.bid_rate_by_supplier(current_user) > 0 %>
 					<p>
 						<%= parts_bidded(entry, current_user) %>
 						<%= content_tag :span, "#{pluralize entry.line_items.size, 'item'}".html_safe, class: 'pull-right' %>
@@ -45,6 +47,7 @@
 					<% end %>
 				<% end %>
 			</tr>
+			<% end %>
 		<% end %>
 
 	<% end %>

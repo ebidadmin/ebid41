@@ -1,13 +1,15 @@
 class Company < ActiveRecord::Base
-  attr_accessible :name, :nickname, :primary_role, :trial_start, :trial_end, :metering_date, :perf_ratio
+  attr_accessible :name, :nickname, :primary_role, :trial_start, :trial_end, 
+  :metering_date, :perf_ratio, :friend_ids
 
-  belongs_to :role, :class_name => "Role", :foreign_key => "primary_role"
+  belongs_to :role, class_name: "Role", foreign_key: "primary_role"
+  # belongs_to :primary_role, class_name: "Role", foreign_key: "primary_role"
 
   has_many :profiles
   has_many :users, through: :profiles
-  has_many :branches, :dependent => :destroy#, through: :profiles
-  has_many :friendships, :dependent => :destroy
-  has_many :friends, :through => :friendships
+  has_many :branches, dependent: :destroy#, through: :profiles
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships
   has_many :entries
   has_many :orders
   has_many :seller_companies, through: :orders
@@ -23,5 +25,13 @@ class Company < ActiveRecord::Base
 
   def to_s
     nickname
+  end
+  
+  def pr_label
+    case primary_role
+    when 2 then 'Ordering Ratio'
+    when 3 then 'Bidding Ratio'
+    else 'Performance Ratio'
+    end
   end
 end
