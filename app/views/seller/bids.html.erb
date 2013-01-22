@@ -37,10 +37,9 @@
 					<%#= content_tag :span, entry.show_status, class: "label #{entry.status_color}" %>
 		      <%= content_tag :p, link_to(entry.model_name, seller_show_path(entry)), class: 'lead'  %>
 					<%= content_tag :p, entry.plate_no %>
-					<%#= content_tag :div, progress_bar_helper(percentage(entry.bid_rate_by_supplier(current_user))), class: 'span3' %>
 					<p>
 						<%= parts_bidded(entry, current_user) %>
-						<%= content_tag :span, "#{pluralize entry.line_items.size, 'item'}".html_safe %>
+						<%= content_tag :span, "#{pluralize entry.line_items.size, 'item'}".html_safe, class: 'small' %>
 					</p>
 				<% end %>
 			<% end %>
@@ -48,7 +47,8 @@
 			<% bids.group_by(&:line_item).each do |item, bts| %>
 				<%= content_tag :tr do %>
 					<%= content_tag :td, class: 'span4' do %>
-						<%= content_tag :span, item %>
+						<%= content_tag :p, item %>
+						<%= content_tag :code, item.specs if item.specs.present?  %>
 					<% end %>
 					<%= content_tag :td, class: 'span2 txtcenter bids' do %>
 						<% bts.map {|b| b if b.orig? }.each do |bid| %>

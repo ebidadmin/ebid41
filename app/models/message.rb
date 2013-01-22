@@ -53,8 +53,8 @@ class Message < ActiveRecord::Base
       self.message = "PARTIAL ORDER cancelled by #{msg_sender.titleize} *** #{cancelled_bids.collect { |b| b.line_item}.to_sentence} *** REASON: #{reason.strip.capitalize}"
       order.update_attribute(:order_total, order.order_total - cancelled_bids.collect(&:total).sum) unless order.order_total == 0
     end
-    # order.messages << msg
-    # Notify.delay.cancelled_order(order, msg)#.deliver
+    order.messages << self
+    Notify.delay.cancelled_order(order, self)#.deliver
   end
   
   def self.for_additional_parts(entry, line_items)

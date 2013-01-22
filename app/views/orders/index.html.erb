@@ -16,7 +16,7 @@
 					<%= content_tag :p, entry.ref_no, class: 'small' %>
 		      <%= content_tag :p, link_to(entry.model_name, buyer_show_path(entry)), class: 'lead'  %>
 					<%= content_tag :span, entry.plate_no %>
-					<%= content_tag :em, "by #{entry.user}", class: 'small' %>
+					<%= content_tag :em, "by #{link_to(entry.user, edit_user_path(entry.user))}".html_safe, class: 'small' %>
 				<% end %>
 			</tr>
 

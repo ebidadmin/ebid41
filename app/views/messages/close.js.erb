@@ -4,4 +4,5 @@
 $("#message_<%= @message.id %>").replaceWith("<%= j(render @message) %>");
 $("#message_<%= @message.id %>").effect("highlight", {}, 4000);
 $(".modal-footer").show();
+$(".modal-footer .btn").show();
 

@@ -31,9 +31,8 @@
 		<% @entry.line_items.includes(:car_part, :var_item).each_with_index do |item, index| %>
 			<tr>
 				<%= content_tag :td, class: 'span3' do %>
-					<%= content_tag :span, index + 1, class: 'label index'  %>
-					<%#= content_tag :span, item.id, class: 'small muted' if can? :access, :all %>
-					<%= content_tag :span, item %>
+					<%= content_tag :div, index + 1, class: 'index'  %>
+					<%= content_tag :div, item, class: 'partdesc' %>
 				<% end %>
 
 				<%= content_tag :td, item.var_item.qty, class: 'span1 txtcenter' %>

@@ -12,7 +12,10 @@
 			<td class="span2 txtcenter">
 				<%= content_tag :h4, pluralize(@entry.line_items.size, "part"), id: 'parts-count' %>
 				<% if @entry.line_items.size > 0 %>
-					<%= link_with_icon_js 'Add Parts', add_line_items_path(id: @entry), 'plus', 'btn-mini btn-primary', true if can? :access, :buyer %>
+					<div class="btn-group">
+					  <%= link_to 'Add Parts', add_line_items_path(id: @entry), class: 'btn btn-mini btn-primary', remote: true if can? :access, :buyer %>
+					  <%= link_to 'Add Details', add_specs_line_items_path(id: @entry.id), class: 'btn btn-mini btn-primary', remote: true if can? :access, :buyer %>
+					</div>
 				<% end %>
 			</td>
 			<td class="span2 txtcenter">

@@ -20,8 +20,14 @@
 
 				<ul class="nav pull-right">
 					<% if user_signed_in? %>
-						<%= content_tag :li, link_to("Logout #{current_user.username.upcase}", destroy_user_session_path, :method=>'delete') %>
-					  <%= nav_link('Edit My Account', edit_user_path(current_user)) %>
+						<li class="dropdown">
+							<%= drop_link 'Account' %>
+							<ul class="dropdown-menu">
+								<%= content_tag :li, link_to("Logout #{current_user.username.upcase}", destroy_user_session_path, :method=>'delete') %>
+							  <%= nav_link('My Account', edit_user_path(current_user)) %>
+							  <%= nav_link('My Company', company_path(current_user.company)) if can? :access, :companies %>
+							</ul>
+						</li>
 					<% else %>
 						<%= nav_link('Login', new_user_session_path) %>
 					  <%= nav_link('Register', new_user_path) %>

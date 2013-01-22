@@ -28,6 +28,7 @@ class MessagesController < ApplicationController
   end
 
   def new
+    @entry = Entry.find(params[:e])
     @message = current_user.messages.build(
       user_company_id: current_user.company.id, user_type: current_user.roles.first.name,
       entry_id: params[:e], order_id: params[:o], parent_id: params[:parent_id],
@@ -38,12 +39,12 @@ class MessagesController < ApplicationController
   def create
     # raise params.to_yaml
     @message = current_user.messages.build(params[:message])
+    @entry = Entry.find(params[:message][:entry_id])
     case params[:message][:msg_for]
     when 'Admin'
       @message.receiver_id = 1
       @message.receiver_company_id = 1
     when 'Buyer'
-      @entry = Entry.find(params[:message][:entry_id])
       @message.receiver_id = @entry.user_id
       @message.receiver_company_id = @entry.company_id
     end
@@ -52,6 +53,7 @@ class MessagesController < ApplicationController
       if @message.save
         format.html { redirect_to :back, notice: "Message sent." }
         format.js { redirect_to action: :view, id: @message.entry_id }
+        Notify.delay.new_message(@entry, @message)#.deliver
       else
         format.html { redirect_to :back, notice: "Failed to save message. Try again." }
         format.js { render action: :new }

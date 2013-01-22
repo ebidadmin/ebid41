@@ -37,6 +37,9 @@ class Order < ActiveRecord::Base
   scope :overdue, delivered.where('orders.due_date < ?', Date.today).payment_pending
   scope :due_now, delivered.where(due_date: Date.today .. 1.week.from_now.to_date).payment_pending
 
+  DAYS_B4_PAYMNT_TAG = Date.today #1.day.ago.to_date
+  scope :payment_taggable, where('orders.paid_temp <= ?', DAYS_B4_PAYMNT_TAG)
+
   # ACTIONS
   def populate(user, ip, bidder, bids, new_qty)
     self.company_id = user.company.id
@@ -88,6 +91,11 @@ class Order < ActiveRecord::Base
     self.update_attribute(:paid, self.paid_temp)
     bids.not_cancelled.each { |bid| bid.tag_payment(self) }
     entry.update_status
+  end
+  
+  def close
+    update_attribute(:status, "Closed")
+    update_associated_status("Closed")
   end
   
 
@@ -178,10 +186,10 @@ class Order < ActiveRecord::Base
 
   # COMPUTATIONS
   def delivery_time
-    if confirmed < created_at
-      (delivered - confirmed.to_date).to_i 
-    else
+    if confirmed > delivered
       (delivered - created_at.to_date).to_i 
+    else
+      (delivered - confirmed.to_date).to_i 
     end
   end
   

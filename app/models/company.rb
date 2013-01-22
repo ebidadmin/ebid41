@@ -34,4 +34,23 @@ class Company < ActiveRecord::Base
     else 'Performance Ratio'
     end
   end
+  
+  def compute_buyer_ratio
+    es ||= entries.where('created_at >= ?', RATIO_DATE)
+    line_items ||= LineItem.with_bids.where(entry_id: es)
+    if line_items.count > 0
+      parts_ordered = line_items.where('order_id IS NOT NULL').count
+      self.perf_ratio = (BigDecimal("#{parts_ordered}")/BigDecimal("#{line_items.count}")).to_f * 100
+    else
+      self.perf_ratio = 0
+    end
+  end
+  
+  def compute_seller_ratio
+    # entries = Entry.joins{company.friends}.where(:friendships => { :friend_id => self.id})
+    parts_bided = users.map{|user| user.bids.where('bids.created_at >= ?', RATIO_DATE).collect(&:line_item_id).uniq.count}.sum
+    line_items = LineItem.where('line_items.created_at >= ?', RATIO_DATE).count
+    self.perf_ratio = (BigDecimal("#{parts_bided}")/BigDecimal("#{line_items}")).to_f * 100
+  end
+  
 end

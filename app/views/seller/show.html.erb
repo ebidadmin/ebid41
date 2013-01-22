@@ -3,35 +3,32 @@
 
 <section id="vehicle-info">
 	<%= render 'entries/info_vehicle' %>
-	<div class="photo-set">
-		<%#= content_tag :h3, 'Photos' %>
-		<% unless @entry.photos.blank? %>
-			<%= content_tag :em, 'Click on photos to enlarge.' %>
-			<ul class="unstyled">
-				<% @entry.photos.each do |photo| %>
-					<%= content_tag :li, class: "" do %>
-					<%= link_to((image_tag photo.photo.url(:tiny), alt: "Photo of #{@entry.plate_no}"), photo.photo.url(:large), rel: "#{@entry.id}", class: 'photo') %>
-					<% end %>
+</section>
+<%= render 'entries/public_messages' if @entry.messages.pub.present? %>
+<section class="photo-set alert">
+	<% unless @entry.photos.blank? %>
+		<ul class="unstyled">
+			<%= content_tag :li, 'Click on photos to enlarge.' %>
+			<% @entry.photos.each do |photo| %>
+				<%= content_tag :li do %>
+				<%= link_to((image_tag photo.photo.url(:tiny), alt: "Photo of #{@entry.plate_no}"), photo.photo.url(:large), rel: "#{@entry.id}", class: 'photo') %>
 				<% end %>
-			</ul>	
-		<% else %>
-			<%= content_tag :em, 'No photos submitted.' %> 
-			<%= link_with_icon('Upload Photos', edit_entry_path(@entry), 'pencil', 'btn-info', true) %>
-		<% end %>
-	</div>
-	
+			<% end %>
+		</ul>	
+	<% else %>
+		<%= content_tag :em, 'No photos submitted.' %> 
+		<%= link_with_icon('Upload Photos', edit_entry_path(@entry), 'pencil', 'btn-info', true) %>
+	<% end %>
 </section>
 
-<%= render 'entries/public_messages' if @entry.messages.pub.present? %>
-
-<%# @entry.photos.each do |photo| %>
-	<%#= link_to((image_tag photo.photo.url(:tiny), alt: "Photo of #{@entry.plate_no}"), photo.photo.url(:large), rel: "#{@entry.id}", class: 'photo') %>
-<%# end %>
 
 <section id="parts-list">
-	<p>
-		<%= content_tag :span, 'Instructions', class: 'label label-important' %>
-	</p>
+	<% if @entry.is_online %>
+		<p>
+			<%= content_tag :span, 'Instructions', class: 'label label-important' %>
+			Input your best bids on the boxes provided below, then press "Enter" to submit.
+		</p>
+	<% end %>
 	<%= render 'seller/parts_list' %>
 </section>
 

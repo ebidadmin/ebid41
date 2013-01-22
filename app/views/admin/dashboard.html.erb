@@ -1,0 +1,118 @@
+<% title 'Admin Dashboard' %>
+<% subtitle current_user.fullname %>
+
+<div class="row">
+	<div class="span3">
+		<table class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<%= content_tag :th, 'Entries', colspan: 2, class: 'label label-inverse txtcenter' %>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<%= content_tag :td, 'Drafts' %>
+					<td class="txtright">
+						<%= content_tag :span, @presenter.draft_entries.count, class: 'lead' %>
+						<%= link_with_icon '', entries_path(s: 'new'), 'play', 'btn-small' %>
+					</td>
+				</tr>
+				<tr>
+					<%= content_tag :td, 'Online' %>
+					<td class="txtright">
+						<%= content_tag :span, @presenter.online_entries.count, class: 'lead' %>
+						<%= link_with_icon '', entries_path(s: 'online'), 'play', 'btn-small btn-primary', true %>
+					</td>
+				</tr>
+				<tr>
+					<%= content_tag :td, 'For Decision' %>
+					<td class="txtright">
+						<%= content_tag :span, @presenter.for_decision_entries.count, class: 'lead' %>
+						<%= link_with_icon '', entries_path(s: 'for-decision'), 'play', 'btn-small btn-primary', true %>
+					</td>
+				</tr>
+				<tr>
+					<%= content_tag :td, 'With Orders' %>
+					<td class="txtright">
+						<%= content_tag :span, @presenter.with_orders_entries.count, class: 'lead' %>
+						<%= link_with_icon '', entries_path(s: 'ordered'), 'play', 'btn-small' %>
+					</td>
+				</tr>
+				<tr>
+					<%= content_tag :td, 'Declined' %>
+					<td class="txtright">
+						<%= content_tag :span, @presenter.declined_entries.count, class: 'lead' %>
+						<%= link_with_icon '', entries_path(s: 'declined'), 'play', 'btn-small' %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="span4">
+		<table class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<%= content_tag :th, 'Orders', colspan: 3, class: 'label label-inverse txtcenter' %>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<%= content_tag :td, 'New' %>
+					<%= content_tag :td, @presenter.new_orders.count, class: 'txtright' %>
+					<td class="txtright">
+						<%= content_tag :span, (currency @presenter.new_orders.sum(:order_total), 'P '), class: 'lead' %>
+						<%= link_with_icon '', orders_path(s: 'new'), 'play', 'btn-small btn-primary', true unless @presenter.new_orders.blank?%>
+					</td>
+				</tr>
+				<tr>
+					<%= content_tag :td, 'Delivered' %>
+					<%= content_tag :td, @presenter.delivered.count, class: 'txtright' %>
+					<td class="txtright">
+						<%= content_tag :span, (currency @presenter.delivered.sum(:order_total), 'P '), class: 'lead' %>
+						<%= link_with_icon '', orders_path(s: 'delivered'), 'play', 'btn-small' unless @presenter.delivered.blank?%>
+					</td>
+				</tr>
+				<tr<%= " class=alert-error" unless @presenter.overdue.blank? %>>
+					<%= content_tag :td, 'Overdue' %>
+					<%= content_tag :td, @presenter.overdue.count, class: 'txtright' %>
+					<td class="txtright">
+						<%= content_tag :span, (currency @presenter.overdue.sum(:order_total), 'P '), class: 'lead' %>
+						<%= link_with_icon '', orders_path(s: 'overdue'), 'play', 'btn-small btn-danger', true unless @presenter.overdue.blank? %>
+					</td>
+				</tr>
+				<tr class="alert-success">
+					<td colspan="3" class="txtcenter">
+						<%= content_tag :b, 'Total orders through E-Bid: ' %>
+						<%= content_tag :span, (currency @presenter.total_orders, 'P'), class: 'lead' %>
+						<%= content_tag :i, '', class: 'icon-thumbs-up' if @presenter.total_orders > 0 %>
+						<hr>
+						<%= content_tag :b, 'This year only: ' %>
+						<%= content_tag :span, (currency @presenter.orders_this_yr, 'P'), class: 'lead' %>
+						<br>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="span5">
+		<table class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<%= content_tag :th, 'Active Users', class: 'label label-inverse txtcenter' %>
+				</tr>
+			</thead>
+			<tbody>
+		    <% @presenter.active_users.each do |u| %>
+		      <tr>
+		        <td class="body span4">
+							<%= link_to u, edit_user_path(u) %>
+							<%= content_tag :span, regular_date(u.updated_at, 'short_time'), class: 'small muted' %>
+						</td>
+		      </tr>
+		    <% end %>
+			</tbody>
+		</table>
+	</div>
+</div>

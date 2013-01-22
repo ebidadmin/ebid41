@@ -8,7 +8,7 @@
 		<% else %>
 			<%= dl_helper 'PO Confirmed', (content_tag :em, 'Waiting for seller to accept the order ...', class: 'label label-info') unless @order.cancelled%>
 		<% end %>
-		<%= dl_helper 'Delivered', regular_date(@order.delivered, 'day') + "<br> (#{pluralize @order.delivery_time, 'day'} from confirmation)" if @order.delivered %>
+		<%= dl_helper 'Delivered', regular_date(@order.delivered) + "<br> (#{pluralize @order.delivery_time, 'day'} from confirmation)" if @order.delivered %>
 		<%= dl_helper 'Payment Due', regular_date(@order.due_date), 'due-date' if @order.due_date %>
 		<%= dl_helper 'Tagged as Paid', (regular_date(@order.paid_temp) + '<br>' + confirm_payment_link(@order, current_user)).html_safe if @order.paid_temp && @order.paid.nil? %>
 		<%= dl_helper 'Paid', regular_date(@order.paid) if @order.paid %>

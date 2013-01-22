@@ -16,7 +16,7 @@
 			<tr>
 				<%= content_tag :td, class: 'span2' do %>
 					<%= content_tag :span, entry.id, class: 'muted small' %>
-					<%= content_tag :span, entry.user, class: 'muted small' %><br>
+					<%= content_tag :span, link_to(entry.user, entry.user), class: 'muted small' %><br>
 					<%= tooltip_helper entry.photos.size, 'photo', 'camera' %>
 					<%= tooltip_helper entry.messages.restricted(current_user.company).size, 'message', 'comment', 'highlight' if entry.messages.restricted(current_user.company).present? %>
 					<%= tooltip_helper entry.orders.size, 'order', 'shopping-cart' if entry.orders.present? %>

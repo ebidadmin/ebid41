@@ -51,11 +51,6 @@
 						</tr>
 					<% end %>
 				<% end %>
-				<tr>
-					<td colspan="4">
-					  <%= link_to 'Add Part Details', add_specs_line_items_path(id: @entry.id), class: 'btn btn-primary', remote: true %>
-					</td>
-				</tr>
 			<% end %>
 		</div>
 
@@ -64,15 +59,19 @@
 			  <%#= link_to 'Back', :back, class: 'btn'  %>
 			  <%= link_to 'Edit', edit_entry_path(@entry), class: 'btn btn-primary' %>
 			  <%= link_to 'Delete', entry_path(@entry), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' unless @entry.bids.present? %>
-				<%= link_to 'Re-Bid', rebid_entry_path(@entry), class: 'btn', confirm: 'Are you sure? This will put the entry ONLINE again. Decline Fees, if already charged, are NOT REVERSIBLE.'   %>
+				<%= link_to 'Re-Bid', rebid_entry_path(@entry), class: 'btn', confirm: 'Are you sure? This will put the entry ONLINE again. Decline Fees, if already charged, are NOT REVERSIBLE.' if can? :rebid, :entries  %>
 				<%= link_to 'Reveal Bids', reveal_entry_path(@entry), class: 'btn btn-success', confirm: 'Are you sure? You will no longer receive bids if you do this.' if @entry.can_reveal  %>
 			</div>
 			<div class="btn-toolbar pull-right txtright">
-				<%= link_with_icon 'Compute Variance', new_entry_variance_path(@entry), 'list' if @entry.can_be_ordered || @entry.can_reactivate %>
+				<% if @entry.variance.present? %>
+					<%= link_with_icon 'Show Variance', variance_path(@entry.variance, entry_id: @entry), 'list'  %>
+				<% else %>
+					<%= link_with_icon 'Compute Variance', new_entry_variance_path(@entry), 'list' if @entry.can_be_ordered || @entry.can_reactivate %>
+				<% end %>
 				<%= link_with_icon 'Printable Format', print_entry_path(@entry), 'print' %>
 				<%= submit_tag "Create PO", class: 'btn btn-large btn-success' if @entry.can_be_ordered || @entry.can_reactivate %>
 			</div>
-			<div class="clearfix"></div>
+			<%= clearfix_div %>
 		<% end %>
 	
 	<% else %>

@@ -1,9 +1,10 @@
 class EntriesController < ApplicationController
   before_filter :initialize_cart, :only => [:show, :edit]
-
+  before_filter :search_car_models, only: :index
+  
   def index
     @q = Entry.search(params[:q])
-    @entries = @q.result.find_status(params[:s]).includes([:user => :profile], :car_brand, :car_model, :bids, :messages, :orders, :variance).paginate(page: params[:page], per_page: 12)#.order('bid_until DESC')
+    @entries = @q.result.find_status(params[:s], true).includes([:user => :profile], :car_brand, :car_model, :bids, :messages, :orders, :variance).paginate(page: params[:page], per_page: 12)#.order('bid_until DESC')
     @companies = Company.where(primary_role: 2).includes(:users).order('users.username ASC')
 
     if params[:q] && params[:q][:car_brand_id_eq].present?

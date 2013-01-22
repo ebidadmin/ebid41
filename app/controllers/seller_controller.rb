@@ -3,7 +3,7 @@ class SellerController < ApplicationController
   
   def dashboard
     @presenter = SellerPresenter.new(current_user)
-    @messages = Message.restricted(current_user.company).limit(5).order('id DESC')
+    @messages = Message.restricted(current_user.company).limit(4).order('id DESC')
   end
   
   def entries

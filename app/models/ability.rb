@@ -7,12 +7,11 @@ class Ability
     if user.has_role? :admin
       can :access, :all
     elsif user.has_role? :buyer
-      # can :access, :all
       can :access, :buyer
       can :access, :cart
       can :access, [:car_brands, :car_models, :car_variants, :regions]
       can [:create, :read, :update, :search, :cancel], :car_parts
-      can [:create, :update, :add_photos, :save_photos, :attach_photos, :put_online, :reveal, :relist, :rebid, :destroy], :entries
+      can [:create, :update, :add_photos, :save_photos, :attach_photos, :put_online, :reveal, :relist, :destroy], :entries
       can [:create, :read, :update, :add, :cancel, :add_specs, :save_specs, :destroy], :line_items
       can :accept, :bids
       can [:create, :update, :read, :print, :change_status, :cancel, :confirm_cancel], :orders#, user_id: user.id
@@ -21,6 +20,11 @@ class Ability
       can :print, :fees
       can :access, :ratings
       can :update, :users#, id: user.id
+      can :access, :companies#, id: user.company.id
+      can :read, :branches
+    elsif user.has_role? :powerbuyer
+      buyer
+      can :rebid, :entries
     elsif user.has_role? :seller
       can :access, :seller
       can :access, [:home, :bids]
@@ -28,9 +32,10 @@ class Ability
       can [:read, :accept, :print, :change_status, :cancel, :confirm_cancel], :orders
       can :confirm_payment, :orders
       can [:create, :read, :update, :destroy, :view, :close], :messages
-      can :access, :users, id: user.id
+      can :update, [:users, :profiles]#, id: user.id
       can :access, :ratings
       can :selected, [:companies, :car_brands]
+      can :print, :fees
     else
       can :access, :home
       can :create, [:users, :profiles, :companies, :branches]

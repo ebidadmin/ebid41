@@ -50,7 +50,7 @@ class RatingsController < ApplicationController
   end
   
   def auto
-      @orders = Order.unscoped.where(status: ['Paid', 'Closed']).payment_valid.includes(:company => :users, :ratings => [:user, :ratee])#.joins(:ratings)
+      @orders = Order.unscoped.where(status: ['Paid', 'Closed']).payment_valid.includes(:company => :users, :ratings => [:user, :ratee])#.limit(5)#.joins(:ratings)
       @orders.each do |order|
         ratings = Array.new
         if order.ratings.where(user_id: order.company.users).blank?
@@ -67,9 +67,9 @@ class RatingsController < ApplicationController
           ratings << rating
         end
         order.ratings << ratings
-        # if order.ratings.where(:user_id => order.company.users).exists? && order.ratings.where(:ratee_id => order.company.users).exists?
-        # # order.close
-        # end
+        if order.ratings.where(:user_id => order.company.users).exists? && order.ratings.where(:ratee_id => order.company.users).exists?
+          order.close
+        end
       end
       
       flash[:notice] = "Successfully created auto ratings."  

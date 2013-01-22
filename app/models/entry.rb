@@ -40,7 +40,8 @@ class Entry < ActiveRecord::Base
   YEAR_MODELS = (30.years.ago.year .. Date.today.year).to_a.reverse
   TAGS_FOR_SIDEBAR = %w(created online decided relisted redecided bid_until expired)
   STATUS_TAGS = %w(New Online Additional Relisted For-Decision Ordered-IP Ordered-All Ordered-Declined Declined-IP Declined-All) 
-  MIN_BIDDING_TIME = 0#3.hours #5.minutes
+  MIN_BIDDING_TIME = 3.hours #5.minutes
+  DAYS_TO_EXPIRY = 3.days
  
   # DEFINITIONS
   def model_name
@@ -162,6 +163,23 @@ class Entry < ActiveRecord::Base
       end
 	  end
 	end
+	
+	def expire(force=nil)
+	  if force
+      line_items.each { |item| item.expire unless item.cannot_be_expired }
+      update_attributes(:chargeable_expiry => true, :expired => Time.now)
+      update_status unless orders.exists?
+	  else
+      deadline = bid_until + DAYS_TO_EXPIRY 
+      if Date.today >= deadline && expired.blank?
+        line_items.each { |item| item.expire unless item.cannot_be_expired }
+        if update_attributes(chargeable_expiry: true, expired: Time.now)
+          update_status #unless orders.exists?
+        end
+      end
+	  end
+	end
+	
 	
 	# STATUS INDICATORS
   def newly_created? 

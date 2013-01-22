@@ -19,6 +19,7 @@ class Bid < ActiveRecord::Base
   default_scope includes(:user).order('amount DESC').order('bid_speed DESC')
   scope :by_user, lambda { |user| where(user_id: user) }
   scope :online, where(status: ['New', 'Submitted', 'Updated', 'Re-bidding'])
+  scope :for_decision, where(status: 'For-Decision') # used in Expire
   scope :cancelled, where('bids.status LIKE ?', "%Cancelled%") 
   scope :not_cancelled, where('bids.status NOT LIKE ?', "%Cancelled%") 
   scope :with_orders, where('bids.order_id IS NOT NULL')
@@ -87,6 +88,18 @@ class Bid < ActiveRecord::Base
   def update_peer_bids(line_item)
     peer_bids = Bid.where(line_item_id: line_item, status: 'For-Decision').where("bid_type != ?", self.bid_type)
     peer_bids.update_all(status: "Dropped", ordered: nil, order_id: nil, delivered: nil, paid: nil, declined: nil)
+  end
+
+  def expire
+    self.update_attributes(status: "Declined", declined: Time.now, expired: Time.now)
+    self.update_peer_bids(line_item)
+    Fee.compute(self, "Declined") if fees.for_decline.blank?
+  end
+  
+  def tag_payment(order)
+    self.update_attributes(status: 'Paid', paid: order.paid)
+    line_item.update_attribute(:status, 'Paid')
+    Fee.compute(self, 'Paid', order.id) if fees.for_order.blank? 
   end
 
   # STATUS INDICATORS

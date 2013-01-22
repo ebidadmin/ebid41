@@ -51,6 +51,16 @@ class LineItem < ActiveRecord::Base
 	  end 
 	end
 	
+	def expire
+    if bids.present? #WITH BIDS
+      lowest_bid = bids.for_decision.not_cancelled.last
+      lowest_bid.expire if lowest_bid
+      self.update_attribute(:status, "Expired")
+    else #WITHOUT BIDS
+      update_attribute(:status, "No Bids")
+    end
+	end
+	
 	# Status indicators
 	def is_online
 	  status == 'Online' || status == 'Relisted' || status == 'Additional' || status == 'Re-bidding'
@@ -58,6 +68,10 @@ class LineItem < ActiveRecord::Base
 
 	def can_be_ordered
     status == "For-Decision" || status == "Expired" || self.cancelled
+  end
+  
+  def cannot_be_expired
+    self.order_id.present? || self.declined_or_expired || self.cancelled
   end
   
   def declined_or_expired 

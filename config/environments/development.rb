@@ -14,9 +14,9 @@ Ebid41::Application.configure do
   config.action_controller.perform_caching = false
 
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => 'www.ebid.com.ph' }
   # Mail.register_interceptor(MailInterceptor)
-  # config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :letter_opener
   # change to true to allow email to be sent during development
   # config.action_mailer.perform_deliveries = false
   # config.action_mailer.raise_delivery_errors = true

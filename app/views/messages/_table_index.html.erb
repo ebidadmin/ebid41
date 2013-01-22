@@ -37,16 +37,16 @@
 						<%#= link_with_icon_delete '', m, 'btn-mini btn-danger', true %>
 	        </td>
 	        <td class="txtright">
+						<% if m.read_on.nil? %>
+							<%= content_tag :i, '', class: 'icon-envelope' %>
+						<% end %>
+
 						<% if m.order_id  %>
 							<%= link_with_icon "PO# #{m.order_id}", m, 'shopping-cart', 'btn-mini btn-success', true %>
 						<% elsif m.entry_id %>
 							<%= link_to("View Entry", m, class: 'btn btn-mini btn-info')  %>
 						<% else %>
 							<%= link_with_icon '', message_path(m), 'envelope', 'btn-mini' %>
-						<% end %>
-						
-						<% if m.read_on.nil? %>
-							<%= content_tag :i, '', class: 'icon-envelope' %>
 						<% end %>
 					</td>
 	      </tr>

@@ -9,6 +9,8 @@ class Variance < ActiveRecord::Base
   has_many :var_items, dependent: :destroy
   accepts_nested_attributes_for :var_items#, allow_destroy: true, reject_if: lambda { |vi| ( vi[:var_base].blank?) }
   
+  validates_presence_of :var_company_id
+  
   DISCOUNTS = %w(5 10 15 20 25 30 35 40)
   TYPES = %w(original replacement surplus)
   

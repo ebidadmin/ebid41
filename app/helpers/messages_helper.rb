@@ -30,7 +30,7 @@ module MessagesHelper
         if message.order_id.present?
           content_tag :em, message.user_company.nickname, class: 'small'
         else 
-          "#{message.user_type} ##{message.user_id}"
+          "#{message.user_type} ##{message.user_id}".upcase
         end
       end
     end

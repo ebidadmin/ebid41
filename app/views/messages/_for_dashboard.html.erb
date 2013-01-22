@@ -1,0 +1,35 @@
+<div class="span5">
+	<table class="table table-bordered table-condensed">
+		<thead>
+			<tr>
+				<%= content_tag :th, 'Recent Messages', class: 'label label-inverse txtcenter' %>
+			</tr>
+		</thead>
+		<tbody>
+	    <% @messages.each do |m| %>
+	      <tr id="message_<%= m.id %>"<%= "class=alert" if m.read_on.nil? %>>
+	        <td class="body span4">
+						<% if m.read_on.nil? %>
+							<%= content_tag :i, '', class: 'icon-envelope' %>
+						<% else %>
+						  <%= content_tag :i, '', class: 'icon-thumbs-up' %>
+						<% end %>
+						<%= shorten m.message, 25 %>
+						<%= content_tag :span, (regular_date m.created_at, 'short_time'), class: 'small muted' %>
+						<% if m.order_id  %>
+							<%= link_with_icon "PO# #{m.order_id}", m, 'shopping-cart', 'btn-mini btn-success pull-right', true %>
+						<% elsif m.entry_id %>
+							<%= link_to("View Entry", m, class: 'btn btn-mini btn-info  pull-right')  %>
+						<% end %>
+					</td>
+	      </tr>
+	    <% end %>
+			<tr class="label-inverse ">
+				<td>
+					<%= content_tag :p, (link_to 'Other Messages', link, class: 'btn'), class: 'txtright' %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+

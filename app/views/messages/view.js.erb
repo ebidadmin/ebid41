@@ -1,4 +1,4 @@
 // $("div.modal").html("<%= j(render @messages) %>");
-$("div.modal").html("<%= j(render 'messages/modal') %>");
+$(".modal").html("<%= j(render 'messages/modal') %>");
 $("#msg-count h4").text("<%= j(pluralize(@entry.messages.restricted(current_user.company).pvt.size, 'message')) %>");
 

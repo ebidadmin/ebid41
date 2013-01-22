@@ -31,6 +31,30 @@ class BuyerPresenter
     end
   end
   
+  def for_decision_entries
+    if @user.has_role? :powerbuyer
+      @fd ||= Entry.for_decision.unexpired.where(company_id: @user.company.id)
+    else
+      @fd ||= @user.entries.for_decision.unexpired
+    end
+  end
+  
+  def with_orders_entries
+    if @user.has_role? :powerbuyer
+      @wo ||= Entry.with_orders.where(company_id: @user.company.id)
+    else
+      @wo ||= @user.entries.with_orders
+    end
+  end
+  
+  def declined_entries
+    if @user.has_role? :powerbuyer
+      @dec ||= Entry.declined.where(company_id: @user.company.id)
+    else
+      @dec ||= @user.entries.declined
+    end
+  end
+  
   def order_ratio
     percentage @user.company.perf_ratio, 1
   end
