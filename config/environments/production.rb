@@ -78,6 +78,11 @@ Ebid41::Application.configure do
     :password       => 'cymarquez',
     :enable_starttls_auto => true 
   }
+
+  config.middleware.use ExceptionNotifier,
+    sender_address: 'noreply@ebid.com.ph',
+    exception_recipients: 'cymarquez@mac.com'
+
   Mail.register_interceptor(MailInterceptor)
 
 

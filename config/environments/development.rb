@@ -32,8 +32,6 @@ Ebid41::Application.configure do
   #   password: ENV["GMAIL_PASSWORD"]
   # }
 
-
-
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 

@@ -43,3 +43,4 @@ gem "ransack"
 gem "tire"
 gem "squeel"
 gem "ancestry"
+gem 'exception_notification', :require => 'exception_notifier'
