@@ -13,7 +13,7 @@
 				<%= f.input :password_confirmation, label: 'Type Password again', required: true %>
 			</div>
 			<div class="span4 offset1">
-				<% if @user.new_record? && (can? :access, :all) %>
+				<% if @user.new_record? || (can? :access, :all) %>
 				  <%= profile.association :company, collection: Role.find([1,2,3]), as: :grouped_select, group_method: :companies, group_label_method: :name, label_method: :nickname, wrapper_html: { id: 'companies' }  %>
 				<% else %>
 				  <%= profile.input :company, disabled: true  %>
