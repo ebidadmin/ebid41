@@ -51,6 +51,9 @@ class MessagesController < ApplicationController
  
     respond_to do |format|
       if @message.save
+        # if @message.order_id.present? TODO
+        #   @messages = @message.order.messages
+        # end
         format.html { redirect_to :back, notice: "Message sent." }
         format.js { redirect_to action: :view, id: @message.entry_id }
         Notify.delay.new_message(@entry, @message)#.deliver

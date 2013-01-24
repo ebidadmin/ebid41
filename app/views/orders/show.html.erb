@@ -52,13 +52,14 @@
 
 <% end %>
 
-<%= content_tag :section do %>
+<%= content_tag :section, class: 'order-messages' do %>
 	<%= content_tag :h3, 'PO Messages', id: 'order-caption'  %>
 	<% if @messages.present? %>
 		<%= render 'messages/table' %>
 	<% else %>
 		<%= content_tag :p, 'No messages.' %> 
 	<% end %>
+	<%= link_to 'Create New Message', new_message_path(e: @entry, o: @order), remote: true, data: { toggle: 'modal', target: "#myModal"}, class: 'btn btn-primary'  %>
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	</div>
 <% end %>

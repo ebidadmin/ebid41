@@ -42,7 +42,7 @@
 					<% end %>
 				<% end %>
 				<%= content_tag :td, class: 'span2' do %>
-					<%= content_tag :span,regular_date(user.birthdate), class: 'small' if user.profile %>
+					<%= content_tag :span,regular_date(user.birthdate), class: 'small' if user.birthdate %>
 				<% end %>
 				<%= content_tag :td, class: 'span2 center' do %>
 		  		<%= content_tag :p, (link_to "View Info", user), class: 'small' %>

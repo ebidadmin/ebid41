@@ -1,6 +1,7 @@
 class BidsController < ApplicationController
   before_filter :search_car_models, only: :index
-
+  # load_and_authorize_resource
+  
   def index
     @q = Bid.unscoped.search(params[:q])
     @bids = @q.result.includes([:entry => [:car_brand, :car_model]], [:line_item => :car_part], :user).order('created_at DESC').page(params[:page]).per_page(15)

@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   include ActionView::Helpers::TagHelper
   before_filter :search_car_models, only: :index
+  load_and_authorize_resource
 
   def index
     @q = Order.search(params[:q])

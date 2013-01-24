@@ -49,12 +49,16 @@ module EntriesHelper
       if count > 0
         content_tag :b, (pluralize count, 'bidder')
       else
-        content_tag :b, "Sorry, no bidders", class: 'muted'
+        if entry.is_online
+          content_tag :b, "Still Online", class: 'muted'
+        else
+          content_tag :b, "Sorry, no bidders", class: 'muted'
+        end
       end
     end
   end
   
-  def parts_bidded(entry, supplier)
+  def parts_bidded(entry, supplier) # supplier#entries
     if entry.bid_rate_by_supplier(supplier) > 0
       color = case entry.bid_rate_by_supplier(supplier)
       when 100 then ' badge-success'
@@ -63,6 +67,18 @@ module EntriesHelper
       content_tag :span, "#{percentage(entry.bid_rate_by_supplier(current_user), 0)} bidded", class: "badge#{color}" 
     else
       content_tag :span, 'You have no bids', class: 'badge badge-important'
+    end
+  end
+  
+  def total_bidded(entry)
+    if entry.bids.present?
+      color = case entry.bid_rate_overview
+      when 100 then ' badge-success'
+      else ' badge-warning'
+      end
+      content_tag :span, "#{percentage(entry.bid_rate_overview, 0)} bidded".html_safe, class: "badge#{color}"
+    else
+      content_tag :span, 'No bids', class: 'badge badge-important'
     end
   end
   

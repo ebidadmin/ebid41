@@ -1,14 +1,22 @@
 <%= simple_form_for @branch, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.association :company %>
-  <%= f.input :name %>
-  <%= f.input :address1 %>
-  <%= f.input :address2 %>
+	<% if can? :access, :all %>
+	  <%= f.association :company %>
+	<% else %>
+  <%= f.input :company, disabled: true  %>
+	<%= f.input :company_id, as: :hidden, input_html: { value: @branch.new_record? ? params[:c] : @branch.company.id } %>
+	<% end %>
+  <%= f.input :name, label: 'Branch Name' %>
+  <%= f.input :address1, label: 'Address Line 1', hint: 'Bldg or number + street' %>
+  <%= f.input :address2, label: 'Address Line 2', hint: 'Baranggay or district + city or province' %>
   <%= f.input :zip_code %>
-  <%= f.association :city %>
-  <%= f.association :approver %>
+  <%= f.association :city, collection: Region.includes(:cities), as: :grouped_select, group_label_method: :name, group_method: :cities, label_method: :name %>
+	<% if can? :access, :all %>
+	  <%= f.association :approver, label: 'Approving Officer', collection: Company.where(primary_role: [2,3]).includes(:users).order(:primary_role), as: :grouped_select, group_label_method: :nickname, group_method: :users, label_method: :username %>
+	<% else %>
+	  <%= f.association :approver, label: 'Approving Officer', collection: current_user.company.branches.includes(:users), as: :grouped_select, group_label_method: :name, group_method: :users, label_method: :fullname  %>
+	<% end %>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                branches_path, :class => 'btn' %>
+    <%= link_to 'Cancel', :back, :class => 'btn' %>
   </div>
 <% end %>

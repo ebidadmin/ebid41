@@ -39,6 +39,8 @@ class User < ActiveRecord::Base
   delegate :nickname, to: :company
 
   validates_presence_of [:password, :password_confirmation], :if => :password_required?
+  validates_presence_of :email
+  validates_associated :profile
   
   def to_s
     username

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  enable_authorization :unless => :devise_controller?
+  enable_authorization unless: :devise_controller?
 
   rescue_from CanCan::Unauthorized do |exception|
     flash[:error] = "You are not authorized for that action or page"
@@ -45,6 +45,14 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default)
     redirect_to(session['referer'] || default)
     session['referer'] = nil
+  end
+  
+  def check_user_enabled
+		unless user_signed_in? && current_user.enabled?
+		  sign_out
+		  flash[:error] = "Your account is NOT ENABLED. Please contact the administrator at 892-5935."
+      redirect_to root_path      
+    end
   end
 
   def initialize_cart 

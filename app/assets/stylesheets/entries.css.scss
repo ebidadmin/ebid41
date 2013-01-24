@@ -42,6 +42,9 @@ div.partdesc { float: left; width: 80%;}
 .entries .progress { margin-bottom: 5px; }
 
 
+.entries .required {
+	select, input { font-size: 1.5em; font-weight: 300; height: auto; }
+}
 #parts-list {
 	div.parts { float: left; width: 90%; }
 	#add-part-box form { margin-top: 2em; text-align: left; }

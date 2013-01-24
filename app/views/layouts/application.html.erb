@@ -10,6 +10,7 @@
     <%= stylesheet_link_tag  "application", :media => "all" %>
     <%= yield(:head) %>
     <%= csrf_meta_tags %>
+    <link href="/assets/favicon.ico" rel="shortcut icon">
   </head>
   <body class="<%= params[:controller] %> <%=  params[:action] %>">
     <%= render 'layouts/navigation' %>
@@ -24,15 +25,14 @@
 				</section>
 			<% end %>
 			<%= yield %>
-			<footer>
-			</footer>
 		</div>
-		<div id="javascripts">
+		<%= render 'layouts/footer' %>
+		<section id="javascripts">
 			<%= javascript_include_tag "application" %>
 			<script type="text/javascript" charset="utf-8">
 				<%= yield(:javascripts) %>
 			</script>
 			<%= yield(:javascripts2) %>
-		</div>
+		</section>
   </body>
 </html>

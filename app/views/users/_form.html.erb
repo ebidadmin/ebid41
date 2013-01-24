@@ -13,10 +13,11 @@
 				<%= f.input :password_confirmation, label: 'Type Password again', required: true %>
 			</div>
 			<div class="span4 offset1">
-				<% if @user.new_record? || current_user.has_role?('admin') %>
+				<% if @user.new_record? && (can? :access, :all) %>
 				  <%= profile.association :company, collection: Role.find([1,2,3]), as: :grouped_select, group_method: :companies, group_label_method: :name, label_method: :nickname, wrapper_html: { id: 'companies' }  %>
 				<% else %>
 				  <%= profile.input :company, disabled: true  %>
+					<%= profile.input :company_id, as: :hidden, input_html: { value: params[:c] } %>
 				<% end %>
 				<%= profile.association :branch, collection: @branches, wrapper_html: { id: 'branches' } %>
 			</div>
@@ -49,13 +50,13 @@
 	<% end %>
 	<hr>
 	
-	<div class="well">
+	<div class="well txtright">
 		<% if current_user && current_user.has_role?('admin') %>
 		  <%= link_to "Show", @user, class: 'btn' %> 
 		  <%= link_to "View All", users_path, class: 'btn' %>
 		<% end %>
-		<%= f.button :submit, class: 'btn btn-success floatright' %>
-		<%= link_to "Cancel", :back, class: 'btn floatright' %>
+		<%= link_to "Cancel", :back, class: 'btn' %>
+		<%= f.button :submit, class: 'btn btn-success btn-large' %>
 	</div>
 
   <% end %>

@@ -23,8 +23,7 @@
 								<div class="parts">
 									<%= content_tag :p, item %>
 									<% if item.specs.present? %>
-										<%= "#{content_tag :code, 'Specs: ' + item.specs, class: 'small'}".html_safe  %>
-									  <%#= link_to 'edit specs', '#', class: 'btn btn-mini' %>
+										<%= "#{content_tag :code, 'Details: ' + item.specs, class: 'small'}".html_safe  %>
 									<% end %>
 									<% if item.bids.present? && !item.is_online %>
 										<%= content_tag :p, class: 'small' do %>

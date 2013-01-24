@@ -6,6 +6,8 @@ class Profile < ActiveRecord::Base
   belongs_to :branch
   belongs_to :rank
   
+  validates_presence_of :company_id, :branch_id, :first_name, :last_name, :phone
+  
   def to_s
     [first_name, last_name].join(" ") 
   end  

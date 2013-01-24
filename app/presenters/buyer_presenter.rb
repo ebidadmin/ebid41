@@ -83,4 +83,10 @@ class BuyerPresenter
   def overdue
     @overdue ||= orders.overdue
   end
+  
+  def average_payment_time
+    o ||= Order.where(company_id: @user.company.id, status: ['Paid', 'Closed']).where('paid IS NOT NULL')
+    @average = o.collect(&:prompt_payment?).sum/o.count if o.present?
+  end
+  
 end

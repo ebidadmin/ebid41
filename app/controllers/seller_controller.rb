@@ -1,6 +1,7 @@
 class SellerController < ApplicationController
   before_filter :search_car_models, only: [:entries, :bids, :orders]
-  
+  before_filter :check_user_enabled
+
   def dashboard
     @presenter = SellerPresenter.new(current_user)
     @messages = Message.restricted(current_user.company).limit(4).order('id DESC')

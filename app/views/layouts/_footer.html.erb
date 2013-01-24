@@ -1,0 +1,42 @@
+<footer id="footer">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span6">
+	                <h3>Need to contact E-Bid?</h3>
+	                <address>
+	                    <p>
+	                        <span><i class="icon-map-marker icon-white"></i> Risk Concepts, 2/F Corinthian Plaza, Paseo de Roxas, Makati</span><br/>
+	                        <span><i class="icon-user icon-white"></i> (02) 892-5835</span><br/>
+	                        <span><i class="icon-print icon-white"></i> (02) 817-1979</span><br/>
+	                        <span><i class="icon-envelope icon-white"></i> <a href="mailto:#">cymarquez@ebid.com.ph</a></span>
+	                    </p>
+	                </address>
+	            </div>
+	            <div class="span4">
+	                <h3>Recent Entries</h3>
+	                <ul class="flickr clearfix">
+										<% for entry in Entry.limit(10) %>
+											<%= image_tag entry.photos.first.photo.url(:tiny), alt: "Photo of #{entry.plate_no}" %>
+										<% end %>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+</footer>
+<section id="footer-menu">
+    <div class="container">
+        <div class="row">
+            <div class="span4">
+							<%= content_tag :strong, "Copyright &copy; 2006-#{Time.now.year} E-Bid, Inc. All rights reserved.".html_safe %>
+            </div>
+            <div class="span8 hidden-phone">
+              <ul class="pull-right">
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">About</a></li>
+                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">Helpdesk</a></li>
+              </ul>
+            </div>
+        </div>
+    </div>
+</section>

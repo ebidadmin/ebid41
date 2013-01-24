@@ -1,4 +1,4 @@
-<% title "Entries #{': ' + params[:s].titleize if params[:s]}" %>
+<% title "Entries#{': ' + params[:s].titleize if params[:s]}" %>
 <%= render 'entries/search_bar', path: seller_entries_path %>
 
 <%= content_tag :div, page_entries_info(@entries), class: 'page-info' %>

@@ -9,18 +9,20 @@
 	    <% @messages.each do |m| %>
 	      <tr id="message_<%= m.id %>"<%= "class=alert" if m.read_on.nil? %>>
 	        <td class="body span4">
-						<% if m.read_on.nil? %>
-							<%= content_tag :i, '', class: 'icon-envelope' %>
-						<% else %>
-						  <%= content_tag :i, '', class: 'icon-thumbs-up' %>
-						<% end %>
-						<%= shorten m.message, 25 %>
-						<%= content_tag :span, (regular_date m.created_at, 'short_time'), class: 'small muted' %>
 						<% if m.order_id  %>
 							<%= link_with_icon "PO# #{m.order_id}", m, 'shopping-cart', 'btn-mini btn-success pull-right', true %>
 						<% elsif m.entry_id %>
 							<%= link_to("View Entry", m, class: 'btn btn-mini btn-info  pull-right')  %>
 						<% end %>
+						<div class="span4">
+							<% if m.read_on.nil? %>
+								<%= content_tag :i, '', class: 'icon-hand-right' %>
+							<% else %>
+							  <%= content_tag :i, '', class: 'icon-thumbs-up' %>
+							<% end %>
+							<%= shorten m.message, 25 %>
+							<%= content_tag :span, (m.created_at.to_s(:short)), class: 'small muted' %>
+						</div>
 					</td>
 	      </tr>
 	    <% end %>

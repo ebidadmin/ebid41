@@ -23,7 +23,7 @@ module ApplicationHelper
   def relative_root_path
     if user_signed_in?
       if can? :access, :all
-        entries_path(s: 'for-decision')
+        admin_dashboard_path
       elsif can? :access, :buyer
         buyer_dashboard_path
       elsif can? :access, :seller

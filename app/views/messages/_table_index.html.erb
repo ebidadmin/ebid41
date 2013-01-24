@@ -17,7 +17,7 @@
 				<% end %>
 			</tr>
 	    <% messages.each do |m| %>
-	      <tr id="message_<%= m.id %>"<%= "class=label" if m.read_on.nil? %>>
+	      <tr id="message_<%= m.id %>"<%= "class=alert alert-warning" if m.read_on.nil? %>>
 	        <td>
 						<%= msg_sender_helper(m, current_user) %>
 					</td>
@@ -38,7 +38,9 @@
 	        </td>
 	        <td class="txtright">
 						<% if m.read_on.nil? %>
-							<%= content_tag :i, '', class: 'icon-envelope' %>
+							<%= content_tag :i, '', class: 'icon-hand-right' %>
+						<% else %>
+						  <%= content_tag :i, '', class: 'icon-thumbs-up' %>
 						<% end %>
 
 						<% if m.order_id  %>

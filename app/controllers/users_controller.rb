@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # before_filter :authenticate_user!
+  load_and_authorize_resource
 
   def index
     # authorize! :index, @user, :message => 'Not authorized as an administrator.'
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 
   def edit
     store_location
-    if current_user.has_role? :admin
+    if can? :edit, :users
       @user = User.find(params[:id])
       @company_type = Role.find(1, 2, 3)
     else
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     end
     if @user.update_attributes(params[:user])
       flash[:notice] = "Successfully updated user."
-      redirect_back_or_default :back #redirect_to @user
+      redirect_back_or_default @user.company
     else
       render :action => 'edit'
     end

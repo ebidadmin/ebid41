@@ -3,9 +3,9 @@ Ebid41::Application.routes.draw do
 
   resources :photos
 
-  get "sessions/new"
-
-  get "admin/nav"
+  # get "sessions/new"
+  # 
+  # get "admin/nav"
 
   devise_for :users, path: :account, controllers: {sessions: "sessions"}
   resources :users, :shallow => true do

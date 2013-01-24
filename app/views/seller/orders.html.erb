@@ -1,4 +1,4 @@
-<% title "#{current_user.nickname}'s Orders #{': ' + params[:s].titleize if params[:s]}".html_safe %>
+<% title "#{current_user.nickname}'s Orders#{': ' + params[:s].titleize if params[:s]}".html_safe %>
 <%= render 'orders/search_bar', path: seller_orders_path %>
 
 <%= content_tag :h2, class: 'row' do %>

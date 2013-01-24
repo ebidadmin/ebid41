@@ -31,11 +31,14 @@
 <table class="table table-condensed table-bordered">
 	<thead>
 		<tr>
-			<%= content_tag :th, 'Branch Name', class: 'lead' %>
+			<%#= content_tag :th, 'Branch Name', class: 'lead' %>
+			<%= content_tag :th, class: 'lead', rowspan: 2 do %>
+				<%= content_tag :p,'Branch Name' %>
+				<%= content_tag :p, link_to('Add Branch', new_branch_path(c: @company.id), class: 'btn btn-primary btn-mini') %>
+			<% end %>
 			<%= content_tag :th, 'Users', colspan: 4, class: 'lead txtcenter' %>
 		</tr>
 		<tr>
-			<%= content_tag :th, link_to('Add Branch', new_branch_path(c: @company.id), class: 'btn btn-primary btn-mini') %>
 			<%= content_tag :th, 'Enabled' %>
 			<%= content_tag :th, 'Full Name' %>
 			<%= content_tag :th, 'Username' %>
@@ -50,14 +53,18 @@
 						<%= content_tag :strong, branch.name %><br/>
 						<small>
 							<%= branch.address1 %>
-							<%= "<br/> #{branch.address2}".html_safe if branch.address2 %>
+							<%= "<br/> #{branch.address2}".html_safe if branch.address2 %><br>
+							<em>
+								Approving Officer: 
+								<%= content_tag :strong, branch.approver %>
+							</em>
 						</small>
 					</address>
 					<%= link_to 'Edit Branch', edit_branch_path(branch), class: 'btn btn-mini btn-warning' %>
-					<%= link_to 'Add User', new_user_path(c: @company.id, b: branch.id), class: 'btn btn-mini' %>
+					<%= link_to 'Add User', new_user_path(c: @company.id, b: branch.id), class: 'btn btn-mini' unless branch.users.blank?%>
 				<% end %>
 				<% if branch.users.blank? %>
-					<%= content_tag :td, link_to('Add User', new_user_path(c: @company.id), class: 'btn'), colspan: 3 %>
+					<%= content_tag :td, link_to('Add User', new_user_path(c: @company.id, b: branch.id), class: 'btn'), colspan: 4 %>
 				<% end %>
 			</tr>
 				<% for user in branch.users %>
@@ -65,7 +72,7 @@
 						<td><%= content_tag :span, user.enabled? ? 'ON' : 'OFF', class: "label #{user.enabled? ? 'label-success' : nil }" %></td>
 						<td><%= user.profile %></td>
 						<td><%= link_to user, user %></td>
-						<td class="txtright"><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-mini' %></td>
+						<td class="txtright"><%= link_to 'Edit', edit_user_path(user, c: @company.id, b: branch.id), class: 'btn btn-mini' %></td>
 					</tr>
 				<% end %>
 		<% end %>
