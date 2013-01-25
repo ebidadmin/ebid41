@@ -18,5 +18,5 @@
 #     e.line
 #   end
 # end
-msgs = Message.where('messages.created_at < ?', 3.weeks.ago)
+msgs = Message.where('messages.created_at < ?', 1.week.ago)
 msgs.update_all(read_on: Time.now)

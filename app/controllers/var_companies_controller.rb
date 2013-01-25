@@ -12,11 +12,16 @@ class VarCompaniesController < ApplicationController
   end
 
   def create
+    # raise params.to_yaml
     @var_company = VarCompany.new(params[:var_company])
-    if @var_company.save
-      redirect_to @var_company, :notice => "Successfully created var company."
-    else
-      render :action => 'new'
+    respond_to do |format|
+      if @var_company.save
+        format.html { redirect_back_or_default @var_company; flash[:notice] = "Successfully created var company." }
+        format.js { redirect_to  action: :close, vc: @var_company.id }
+      else
+        format.html { render 'new' }
+        format.js { render action: :add }
+      end
     end
   end
 
@@ -40,11 +45,12 @@ class VarCompaniesController < ApplicationController
   end
   
   def add
-    # raise params.to_yaml
+    store_location
     @var_company = VarCompany.new(creator_id: current_user.id)
   end
   
   def close
+    @var_companies = VarCompany.order(:name)
     respond_to do |format|
       format.js
     end

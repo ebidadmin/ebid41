@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
   has_many :sellers, through: :fees
   has_many :cities
   has_many :variances, dependent: :destroy
-  
+  has_many :creators, through: :var_companies
+
   scope :opt_in, where(opt_in: true)
   scope :enabled, where(enabled: true)
 

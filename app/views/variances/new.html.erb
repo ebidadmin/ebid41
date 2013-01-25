@@ -1,6 +1,9 @@
 <% title 'Generate Comparative Pricing Analysis' %>
 
+<section class="variance-form">
+	<div id="var-comp-form"></div>
 <%= simple_form_for [@entry, @variance] do |f| %>
+	<%= f.error_notification %>
 	<div class="well">
 		<div class="row">
 			<div id="var-company" class="span4">
@@ -54,6 +57,7 @@
 		<%= f.submit 'Compute', class: 'btn btn-primary btn-large span4' %>	
 	</div>
 <% end %>
+</section>
 
 <% content_for :javascripts do %>
 		<!-- $('td').popover(); -->

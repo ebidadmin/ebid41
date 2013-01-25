@@ -1,2 +1,10 @@
-<%= f.association :var_company, collection: @var_companies, label: 'Where did your prices come from?', hint: 'Note: Select name of Shop/Supplier' %>
-<%#= link_to 'Add Shop/Supplier', add_var_companies_path(f: f), class: 'btn', remote: true %>
+<% if params[:action] == 'edit' %>
+	<%= f.association :var_company, collection: @var_companies, label: 'Where did your prices come from?', hint: 'Note: Select name of Shop/Supplier' %>
+<% else %>
+<div class="controls required">
+	<%= label_tag :var_company_id, 'Where did your prices come from?', class: 'required' %>
+	<%= collection_select(:variance, :var_company_id, @var_companies, :id, :name, include_blank: true, selected: params[:vc])  %>
+	<%= content_tag :p, 'Note: Select name of Shop/Supplier', class: 'help-block' %>
+</div>
+<% end %>
+<%= link_to 'Add Shop/Supplier', add_var_companies_path, class: 'btn', remote: true %>

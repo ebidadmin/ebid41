@@ -35,10 +35,7 @@
         <h1>Welcome to E-Bid!</h1>
 				<p>This is where businesses bid-and-buy auto parts.</p>
 	      <div class="row">
-	        <div class="span4">
-						<%#= image_tag '/assets/under_construction.gif' %>
-	        </div>
-	        <div class="span4 offset6">
+	        <div class="span4 offset7">
 	          <h2>Login here</h2>
 						<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 							<%= f.label :username %>

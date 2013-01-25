@@ -18,15 +18,16 @@ class VariancesController < ApplicationController
 
     @savings_rate = (@variance.var_items.sum(:var_net).abs.to_f/@variance.var_items.sum(:var_total).to_f) * 100
     @projected_savings = @with_ebid_no_manual.sum(&:total) / (1 + @savings_rate)
+    render layout: 'print'
   end
 
   def new
     store_location
     @entry = Entry.find(params[:entry_id])
-    @variance = @entry.build_variance
+    @variance = @entry.build_variance(var_company_id: params[:vc])
     @variance.var_items.build
 
-    @var_companies = VarCompany.order(:name).collect { |vc| [vc.name, vc.id.to_i] }
+    @var_companies = VarCompany.order(:name)
     @available_discounts = Variance::DISCOUNTS.collect { |d| [d + '%', d ] }
   end
 
@@ -38,7 +39,7 @@ class VariancesController < ApplicationController
     if current_user.variances << @variance
       redirect_to variance_path(@variance, entry_id: @entry)
     else
-      @var_companies = VarCompany.order(:name).collect { |vc| [vc.name, vc.id] }
+      @var_companies = VarCompany.order(:name)
       @available_discounts = Variance::DISCOUNTS.collect { |d| [d + '%', d ] }
       render 'new'
     end
@@ -46,6 +47,9 @@ class VariancesController < ApplicationController
 
   def edit
     @variance = Variance.find(params[:id])
+    @entry = @variance.entry
+    @var_companies = VarCompany.order(:name)
+    @available_discounts = Variance::DISCOUNTS.collect { |d| [d + '%', d ] }
   end
 
   def update

@@ -74,7 +74,7 @@ class MessagesController < ApplicationController
     if @message.update_attributes(params[:message])
       respond_to do |format|
         format.html { redirect_to :back, notice: "Successfully updated message." }
-        format.js { render action: :close}
+        format.js { render action: :close }
       end
     else
       render :action => 'edit'

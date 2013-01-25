@@ -1,11 +1,53 @@
-<%= simple_form_for @variance, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :user_id %>
-  <%= f.input :company_id %>
-  <%= f.input :entry_id %>
-  <%= f.input :var_company_id %>
-  <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                variances_path, :class => 'btn' %>
-  </div>
-<% end %>
+	<%= f.error_notification %>
+	<div class="well">
+		<div class="row">
+			<div id="var-company" class="span4">
+				<%= render 'variances/select_var_company', f: f %>
+			</div>
+			<div class="span2">
+				<%= f.input :discount, collection: @available_discounts, include_blank: true %>
+			</div>
+		</div>
+	</div>
+
+	<%= content_tag :p, class: 'lead' do %>
+		<%= @entry.model_name %>
+		<%= @entry.variant %>
+		<%= content_tag :span, "(#{@entry.plate_no})", class: 'small muted' %>
+	<% end %>
+
+	<table class="table table-condensed table-striped">
+		<thead>
+			<%= content_tag :th, 'Parts', class: 'txtcenter' %>
+			<%= content_tag :th, 'Qty', class: 'txtcenter' %>
+			<%= content_tag :th, class: 'txtcenter' do %>
+				<%= content_tag :p, 'Your Canvass' %>
+				<%= content_tag :b, 'Full Unit Price', class: 'label label-important' %>
+			<% end %>
+			<%= content_tag :th, 'Canvass Type', class: 'txtcenter' %>
+			<%#= content_tag :th, 'Canvass Type', class: 'txtcenter' %>
+		</thead>
+		<% @entry.line_items.includes(:car_part).each_with_index do |item, index| %>
+			<tr>
+			<%= f.simple_fields_for :var_items do |vi| %>
+				<%= content_tag :td, class: 'span4' do %>
+					<%= content_tag :div, index + 1, class: 'index'  %>
+					<%= content_tag :div, item, class: 'partdesc' %>
+					<%= vi.input :line_item_id, label: false, input_html: { value: item.id }, as: :hidden %>
+				<% end %>
+				<%= content_tag :td, (vi.input :qty, label: false, input_html: { value: item.quantity, class: 'span1 txtcenter' }), class: 'span1 center' %>
+				<%= content_tag :td, class: 'span2 txtcenter', data: { content: "#{var_tooltip}", "original-title" => "#{var_title}" }, rel: "popover" do %>
+					<%= vi.input :var_base, label: false, input_html: { class: 'span2 txtright' } %>
+				<% end %>
+				<%= content_tag :td, class: 'span4 txtcenter' do %>
+					<%= vi.input :var_type, label: false, collection: Variance::TYPES, as: :radio_buttons, checked: 'original', item_wrapper_class: 'inline' %>
+				<% end %>
+				<%#= content_tag :td, 'Canvass Type', class: 'txtcenter' %>
+			<% end %>
+			</tr>
+		<% end %>
+	</table>
+	<div class="txtright well">
+		<%= link_to 'Cancel', session['referer'], class: 'btn'  %>
+		<%= f.submit 'Compute', class: 'btn btn-primary btn-large span4' %>	
+	</div>
