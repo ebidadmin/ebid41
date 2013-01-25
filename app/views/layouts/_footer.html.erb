@@ -16,7 +16,7 @@
 	                <h3>Recent Entries</h3>
 	                <ul class="flickr clearfix">
 										<% for entry in Entry.limit(10) %>
-											<%= image_tag entry.photos.first.photo.url(:tiny), alt: "Photo of #{entry.plate_no}" unless entry.photos.nil? %>
+											<%= image_tag entry.photos.first.photo.url(:tiny), alt: "Photo of #{entry.plate_no}" unless entry.photos.blank? %>
 										<% end %>
 	                </ul>
 	            </div>
