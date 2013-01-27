@@ -25,11 +25,12 @@ class BuyerController < ApplicationController
 
   def show
     @entry = Entry.find(params[:id])
-    @line_items = @entry.line_items.includes(:car_part, :bids, :order).order('status DESC')
-    # respond_to do |format|
-    #   format.html
-    #   format.js
-    # end
+    if @entry.company_id == current_user.company.id
+      @line_items = @entry.line_items.includes(:car_part, :bids, :order).order('status DESC')
+    else
+      flash[:error] = "You are not allowed to access that Entry."
+      redirect_back_or_default buyer_entries_path(s: 'online')
+    end
   end
 
   def print

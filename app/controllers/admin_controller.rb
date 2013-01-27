@@ -65,7 +65,7 @@ class AdminController < ApplicationController
     late_deliveries = Order.unscoped.find_status('for-delivery').where('confirmed <= ?', 3.days.ago).order(:confirmed)
     if late_deliveries
       late_deliveries.group_by(&:seller_company).each do |company, ld|
-        @sellers = company.users.includes(:profile).collect { |u| "#{u.profile} <#{u.email}>" }
+        @sellers = company.users.includes(:profile).opt_in.collect { |u| "#{u.profile} <#{u.email}>" }
         Notify.delay.deliver_now(@sellers, company.nickname, ld)#.deliver
       end
     end

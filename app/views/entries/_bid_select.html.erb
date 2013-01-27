@@ -7,15 +7,17 @@
 
 				<%= fields_for 'bids[]', item do |f| %>
 					<% bids.each do |bid| %>
-						<%= content_tag :p, class: "#{bid.status_color_for_buyer}" do %>
-							<%= f.radio_button 'id', bid.id, class: 'pull-left' if item.can_be_ordered && !bid.cancelled? %>
-							<%= content_tag :span, link_to(currency(bid.amount), edit_bid_path(bid)), class: 'bid-amount' %>
-							<%= content_tag :em, bid.user.username, class: 'small' %>
-						<% end %>
-						<%= content_tag :div do %>
-							<%= content_tag :span, time_in_words(bid.bid_speed), class: 'small muted' %>
-							<%= content_tag :span, "| #{bid.status}", class: 'small'  %>
-							<%#= link_with_icon_delete '', bid, 'btn-mini btn-danger', true, true  %>
+						<%= div_for bid do %>
+							<%= content_tag :p, class: "#{bid.status_color_for_buyer}" do %>
+								<%= f.radio_button 'id', bid.id, class: 'pull-left' if item.can_be_ordered && !bid.cancelled? %>
+								<%= content_tag :span, link_to(currency(bid.amount), edit_bid_path(bid)), class: 'bid-amount' %>
+								<%= content_tag :em, bid.user.username, class: 'small' %>
+							<% end %>
+							<%= content_tag :p do %>
+								<%= content_tag :span, time_in_words(bid.bid_speed), class: 'small muted' %>
+								<%= content_tag :span, "| #{bid.status}", class: 'small'  %>
+								<%= delete_icon '', bid, nil, false, true %>
+							<% end %>
 						<% end %>
 					<% end %>
 				<% end %>

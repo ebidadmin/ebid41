@@ -34,7 +34,7 @@
 			<%= f.simple_fields_for :var_items do |vi| %>
 			<tr>
 				<%= content_tag :td, class: 'span4' do %>
-					<%#= content_tag :div, vi.object.count, class: 'index'  %>
+					<%#= content_tag :div, index, class: 'index'  %>
 					<%= content_tag :div, vi.object.line_item, class: 'partdesc' %>
 				<% end %>
 				<%= content_tag :td, (vi.input :qty, label: false, input_html: { class: 'span1 txtcenter' }), class: 'span1 center' %>

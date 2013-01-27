@@ -1,4 +1,4 @@
-<% title "Orders #{': ' + params[:s].titleize if params[:s]}".html_safe %>
+<% title "Orders#{': ' + params[:s].titleize if params[:s]}".html_safe %>
 <%= render 'orders/search_bar', path: orders_path %>
 
 

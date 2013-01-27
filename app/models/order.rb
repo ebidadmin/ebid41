@@ -71,12 +71,12 @@ class Order < ActiveRecord::Base
 	  case status
 	  when 'Delivered'
 	    update_attributes(status: 'Delivered', delivered: Date.today, due_date: Date.today + entry.term.name.days)
-      Notify.delivered(self, self.entry).deliver
+      Notify.delivered(self, self.entry).deliver if self.user.opt_in?
       flash = "Updated the status of the order to <strong>Delivered</strong>.<br>
       Please send your invoice to buyer asap so we can help you <strong>track the payment</strong>.".html_safe
     when 'Paid.'
       if self.update_attributes(status: 'Paid', paid_temp: Date.today)
-        Notify.delay.payment_tagged(self, self.entry)#.deliver
+        Notify.delay.payment_tagged(self, self.entry) if self.user.opt_in?
         flash = "Updated the status of the order to <strong>Paid</strong>.<br>
         We will notify the seller to confirm your payment.".html_safe
       end

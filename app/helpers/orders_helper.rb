@@ -58,8 +58,8 @@ module OrdersHelper
   
   def change_status_link(order)
     tag = case order.status
-    when 'For-Delivery' then 'Delivered' unless can? :access, :buyer
-    when 'Delivered' #then 'Paid'
+    when 'For-Delivery' then 'Delivered' if can?(:access, :all) || can?(:access, :seller)
+    when 'Delivered' 
       if can? :create, :orders
         'Paid.' # buyer's tagging only ... for subsequent confirmation by seller
       else
@@ -81,7 +81,6 @@ module OrdersHelper
   end
   
   def link_to_accept(order)
-    # link_to "Accept Order", accept_order_path(order), rel: 'popover', data: { content: 'Accept the order to confirm.', "original-title" => 'Can you deliver?'}, class: 'accept btn btn-success floatright'    
     link_to "Accept Order", accept_order_path(order), rel: 'tooltip', data: { placement: 'right'}, title: "Accept the order to confirm<br> if you can deliver.".html_safe, class: 'accept btn btn-success'		
   end
 

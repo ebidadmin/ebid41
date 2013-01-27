@@ -23,6 +23,10 @@ class SellerController < ApplicationController
 
   def show
     @entry = Entry.find(params[:id], include: [:line_items => [:car_part, :bids]])
+    unless @entry.company.friends.include?(current_user.company)
+      flash[:error] = "Sorry, you are not allowed to access that Entry."
+      redirect_back_or_default seller_dashboard_path
+    end
   end
 
   def orders

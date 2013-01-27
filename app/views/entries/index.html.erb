@@ -12,7 +12,8 @@
 			<% end %>
 		</tr>
 
-		<% entries.each do |entry| %>
+		<% entries.group_by(&:status).each do |status, es| %>
+			<% es.each do |entry| %>
 			<tr>
 				<%= content_tag :td, class: 'span2' do %>
 					<%= content_tag :span, entry.id, class: 'muted small' %>
@@ -37,18 +38,19 @@
 				<% end %>
 
 				<%= content_tag :td, class: "span4" do %>
-					<%= progress_bar_helper(percentage(entry.bid_rate_overview)) %>
+					<%= progress_bar_helper(percentage(entry.bid_rate_overview)) if entry.bid_rate_overview > 0 %>
 					<p>
-						<%= content_tag :span, "#{percentage(entry.bid_rate_overview, 0)} bidded |".html_safe if entry.bids.present? %>
-						<%= content_tag :span, "#{number_of_bidders(entry)} | #{pluralize entry.line_items.size, 'items'}".html_safe %>
+						<%= total_bidded(entry) %>
+						<%= content_tag :span, "#{number_of_bidders(entry)} | #{pluralize entry.line_items.size, 'item'}".html_safe %>
 					</p>
 				<% end %>
 
 				<%= content_tag :td, class: 'span2 txtright' do %>
-					<%= link_to 'View', entry %>
-					<%= link_to 'Edit', edit_entry_path(entry) %>
+					<%= link_to 'View', entry, class: 'btn btn-primary btn-small' %>
+					<%= link_to 'Edit', edit_entry_path(entry), class: 'btn btn-small' %>
 				<% end %>
 			</tr>
+			<% end %>
 		<% end %>
 
 	<% end %>

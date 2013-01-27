@@ -1,3 +1,9 @@
-$(".modal").html("<%= j(render 'messages/modal') %>");
-$("#msg-count h4").text("<%= j(pluralize(@entry.messages.restricted(current_user.company).pvt.size, 'message')) %>");
-$(".order-messages table").html("<%= j(render 'messages/table') %>");
+<% if @order.present? %>
+	$(".order-messages table").html("<%= j(render 'messages/table') %>");
+	$("body").removeClass('modal-open');
+	$(".modal-backdrop").remove();
+	$(".modal").toggle();
+<% else %>
+	$(".modal").html("<%= j(render 'messages/modal') %>");
+	$("#msg-count h4").text("<%= j(pluralize(@entry.messages.restricted(current_user.company).pvt.size, 'message')) %>");
+<% end %>

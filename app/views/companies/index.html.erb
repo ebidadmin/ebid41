@@ -17,7 +17,8 @@
     </tr>
   </thead>
   <tbody>
-    <% @companies.each do |company| %>
+		<% @companies.group_by(&:primary_role).each do |pr, cs| %>
+    <% cs.each do |company| %>
       <tr>
         <td><%= company.id %></td>
         <td><%= link_to company.name, company_path(company) %></td>
@@ -32,6 +33,7 @@
         </td>
       </tr>
     <% end %>
+		<% end %>
   </tbody>
 </table>
 

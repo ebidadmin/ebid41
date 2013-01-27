@@ -13,7 +13,11 @@ class OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id], include: [:bids => [:line_item => :car_part]])
     @entry = @order.entry
-    @messages = @order.messages
+    if can? :access, :all
+      @messages = @order.messages
+    else
+      @messages = @order.messages.restricted(current_user.company)
+    end
     render layout: 'print'
   end
 

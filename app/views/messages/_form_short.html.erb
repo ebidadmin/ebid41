@@ -21,7 +21,7 @@
 		<% else %>
 			<%= f.input :open_tag, as: :radio_buttons, collection: [['Public', true], ['Private', false]], label: 'Message Type', item_wrapper_class: 'inline', 
 					hint: "PUBLIC = seen by all; PRIVATE = just you and recipient" %>
-			<% if current_user.has_role? :seller %>
+			<% if @entry.user != current_user %>
 				<%= f.input :msg_for, as: :radio_buttons, collection: ['Admin', 'Buyer'], checked: 'Buyer', label: 'Message For', item_wrapper_class: 'inline' %>
 			<% else %>
 				<%= f.input :msg_for, as: :radio_buttons, collection: ['Admin'], checked: 'Admin', label: 'Message For', item_wrapper_class: 'inline' %>

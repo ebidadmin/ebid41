@@ -51,12 +51,13 @@ class MessagesController < ApplicationController
  
     respond_to do |format|
       if @message.save
-        # if @message.order_id.present? TODO
-        #   @messages = @message.order.messages
-        # end
         format.html { redirect_to :back, notice: "Message sent." }
-        format.js { redirect_to action: :view, id: @message.entry_id }
-        Notify.delay.new_message(@entry, @message)#.deliver
+        if @message.order_id.present?
+          format.js { redirect_to action: :view, order_id: @message.order_id }
+        else
+          format.js { redirect_to action: :view, id: @message.entry_id }
+        end
+        Notify.delay.new_message(@entry, @message)  if @message.receiver.opt_in?
       else
         format.html { redirect_to :back, notice: "Failed to save message. Try again." }
         format.js { render action: :new }
@@ -92,17 +93,36 @@ class MessagesController < ApplicationController
   end
   
   def view
-    @entry = Entry.find(params[:id])
-    if can? :access, :all
-      @messages = Message.where(entry_id: @entry)
+    if params[:order_id].present?
+      find_order_messages
     else
-      @messages = Message.where(entry_id: @entry).pvt.restricted(current_user.company)
+      find_entry_messages
     end
     @messages.each { |m| m.update_attribute(:read_on, Time.now) if m.receiver == current_user && m.read_on.blank?}
   end
   
   def close
     @message = Message.find(params[:id])
+  end
+  
+  private
+  
+  def find_order_messages
+    @order = Order.find(params[:order_id])
+    if can? :access, :all
+      @messages = @order.messages
+    else
+      @messages = @order.messages.restricted(current_user.company)
+    end
+  end
+  
+  def find_entry_messages
+    @entry = Entry.find(params[:id])
+    if can? :access, :all
+      @messages = @entry.messages
+    else          
+      @messages = @entry.messages.restricted(current_user.company)
+    end
   end
   
 end

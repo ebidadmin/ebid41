@@ -22,7 +22,7 @@
 
   <body>
 
-    <%#= render 'shared/navigation' %>
+    <%= render 'layouts/navigation' if user_signed_in? %>
 
     <div class="container">
 

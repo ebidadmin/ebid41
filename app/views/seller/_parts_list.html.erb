@@ -16,7 +16,7 @@
 						<%= content_tag :div, index + 1, class: 'index'  %>
 						<div class="parts">
 							<%= content_tag :p, item %>
-							<%= "#{content_tag :code, 'Specs: ' + item.specs, class: 'small'}".html_safe if item.specs.present? %>
+							<%= "#{content_tag :code, 'Details: ' + item.specs, class: 'small'}".html_safe if item.specs.present? %>
 							<%= link_with_icon "PO# #{item.order_id}", item.order, 'shopping-cart', "btn btn-mini btn-success", true if item.order && item.order.seller_id == current_user.id %>
 						</div>
 					</td>

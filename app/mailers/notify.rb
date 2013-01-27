@@ -18,7 +18,7 @@ class Notify < ActionMailer::Base
   def delivered(order, entry)
     @order = order
     @entry = entry
-    mail to: "#{entry.user.profile} <#{entry.user.email}>", subject: "Delivered: #{entry.model_name}", 
+    mail to: "#{order.user.profile} <#{order.user.email}>", subject: "Delivered: #{entry.model_name}", 
       bcc: "Efren Magtibay <epmagtibay@ebid.com.ph>"
   end
   
