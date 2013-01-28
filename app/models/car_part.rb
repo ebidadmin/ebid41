@@ -22,12 +22,12 @@ class CarPart < ActiveRecord::Base
     name
   end
 
-  def self.search(params={})
-    tire.search(page: params[:page], per_page: 32) do
-      query { string params[:query], default_operator: "AND" } if params[:query].present?
-      highlight :name, :body, :options => { :tag => "<span class='highlight'>" }
-    end
-  end
+  # def self.search(params={})
+  #   tire.search(page: params[:page], per_page: 32) do
+  #     query { string params[:query], default_operator: "AND" } if params[:query].present?
+  #     highlight :name, :body, :options => { :tag => "<span class='highlight'>" }
+  #   end
+  # end
   
   private
   

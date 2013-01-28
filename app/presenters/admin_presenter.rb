@@ -68,6 +68,6 @@ class AdminPresenter
   end
   
   def active_users
-    User.where('updated_at >= ?', 2.hours.ago)
+    User.where('current_sign_in_at >= ?', Date.today.beginning_of_day)
   end
 end

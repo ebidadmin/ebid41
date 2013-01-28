@@ -15,23 +15,21 @@
 		<% entries.group_by(&:status).each do |status, es| %>
 			<% es.each do |entry| %>
 			<tr>
-				<%= content_tag :td, class: 'span2' do %>
-					<%= content_tag :p, entry.id, class: 'muted small' %>
-					<%= tooltip_helper entry.photos.size, 'photo', 'camera' %>
-					<%= tooltip_helper entry.messages.restricted(current_user.company).size, 'message', 'comment', 'highlight' if entry.messages.restricted(current_user.company).present? %>
-				<% end %>
-
 				<%= content_tag :td, class: 'span4' do %>
-		      <%= content_tag :p, entry.model_name, class: 'lead vehicle' %>
+		      <%= content_tag :p, link_to(entry.model_name, seller_show_path(entry)), class: 'lead vehicle' %>
 					<%= content_tag :p, entry.plate_no, class: 'muted' %>
 					<%#= content_tag :p, entry.user, class: 'muted' %>
 				<% end %>
 
 				<%= content_tag :td, class: 'span2' do %>
-					<%= entry_status_helper(entry) %>
+					<% if entry.is_online %>
+						<%= link_to 'Bid Here', seller_show_path(entry), class: 'btn btn-primary' %>
+					<% else %>
+						<%= link_to 'View', seller_show_path(entry), class: 'btn' %>
+					<% end %>
 				<% end %>
 
-				<%= content_tag :td, class: "span4" do %>
+				<%= content_tag :td, class: "span3" do %>
 					<%= progress_bar_helper(percentage(entry.bid_rate_by_supplier(current_user))) if entry.bid_rate_by_supplier(current_user) > 0 %>
 					<p>
 						<%= parts_bidded(entry, current_user) %>
@@ -39,12 +37,14 @@
 					</p>
 				<% end %>
 
-				<%= content_tag :td, class: 'span2 txtright' do %>
-					<% if entry.is_online %>
-						<%= link_to 'Bid Here', seller_show_path(entry), class: 'btn btn-primary' %>
-					<% else %>
-						<%= link_to 'View', seller_show_path(entry), class: 'btn' %>
-					<% end %>
+				<%= content_tag :td, class: 'span2 txtcenter' do %>
+					<%= entry_status_helper(entry) %>
+				<% end %>
+
+				<%= content_tag :td, class: 'span1 txtright' do %>
+					<%= content_tag :p, entry.id, class: 'muted small' %>
+					<%= tooltip_helper entry.photos.size, 'photo', 'camera' %>
+					<%= tooltip_helper entry.messages.restricted(current_user.company).size, 'message', 'comment', 'highlight' if entry.messages.restricted(current_user.company).present? %>
 				<% end %>
 			</tr>
 			<% end %>

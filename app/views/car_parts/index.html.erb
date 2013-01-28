@@ -1,5 +1,9 @@
 <% title 'Car Parts' %>
 
+<div class="well">
+	<%= link_to 'New', new_car_part_path, :class => 'btn btn-primary' %>
+</div>
+
 <%= content_tag :div, page_entries_info(@car_parts), class: 'page-info' %>
 
 <table class="table table-striped">
@@ -30,4 +34,3 @@
 
 <%= will_paginate @car_parts %>
 
-<%= link_to 'New', new_car_part_path, :class => 'btn btn-primary' %>

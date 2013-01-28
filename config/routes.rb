@@ -146,8 +146,12 @@ Ebid41::Application.routes.draw do
 
   resources :cities
 
-  resources :car_variants
-
+  resources :car_variants do
+    member do
+      get :transfer
+      put :confirm_transfer
+    end
+  end
 
   resources :car_brands do
     get :selected, on: :member

@@ -55,7 +55,9 @@ class CarPartsController < ApplicationController
   
   def search
     @entry = Entry.find(params[:id])
-    @car_parts = CarPart.search(params)
+    # @car_parts = CarPart.search(params)
+    @q = CarPart.unscoped.search(params[:q])
+    @car_parts = @q.result.order('name ASC').page(params[:page]).per_page(32)
     respond_to do |format|
       format.html { redirect_to :back }
       format.js

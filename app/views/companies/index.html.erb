@@ -9,7 +9,7 @@
       <th>ID</th>
       <th>Name</th>
 		  <th>Primary Role</th>
-		  <th>Metering Date</th>
+		  <th>Rating</th>
 		  <th class="txtcenter">Friends</th>
 		  <th class="txtcenter">Users</th>
 		  <th class="txtcenter">Perf Ratio</th>
@@ -23,7 +23,7 @@
         <td><%= company.id %></td>
         <td><%= link_to company.name, company_path(company) %></td>
 		    <td><%= company.role.name if company.primary_role %></td>
-		    <td><%= regular_date company.metering_date if company.metering_date %></td>
+		    <td><%= star_images(Rating.where(ratee_id: company.users).average('stars').to_f) if company.primary_role %></td>
 				<td class="txtcenter"><%= company.friends.size %></td>
 				<td class="txtcenter"><%= company.users.size %></td>
 		    <td class="txtcenter"><%= percentage company.perf_ratio, 2 %></td>

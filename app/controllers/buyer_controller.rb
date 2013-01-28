@@ -25,7 +25,7 @@ class BuyerController < ApplicationController
 
   def show
     @entry = Entry.find(params[:id])
-    if @entry.company_id == current_user.company.id
+    if (@entry.company_id == current_user.company.id || can?(:access, :all))
       @line_items = @entry.line_items.includes(:car_part, :bids, :order).order('status DESC')
     else
       flash[:error] = "You are not allowed to access that Entry."

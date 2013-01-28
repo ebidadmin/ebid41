@@ -25,6 +25,7 @@
 						<td class="<%= t[0..3] %> bids span2 txtcenter">
 							<% if item.bids.where(user_id: current_user.company.users, bid_type: t).present? %>
 								<%= render item.bids.where(user_id: current_user.company.users, bid_type: t) %>
+								<%#= render 'seller/winning_bid', item: item, own_bid: own_bid, bids: bids unless current_user.id == 67 %>
 							<% else %>
 								<%= bid_box_helper(item.id, t) if item.is_online %>
 							<% end %>

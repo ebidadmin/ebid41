@@ -8,8 +8,8 @@ class Entry < ActiveRecord::Base
   belongs_to :user, counter_cache: true
   belongs_to :company
   belongs_to :car_brand
-  belongs_to :car_model
-  belongs_to :car_variant
+  belongs_to :car_model, counter_cache: true
+  belongs_to :car_variant, counter_cache: true
   belongs_to :city
   belongs_to :term
   

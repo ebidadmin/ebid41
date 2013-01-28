@@ -3,9 +3,11 @@
 		Step 2: Add Parts to List
 		<%= content_tag :small, 'click on the part name to add it to your list.' %>
 	<% end %>
+	<%= content_tag :p, 'This is arranged alphabetically.', class: 'lead' %>
 
 	<ul class="unstyled parts">
-	<% @car_parts.results.in_groups_of(16, false).each do |car_part_array| %> 
+	<%# @car_parts.results.in_groups_of(16, false).each do |car_part_array| %> 
+	<% @car_parts.in_groups_of(16, false).each do |car_part_array| %> 
 		<%= content_tag :div, class: 'row' do %>
 			<% car_part_array.in_groups_of(8, false).each do |parts| %>
 				<%= content_tag :div, class: 'span4 set' do %>
@@ -22,7 +24,7 @@
 
 <% else %>
 	<%= content_tag :h3 do  %>
-		Sorry, the keyword-combination <%= content_tag :em, params[:query], class: 'highlight' %> could not be found. 
+		Sorry, the keyword-combination <%= content_tag :em, params[:q][:name_cont], class: 'alert-error' %> could not be found. 
 		<%= content_tag :small, 'Please check your spelling OR try another keyword.' %>
 	<% end %>
 <% end %>

@@ -1,10 +1,10 @@
 class CarBrandsController < ApplicationController
   def index
-    @car_brands = CarBrand.all
+    @car_brands = CarBrand.includes(:car_origin).order('car_origin_id DESC, name ASC').paginate(page: params[:page], per_page: 15)
   end
 
   def show
-    @car_brand = CarBrand.find(params[:id])
+    @car_brand = CarBrand.find(params[:id], include: [:car_models => :car_variants])
   end
 
   def new

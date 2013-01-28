@@ -4,7 +4,7 @@ class CarModelsController < ApplicationController
   end
 
   def show
-    @car_model = CarModel.find(params[:id])
+    @car_model = CarModel.find(params[:id], include: [:car_variants => [:entries => :user]])
   end
 
   def new
@@ -21,22 +21,24 @@ class CarModelsController < ApplicationController
   end
 
   def edit
+    store_location
     @car_model = CarModel.find(params[:id])
   end
 
   def update
     @car_model = CarModel.find(params[:id])
     if @car_model.update_attributes(params[:car_model])
-      redirect_to @car_model, :notice  => "Successfully updated car model."
+      redirect_back_or_default @car_model.car_brand
     else
       render :action => 'edit'
     end
   end
 
   def destroy
+    store_location
     @car_model = CarModel.find(params[:id])
     @car_model.destroy
-    redirect_to car_models_url, :notice => "Successfully destroyed car model."
+    redirect_back_or_default car_models_url
   end
 
   def selected

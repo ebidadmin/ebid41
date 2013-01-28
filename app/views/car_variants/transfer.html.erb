@@ -1,0 +1,15 @@
+<% title @car_variant.full_name %>
+
+<%= content_tag :p, "Transfer to New Variant", class: 'lead' %>
+<%= form_tag confirm_transfer_car_variant_path, :method => :put  do %>
+<% for entry in @car_variant.entries %>
+	<%= link_to entry, class: "label #{entry.status_color}" do %>
+		<%= "#{entry.id} - #{entry.user} - #{entry.created_at.year}" %>
+	<% end %>
+<% end %>
+<hr>
+	<%= hidden_field_tag :orig_id, params[:id] %>
+  <%#= grouped_collection_select nil, :brand_id, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: true }, {id: 'veh-brand'} %>
+  <%= collection_select nil, :new_id, CarVariant.where(car_model_id: @car_variant.car_model_id).order(:name), :id, :name, { include_blank: true }, { id: 'veh-variant' } %><br>
+	<%= submit_tag 'Transfer!', class: 'btn btn-large btn-primary' %>
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121011033737) do
+ActiveRecord::Schema.define(:version => 20130128054324) do
 
   create_table "bids", :force => true do |t|
     t.integer  "user_id"
@@ -60,8 +60,9 @@ ActiveRecord::Schema.define(:version => 20121011033737) do
   create_table "car_brands", :force => true do |t|
     t.integer  "car_origin_id"
     t.string   "name"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "car_models_count"
   end
 
   add_index "car_brands", ["car_origin_id"], :name => "index_car_brands_on_car_origin_id"
@@ -70,8 +71,10 @@ ActiveRecord::Schema.define(:version => 20121011033737) do
     t.integer  "car_brand_id"
     t.string   "name"
     t.integer  "creator_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.integer  "car_variants_count"
+    t.integer  "entries_count"
   end
 
   add_index "car_models", ["car_brand_id"], :name => "index_car_models_on_car_brand_id"
@@ -95,8 +98,9 @@ ActiveRecord::Schema.define(:version => 20121011033737) do
     t.string   "start_year"
     t.string   "end_year"
     t.integer  "creator_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "entries_count"
   end
 
   add_index "car_variants", ["car_brand_id"], :name => "index_car_variants_on_car_brand_id"

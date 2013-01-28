@@ -8,23 +8,30 @@
       <th>ID</th>
       <th>Origin</th>
       <th>Name</th>
-      <th>Count</th>
-      <th>Actions</th>
+      <th class="txtcenter">Models</th>
+      <th class="txtcenter">Entries Count</th>
+      <th class="txtright">Actions</th>
     </tr>
   </thead>
   <tbody>
-    <% @car_brands.each do |car_brand| %>
+    <% @car_brands.group_by(&:car_origin).each do |orgin, car_brands| %>
+		<% car_brands.each do |car_brand| %>
       <tr>
         <td><%= car_brand.id %></td>
         <td><%= car_brand.car_origin if car_brand.car_origin.present? %></td>
         <td><%= link_to car_brand.name, car_brand_path(car_brand) %></td>
-        <td><%= car_brand.entries.count %></td>
-        <td>
-          <%= link_to 'Edit', edit_car_brand_path(car_brand), :class => 'btn btn-mini' %>
-          <%= link_to 'Destroy', car_brand_path(car_brand), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        <td class="txtcenter"><%= car_brand.car_models.size %></td>
+        <td class="txtcenter"><%#= car_brand.entries.count %></td>
+        <td class="txtright">
+					<%= link_to 'Show', car_brand, class: 'btn btn-mini' %>
+          <%= link_to 'Edit', edit_car_brand_path(car_brand), class: 'btn btn-mini' %>
+          <%= link_to 'Destroy', car_brand_path(car_brand), :method => :delete, :confirm => 'Are you sure?', class: 'btn btn-mini btn-danger' %>
         </td>
       </tr>
     <% end %>
+		<% end %>
   </tbody>
 </table>
+
+<%= will_paginate %>
 

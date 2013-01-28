@@ -1,5 +1,7 @@
 <div class="row">
 	<%= content_tag :h2, 'Parts List', class: 'span3 pull-left' %>
+	<%= link_to 'View as Buyer', buyer_show_path(@entry), class: 'btn' %>
+	<%= link_to 'View as Seller', seller_show_path(@entry), class: 'btn' %>
 </div>
 
 <div id="parts" class="well">

@@ -1,22 +1,20 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-# puts 'SETTING UP DEFAULT USER LOGIN'
-# user = User.create! :name => 'First User', :email => 'user@example.com', :password => 'please', :password_confirmation => 'please', :confirmed_at => Time.now.utc
-# puts 'New user created: ' << user.name
-# user2 = User.create! :name => 'Second User', :email => 'user2@example.com', :password => 'please', :password_confirmation => 'please', :confirmed_at => Time.now.utc
-# puts 'New user created: ' << user2.name
-# user.add_role :admin
-# vars = Variance.all
-# vars.each do |v|
-#   entry = v.entry
-#   entry.line_items.each do |e|
-#     e.line
-#   end
-# end
-msgs = Message.where('messages.created_at < ?', 1.week.ago)
-msgs.update_all(read_on: Time.now)
+# msgs = Message.where('messages.created_at < ?', 1.week.ago)
+# msgs.update_all(read_on: Time.now)
+
+User.find_each do |u|
+  User.reset_counters u.id, :entries
+  User.reset_counters u.id, :bids
+end
+
+CarBrand.find_each do |cb|
+  CarBrand.reset_counters cb.id, :car_models
+end
+
+CarModel.find_each do |cm|
+  CarModel.reset_counters cm.id, :car_variants
+  CarModel.reset_counters cm.id, :entries
+end
+
+CarVariant.find_each do |cm|
+  CarVariant.reset_counters cm.id, :entries
+end

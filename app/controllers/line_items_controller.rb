@@ -40,6 +40,7 @@ class LineItemsController < ApplicationController
   
   def add
     @entry = Entry.find(params[:id], include: :line_items)
+    @q = CarPart.search(params[:q])
   end
   
   def cancel
