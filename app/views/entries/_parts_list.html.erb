@@ -62,12 +62,16 @@
 		</div>
 
 		<div class="well">
-			<div class="btn-toolbar span4">
-			  <%= link_to 'Edit', edit_entry_path(@entry), class: 'btn btn-primary' %>
-			  <%= link_to 'Delete', entry_path(@entry), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' unless @entry.bids.present? %>
-				<%= link_to 'Re-Bid', rebid_entry_path(@entry), class: 'btn', confirm: 'Are you sure? This will put the entry online again. Decline Fees are not reversible.'  %>
-				<%= link_to 'Reveal Bids', reveal_entry_path(@entry), class: 'btn btn-success', confirm: 'Are you sure? You will no longer receive bids if you do this.' if @entry.can_reveal  %>
-				<%= link_to "Expire", expire_entries_path(id: @entry), class: 'btn' %>
+			<div class="btn-toolbar pull-left">
+				<div class="btn-group">
+				  <%= link_to 'Edit', edit_entry_path(@entry), class: 'btn btn-primary' %>
+				  <%= link_to 'Delete', entry_path(@entry), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+				</div>
+				<div class="btn-group">
+					<%= link_to 'Re-Bid', rebid_entry_path(@entry), class: 'btn btn-mini', confirm: 'Are you sure? This will put the entry online again. Decline Fees are not reversible.'  %>
+					<%= link_to 'Reveal Bids', reveal_entry_path(@entry), class: 'btn btn-success btn-mini', confirm: 'Are you sure? You will no longer receive bids if you do this.'  %>
+					<%= link_to "Expire", expire_entries_path(id: @entry), class: 'btn btn-danger btn-mini' %>
+				</div>
 			</div>
 			<div class="btn-toolbar pull-right txtright">
 				<%= link_with_icon 'Compute Variance', new_entry_variance_path(@entry), 'list' if @entry.can_be_ordered || @entry.can_reactivate %>

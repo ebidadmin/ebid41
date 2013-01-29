@@ -10,14 +10,17 @@
 			<%= content_tag :p, 'Has BOTH E-Bid & Manual Canvass', class: 'lead' %>
 			<%= content_tag :p, "#{content_tag :b, 'Total E-Bid (Lowest Bids)'} #{content_tag :span, currency(@variance.var_items.sum(:total))}".html_safe%>
 			<%= content_tag :p, "#{content_tag :b, 'Total Canvass'} #{content_tag :span, currency(@variance.var_items.sum(:var_total))}".html_safe%>
-			<%= content_tag :p, "#{content_tag :b, 'Net Savings'} #{content_tag :span, currency(@variance.var_items.sum(:var_net))} (#{content_tag :span, percentage(@savings_rate)})".html_safe%>
+			<%= content_tag :p, "#{content_tag :b, 'Net Savings'} #{content_tag :span, currency(@variance.var_items.sum(:var_net))} (#{content_tag :span, percentage(@savings_rate)})".html_safe, class: 'alert-success' %>
 			<%= content_tag :p, pluralize(@variance.var_items.count, 'part'), class: 'number' %>
 				<div>
 					<%= content_tag :p, 'E-Bid is LOWER', class: 'label' %>
 					<%= content_tag :p, "#{content_tag :b, 'E-Bid (Lowest Bids)'} #{content_tag :span, currency(@ebid_lower.sum(:total))}".html_safe%>
 					<%= content_tag :p, "#{content_tag :b, 'Canvass'} #{content_tag :span, currency(@ebid_lower.sum(:var_total))}".html_safe%>
 					<%= content_tag :p, "#{content_tag :b, 'Difference'} #{content_tag :span, currency(@ebid_lower.sum(:var_net))}".html_safe %>
-					<%= content_tag :p, 'Effect: Direct Savings!', class: 'label label-success' %>
+					<p>
+						<%= content_tag :em, 'Effect:', class: 'label label-success' %>
+						<%= content_tag :em, 'Direct Savings!', class: 'label label-success' %>
+					</p>
 					<%= content_tag :p, pluralize(@ebid_lower.count, 'part'), class: 'number' %>
 				</div>
 				<div>
@@ -26,7 +29,10 @@
 						<%= content_tag :p, "#{content_tag :b, 'E-Bid (Lowest Bids)'} #{content_tag :span, currency(@ebid_higher.sum(:total))}".html_safe%>
 						<%= content_tag :p, "#{content_tag :b, 'Canvass'} #{content_tag :span, currency(@ebid_higher.sum(:var_total))}".html_safe%>
 						<%= content_tag :p, "#{content_tag :b, 'Difference'} #{content_tag :span, currency(@ebid_higher.sum(:var_net))}".html_safe %>
-						<%= content_tag :p, 'Effect: Price Validation', class: 'label label-warning' %>
+						<p>
+							<%= content_tag :em, 'Effect:', class: 'label label-warning' %>
+							<%= content_tag :em, 'Price Validation', class: 'label label-warning' %>
+						</p>
 					<% end %>
 					<%= content_tag :p, pluralize(@ebid_higher.count, 'part'), class: 'number' %>
 				</div>
@@ -34,7 +40,10 @@
 					<%= content_tag :p, 'No Difference', class: 'label' %>
 					<% if @same.count > 0 %>
 						<%= content_tag :p, "#{content_tag :b, 'E-Bid (Lowest Bids)'} #{content_tag :span, currency(@same.sum(:total))}".html_safe %>
-						<%= content_tag :p, 'Effect: Price Validation', class: 'label label-warning' %>
+						<p>
+							<%= content_tag :em, 'Effect:', class: 'label label-warning' %>
+							<%= content_tag :em, 'Price Validation', class: 'label label-warning' %>
+						</p>
 						<%= content_tag :p, "#{content_tag :b, 'Canvass'} #{content_tag :span, currency(@same.sum(:var_total))}".html_safe%>
 					<% end %>
 					<%= content_tag :p, pluralize(@same.count, 'part'), class: 'number' %>
@@ -55,7 +64,10 @@
 			<% if @with_ebid_no_manual.count > 0 %>
 				<%= content_tag :p, "#{content_tag :b, 'E-Bid (Lowest Bids)'} #{content_tag :span, currency(@with_ebid_no_manual.sum(&:total))}".html_safe %>
 				<%= content_tag :p, "#{content_tag :b, 'Projected Savings'} #{content_tag :span, currency(@projected_savings)} (#{content_tag :span, percentage(@savings_rate)})".html_safe%>
-				<%= content_tag :em, 'Effect: Direct Savings!', class: 'label label-success' %>
+				<p>
+					<%= content_tag :em, 'Effect:', class: 'label label-success' %>
+					<%= content_tag :em, 'Direct Savings!', class: 'label label-success' %>
+				</p>
 			<% end %>
 			<%= content_tag :p, pluralize(@with_ebid_no_manual.count, 'part'), class: 'number' %>
 		</td>

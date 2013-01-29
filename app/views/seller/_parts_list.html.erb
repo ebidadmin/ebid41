@@ -2,41 +2,45 @@
 
 <%= form_tag bids_path(:entry_id => @entry), remote: true do %>
 	<div id="" class="well">
-		<%= content_tag :table, class: 'table' do %>
+		<table class="table">
 			<%= render 'entries/thead_show' %>
 
-			<% @entry.line_items.includes(:car_part, :bids).group_by(&:status).sort.each do |status, line_items| %>
-				<tr>
-					<%= content_tag :td, status, colspan: 4, class: 'label label-inverse' %>
-				</tr>
-				
-				<% line_items.each_with_index do |item, index| %>
-				<tr id="<%= item.id %>">
-					<td class="span4">
-						<%= content_tag :div, index + 1, class: 'index'  %>
-						<div class="parts">
-							<%= content_tag :p, item %>
-							<%= "#{content_tag :code, 'Details: ' + item.specs, class: 'small'}".html_safe if item.specs.present? %>
-							<%= link_with_icon "PO# #{item.order_id}", item.order, 'shopping-cart', "btn btn-mini btn-success", true if item.order && item.order.seller_id == current_user.id %>
-						</div>
-					</td>
+			<% LineItem::STATUS_TAGS.each do |tag| %>
+				<% @entry.line_items.includes(:car_part, :bids).group_by(&:status).sort.each do |status, line_items| %>
 					
-					<% %w(original replacement surplus).each do |t| %>
-						<td class="<%= t[0..3] %> bids span2 txtcenter">
-							<% if item.bids.where(user_id: current_user.company.users, bid_type: t).present? %>
-								<%= render item.bids.where(user_id: current_user.company.users, bid_type: t) %>
-								<%#= render 'seller/winning_bid', item: item, own_bid: own_bid, bids: bids unless current_user.id == 67 %>
-							<% else %>
-								<%= bid_box_helper(item.id, t) if item.is_online %>
+					<% if status == tag %>
+						<tr>
+							<%= content_tag :td, status, colspan: 4, class: 'label label-inverse' %>
+						</tr>
+				
+						<% line_items.each_with_index do |item, index| %>
+						<tr id="<%= item.id %>">
+							<td class="span4">
+								<%= content_tag :div, index + 1, class: 'index'  %>
+								<div class="parts">
+									<%= content_tag :p, item %>
+									<%= "#{content_tag :code, 'Details: ' + item.specs, class: 'small'}".html_safe if item.specs.present? %>
+									<%= content_tag :p, (link_with_icon "PO# #{item.order_id}", item.order, 'shopping-cart', "btn btn-mini btn-success", true) if item.order && item.order.seller_id == current_user.id %>
+								</div>
+							</td>
+					
+							<% %w(original replacement surplus).each do |t| %>
+								<td class="<%= t[0..3] %> bids span2 txtcenter">
+									<% if item.bids.where(user_id: current_user.company.users, bid_type: t).present? %>
+										<%= render item.bids.where(user_id: current_user.company.users, bid_type: t) %>
+										<%#= render 'seller/winning_bid', item: item, own_bid: own_bid, bids: bids unless current_user.id == 67 %>
+									<% else %>
+										<%= bid_box_helper(item.id, t) if item.is_online %>
+									<% end %>
+								</td>
 							<% end %>
-						</td>
+						</tr>
+						<% end %>
 					<% end %>
 					
-				</tr>
 				<% end %>
 			<% end %>
-
-		<% end %>
+		</table>
 	</div>
 
 	<div class="well">

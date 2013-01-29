@@ -16,6 +16,7 @@ dd { width: 65%; }
 .small { font-size: 0.95em; }
 .negative { color: #C00; font-weight: normal; }
 .cancelled { text-decoration: line-through; }
+.label.highlight, .label.label-highlight, .highlight { background-color: #FFF6BF; color: black; }
 code { color: black;}
 .label, .badge { font-weight: normal !important; padding: 4px 8px !important;  text-transform: uppercase; }
 
@@ -95,46 +96,17 @@ table {
 	 /* DIFF TABLE
 	----------------------------------------------------------------------*/ 
 
-	#diff .vehicle { width: 25%; }
-	#diff .vehicle .button { margin-top: 15px; }
-	#diff h3 { padding: 10px 0; text-align: center; }
-	#diff div { float: left; margin-bottom: 5px; min-height: 20px; line-height: 18px; }
-	#diff td .part { clear: both; }
-	#diff .part { width: 200px; }
-	#diff .amounts { margin-left: 10px; width: 490px; }
-	#diff .labels { clear: both; font-weight: bold; width: 50px; }
-	#diff .ebid { color: #C00; }
-	#diff .manual { color: green; }
-	#diff .amount { margin-left: 10px; text-align: right; width: 135px; }
-	#diff .no-bid { color: #919191; margin-left: 10px; text-align: center; width: 420px;  }
-	#diff .company { float: right; color: #C00; font-size: 0.8em; width: 40%;}
-	#diff hr { margin-top: 0;}
-	#diff hr:last-child { display: none; }
-	#canvass_company_id { font-size: 1em; margin-right: 10px;}
-
-	.dash.diff  { width: 100%; font-size: 1.2em;}
-	#diff .dash-entry strong { width: 40%; }
-	#diff #w-ebid, #diff #manual-only, #diff #no-price { padding-left: 15px; }
-	#diff #ebid-manual, #diff #ebid-only { padding-left: 30px; }
-	#diff #ebid-lower, #diff #ebid-higher, #diff #same { padding-left: 60px; }
-
-	#diff-stats { clear: both; font-size: 18px; width: 100%; }
-	#diff-stats dt { clear: both; float: left; width: 30%; }
-	#diff-stats dd { float: left; text-align: right; width: 30%; }
-	#diff-stats .survey-count { margin-top: 20px; }
-
-	#diff-table { margin-top: 15px; text-align: center; }
-	#diff-table th, #diff-table td { color: black; border: 1px solid #000; }
-	#diff-table .column { width: 432px; }
-	#diff-table .row { height: 432px; }
-	#diff-table h4 { font-weight: bold; }
-	#diff-table b { display: block; font-weight: bold; margin: 5px 0 0; }
+	#diff-table { margin: 25px 0;  }
+	#diff-table th, #diff-table td { color: black; border: 1px solid #000; ; text-align: center !important;}
+	//#diff-table tr:first-child { padding }
+	//#diff-table .column { width: 432px; }
+	//#diff-table .row { height: 432px; }
+	#diff-table b { display: block; font-weight: 200; margin: 5px 0 0; }
 	#diff-table span { font-size: 1.2em; }
-	#diff-table p.impt { font-size: 1em; margin: 0 auto; padding: 2px; width: 135px; }
-	#diff-table div { float: left; margin: 10px 10px 0 0; width: 135px; }
-	#diff-table #last { margin-right: 0; }
-	#diff-table .label { border-bottom: 1px solid #C00; color: #C00; font-size: 1.1em; padding-bottom: 4px;}
-	#diff-table .number { color: #919191; font-size: 1.5em; font-weight: bolder; margin-top: 10px; }
+	#diff-table div { float: left; margin: 10px 10px 0 0 !important; width: 31%;}
+	#diff-table .last { margin-right: 0; }
+	#diff-table .number { color: #919191; font-size: 1.2em; font-weight: bolder; margin: 10px 0; }
+	#diff-table .label { margin: 10px 0;}
 
 	
 @media print {

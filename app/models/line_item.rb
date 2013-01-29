@@ -10,7 +10,7 @@ class LineItem < ActiveRecord::Base
   has_one :var_item#, dependent: :destroy
 
   STATUS_TAGS = ['New', 'Online', 'Additional', 'Relisted', 'Re-bidding', 'For-Decision',
-    'New PO', 'For-Delivery', 'Delivered', 'Paid.', 'Paid', 'Closed', 'Lose', 'Cancelled']
+    'New PO', 'For-Delivery', 'Delivered', 'Paid.', 'Paid', 'Closed', 'Lose', 'Cancelled', 'Expired', 'No Bids']
 
   scope :new_items, where(status: 'New')
   scope :additional, where(status: 'Additional')

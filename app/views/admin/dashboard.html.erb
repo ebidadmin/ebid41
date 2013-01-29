@@ -104,11 +104,11 @@
 				</tr>
 			</thead>
 			<tbody>
-		    <% @presenter.active_users.each do |u| %>
+		    <% @presenter.active_users.order('current_sign_in_at DESC').each do |u| %>
 		      <tr>
 		        <td class="body span4">
 							<%= link_to u, edit_user_path(u) %>
-							<%= content_tag :span, regular_date(u.updated_at, 'short_time'), class: 'small muted' %>
+							<%= content_tag :span, regular_date(u.current_sign_in_at, 'short_time'), class: 'small muted' %>
 						</td>
 		      </tr>
 		    <% end %>
