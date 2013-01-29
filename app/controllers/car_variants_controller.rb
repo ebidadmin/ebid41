@@ -32,7 +32,7 @@ class CarVariantsController < ApplicationController
   def edit
     store_location
     @car_variant = CarVariant.find(params[:id])
-    @car_models = CarModel.where(car_brand_id: @car_variant.car_brand_id)
+    @car_models = CarModel.where(car_brand_id: @car_variant.car_brand_id).order(:name)
   end
 
   def update
@@ -48,7 +48,7 @@ class CarVariantsController < ApplicationController
     store_location
     @car_variant = CarVariant.find(params[:id])
     @car_variant.destroy
-    redirect_back_or_default @orig_variant.car_model
+    redirect_back_or_default @car_variant.car_model
   end
   
   def transfer

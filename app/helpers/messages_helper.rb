@@ -57,26 +57,24 @@ module MessagesHelper
     end
   end
   
-  # def user_signature(message, current_user)
-  #    sender = case message.user
-  #    when current_user then content_tag :span, 'YOU said', class: 'label label-info'
-  #    else 
-  #      if message.user.id == 1
-  #        "ADMIN said"
-  #      else
-  #        "#{message.user_type.titleize} ##{message.user_id} said"
-  #      end
-  #    end
-  # 
-  #    receiver = case message.receiver
-  #    when nil then nil
-  #    when current_user then content_tag :span, 'to YOU', class: 'label'
-  #    else 
-  #      if message.receiver.roles.present?
-  #        "to #{message.receiver.roles.first.name}"
-  #      end
-  #    end
-  # 
-  #    "#{sender} #{receiver if receiver.present?}".html_safe
-  #  end
+  def msg_for_helper(f, entry, order = nil)
+    case order.present?
+    when true
+      if can?(:access, :all) || can?(:access, :buyer)
+        collection = ['Admin', 'Buyer', 'Seller']
+      else
+        collection = ['Admin', 'Buyer']
+      end
+      checked = 'Buyer'
+    else
+      if entry.user != current_user
+        collection = ['Admin', 'Buyer']
+        checked = 'Buyer'
+      else
+        collection = ['Admin']
+        checked = 'Admin'
+      end
+    end
+    f.input :msg_for, as: :radio_buttons, collection: collection, checked: checked, label: 'Message For', item_wrapper_class: 'inline'
+  end
 end

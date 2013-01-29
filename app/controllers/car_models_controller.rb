@@ -38,7 +38,7 @@ class CarModelsController < ApplicationController
     store_location
     @car_model = CarModel.find(params[:id])
     @car_model.destroy
-    redirect_back_or_default car_models_url
+    redirect_back_or_default @car_model.car_brand
   end
 
   def selected

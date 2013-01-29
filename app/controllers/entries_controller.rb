@@ -8,7 +8,7 @@ class EntriesController < ApplicationController
     @companies = Company.where(primary_role: 2).includes(:users).order('users.username ASC')
 
     if params[:q] && params[:q][:car_brand_id_eq].present?
-      @car_models = CarModel.where(car_brand_id: params[:q][:car_brand_id_eq])
+      @car_models = CarModel.where(car_brand_id: params[:q][:car_brand_id_eq]).order(:name)
     else
       @car_models = []
     end
@@ -60,8 +60,8 @@ class EntriesController < ApplicationController
     session['referer'] = request.env["HTTP_REFERER"]
     @entry = Entry.find(params[:id])
     @photos = @entry.photos
-    @car_models = CarModel.where(car_brand_id: @entry.car_brand_id)
-    @car_variants = CarVariant.where(car_model_id: @entry.car_model_id)
+    @car_models = CarModel.where(car_brand_id: @entry.car_brand_id).order(:name)
+    @car_variants = CarVariant.where(car_model_id: @entry.car_model_id).order(:name)
     @entry.photos.build if @entry.photos.nil?
   end
 
@@ -114,7 +114,7 @@ class EntriesController < ApplicationController
   def reveal 
     @entry = Entry.find(params[:id])
     unless @entry.bids.blank?
-      if @entry.status == 'Re-bidding'
+      if @entry.status == 'Re-bidding' || @entry.status == 'Additional' || @entry.status == 'Relisted'
         flash[:notice] = @entry.reveal2
       else
         flash[:notice] = @entry.reveal

@@ -6,7 +6,7 @@
 			</tr>
 		</thead>
 		<tbody>
-	    <% @messages.each do |m| %>
+	    <% @messages.limit(5).each do |m| %>
 	      <tr id="message_<%= m.id %>"<%= "class=alert" if m.read_on.nil? %>>
 	        <td class="body span4">
 						<% if m.order_id  %>
@@ -26,9 +26,10 @@
 					</td>
 	      </tr>
 	    <% end %>
-			<tr class="label-inverse ">
+			<tr class="label-inverse">
 				<td>
-					<%= content_tag :p, (link_to 'Other Messages', link, class: 'btn'), class: 'txtright' %>
+					<%= content_tag :p, "#{@messages.unread.count} unread messages", class: 'pull-left label label-important' if @messages.unread.count > 0 %>
+					<%= content_tag :p, (link_to 'View All', link, class: 'btn'), class: 'txtright' %>
 				</td>
 			</tr>
 		</tbody>

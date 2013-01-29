@@ -89,9 +89,9 @@ class ApplicationController < ActionController::Base
   
   def search_car_models
     if params[:q] && params[:q][:car_brand_id_eq].present?
-      @car_models = CarModel.where(car_brand_id: params[:q][:car_brand_id_eq])
+      @car_models = CarModel.where(car_brand_id: params[:q][:car_brand_id_eq]).order(:name)
     elsif params[:q] && params[:q][:entry_car_brand_id_eq].present?
-      @car_models = CarModel.where(car_brand_id: params[:q][:entry_car_brand_id_eq])
+      @car_models = CarModel.where(car_brand_id: params[:q][:entry_car_brand_id_eq]).order(:name)
     else
       @car_models = []
     end

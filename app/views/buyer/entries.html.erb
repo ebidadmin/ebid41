@@ -29,7 +29,7 @@
 				<% end %>
 
 				<%= content_tag :td, class: 'span4' do %>
-		      <%= content_tag :p, entry.model_name, class: 'lead vehicle' %>
+		      <%= content_tag :p, link_to(entry.model_name, buyer_show_path(entry)), class: 'lead vehicle' %>
 					<%= content_tag :p, entry.plate_no, class: 'muted' %>
 				<% end %>
 

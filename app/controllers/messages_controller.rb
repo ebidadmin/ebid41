@@ -47,6 +47,10 @@ class MessagesController < ApplicationController
     when 'Buyer'
       @message.receiver_id = @entry.user_id
       @message.receiver_company_id = @entry.company_id
+    when 'Seller'
+      @order = Order.find(params[:message][:order_id])
+      @message.receiver_id = @order.seller_id
+      @message.receiver_company_id = @order.seller_company_id
     end
  
     respond_to do |format|

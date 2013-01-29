@@ -20,13 +20,15 @@ class LineItemsController < ApplicationController
   end
 
   def edit
+    store_location
     @line_item = LineItem.find(params[:id])
   end
 
   def update
     @line_item = LineItem.find(params[:id])
     if @line_item.update_attributes(params[:line_item])
-      redirect_to @line_item, :notice  => "Successfully updated line item."
+      flash[:notice] = "Successfully updated line item."
+      redirect_back_or_default @line_item
     else
       render :action => 'edit'
     end

@@ -5,9 +5,9 @@ class BuyerController < ApplicationController
   def dashboard
     @presenter = BuyerPresenter.new(current_user)
     if current_user.has_role? :powerbuyer
-      @messages = Message.where(receiver_company_id: current_user.company).limit(5).order('id DESC')
+      @messages = Message.where(receiver_company_id: current_user.company).order('id DESC')
     else
-      @messages = Message.where(receiver_id: current_user).limit(5).order('id DESC')
+      @messages = Message.where(receiver_id: current_user).order('id DESC')
     end
   end
   

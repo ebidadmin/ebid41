@@ -21,6 +21,7 @@ class Message < ActiveRecord::Base
   default_scope includes(:user, :receiver)
   scope :pub, where(open_tag: true)
   scope :pvt, where(open_tag: false)
+  scope :unread, where(read_on: nil)
   
   validates_presence_of :message
 

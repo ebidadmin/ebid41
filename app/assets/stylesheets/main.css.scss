@@ -3,15 +3,17 @@
 //@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic);
 ///* font-family: 'PT Sans', sans-serif; */
 //
-//h1, h2, h3, h4, h5, h6 {
-//    font-family: 'PT Sans', sans-serif;
-//    font-weight: 700;
-//    color: #555555;
-//    letter-spacing: -1px;
-//}
-//
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 700;
+    color: #555555;
+    letter-spacing: -1px;
+}
 
-.sessions.new input { width: 95%; font-size: 1.5em; height: auto; }
+
+.sessions.new, .sessions.create {
+	input { width: 95%; font-size: 1.5em; height: auto; }
+}
 .dashboard .page-header { margin-bottom: 5px; }
 label { text-transform: uppercase; font-size: 0.8em !important; }
 .bid-amount a { color: inherit; }

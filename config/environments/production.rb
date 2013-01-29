@@ -83,7 +83,7 @@ Ebid41::Application.configure do
     sender_address: 'noreply@ebid.com.ph',
     exception_recipients: 'cymarquez@mac.com'
 
-  Mail.register_interceptor(MailInterceptor)
+  # Mail.register_interceptor(MailInterceptor)
 
 
   # Log the query plan for queries taking more than this (works

@@ -40,7 +40,7 @@
 
 				</tr>
 
-				<% cmodel.car_variants.each do |variant| %>
+				<% cmodel.car_variants.order(:name).each do |variant| %>
 					<tr>
 						<%= content_tag :td, link_to(variant.name, variant), class: 'span3' %>
 						<%= content_tag :td, variant.entries.size, class: "span1 txtcenter#{' highlight lead' if variant.entries.size > 0}" %>
