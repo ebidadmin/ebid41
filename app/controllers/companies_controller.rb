@@ -29,6 +29,7 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    # raise params.to_yaml
     @company = Company.find(params[:id])
     if @company.update_attributes(params[:company])
       flash[:notice] = "Successfully updated company."
@@ -40,7 +41,11 @@ class CompaniesController < ApplicationController
 
   def destroy
     @company = Company.find(params[:id])
-    @company.destroy # WARNING: should not DESTROY IF WITH ENTRIES/BIDS
+    if @company.entries.present? || @company.bids.present?
+      @company.destroy # WARNING: should not DESTROY IF WITH ENTRIES/BIDS
+    else
+      
+    end
     redirect_to companies_url, :notice => "Successfully destroyed company."
   end
   

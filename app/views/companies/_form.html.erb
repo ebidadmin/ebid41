@@ -2,18 +2,22 @@
 	<div class="span5">
 	  <%= f.input :name %>
 	  <%= f.input :nickname %>
-	  <%= f.association :role %>
-	  <%= f.input :trial_start, as: :string, input_html: { size: 25, class: 'datepicker'} %>
-	  <%= f.input :trial_end, as: :string, input_html: { size: 25, class: 'datepicker'} %>
-	  <%= f.input :metering_date, as: :string, input_html: { size: 25, class: 'datepicker'} %>
+		<% if can? :access, :all %>
+		  <%= f.association :role %>
+		  <%= f.input :trial_start, as: :string, input_html: { size: 25, class: 'datepicker'} %>
+		  <%= f.input :trial_end, as: :string, input_html: { size: 25, class: 'datepicker'} %>
+		  <%= f.input :metering_date, as: :string, input_html: { size: 25, class: 'datepicker'} %>
+		<% else %>
+		  <%= f.association :role, disabled: true %>
+		<% end %>
 	  <%= f.input :perf_ratio, disabled: true %>
 	</div>
 	<div class="span5">
 		<%= f.association :friends, as: :check_boxes, collection: Company.where("id != 1 AND primary_role != #{@company.primary_role}").order(:name) if @company.primary_role.present? %>
 	</div>
   <div class="well span12 txtright">
+    <%= link_to 'Cancel', :back, :class => 'btn' %>
     <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to 'Cancel', companies_path, :class => 'btn' %>
   </div>
 <% end %>
 

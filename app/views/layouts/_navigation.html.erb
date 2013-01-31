@@ -25,7 +25,7 @@
 							<ul class="dropdown-menu">
 								<%= content_tag :li, link_to("Logout #{current_user.username.upcase}", destroy_user_session_path, :method=>'delete') %>
 							  <%= content_tag :li, link_to('My Account', edit_user_path(current_user, c: current_user.company.id)) %>
-							  <%= content_tag :li, link_to('My Company', company_path(current_user.company, c: current_user.company.id)) if can? :access, :companies %>
+							  <%= content_tag :li, link_to('My Company', company_path(current_user.company, c: current_user.company.id)) if can? :show, :companies %>
 							</ul>
 						</li>
 					<% else %>

@@ -23,6 +23,7 @@
 	<div class="pull-right">
 	  <%= link_to 'Edit', edit_company_path(@company), :class => 'btn' %>
 	  <%= link_to 'Delete', company_path(@company), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' if can? :access, :all %>
+		<%= link_to 'Companies', companies_path, class: 'btn' if can? :acces, :all %>
 	</div>
 </div>
 
@@ -67,7 +68,7 @@
 					<%= content_tag :td, link_to('Add User', new_user_path(c: @company.id, b: branch.id), class: 'btn'), colspan: 4 %>
 				<% end %>
 			</tr>
-				<% for user in branch.users %>
+				<% for user in branch.users.joins(:profile).order('profiles.first_name') %>
 					<tr>
 						<td><%= content_tag :span, user.enabled? ? 'ON' : 'OFF', class: "label #{user.enabled? ? 'label-success' : nil }" %></td>
 						<td><%= user.profile %></td>

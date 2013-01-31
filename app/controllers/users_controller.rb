@@ -45,17 +45,21 @@ class UsersController < ApplicationController
       @user = current_user
       @company_type = Role.find(2, 3)
     end
-    @branches = Branch.where(company_id: @user.company.id)
+    if can? :access, :all
+      @branches = Branch.scoped
+    else
+      @branches = Branch.where(company_id: @user.company.id)
+    end
   end
 
   def update
-    if current_user.has_role?('admin')
-      @user = User.find(params[:id])
-      @company_type = Role.find(1, 2, 3)
-    else
-      @user = current_user
-      @company_type = Role.find(2, 3)
-    end
+    # if current_user.has_role?('admin')
+    #   @user = User.find(params[:id])
+    #   @company_type = Role.find(1, 2, 3)
+    # else
+    #   @user = current_user
+    #   @company_type = Role.find(2, 3)
+    # end
     if @user.update_attributes(params[:user])
       flash[:notice] = "Successfully updated user."
       redirect_back_or_default @user.company

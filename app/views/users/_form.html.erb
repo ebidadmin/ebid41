@@ -4,60 +4,61 @@
 	<%= f.error_notification %>
   <%= f.simple_fields_for :profile do |profile| %>
 
-	<fieldset>
-		<legend>Login Credentials</legend>
 		<div class="row">
 			<div class="span4">
-				<%= f.input :username, hint: 'Please give a login name, NOT your full name' %>
-				<%= current_page?(new_user_path) ? (f.input :password, hint: 'Use at least 4 characters.', required: true) : (f.input :password, label: 'Change Password', hint: 'Use at least 4 characters.', required: true) %>
-				<%= f.input :password_confirmation, label: 'Type Password again', required: true %>
+				<fieldset>
+					<legend>Login Credentials</legend>
+					<%= f.input :username, hint: 'Please give a login name, NOT your full name' %>
+					<%= current_page?(new_user_path) ? (f.input :password, hint: 'Use at least 4 characters.', required: true) : (f.input :password, label: 'Change Password', hint: 'Use at least 4 characters.', required: true) %>
+					<%= f.input :password_confirmation, label: 'Type Password again', required: true %>
+					<%= f.input :enabled, label: 'Enable?', as: :radio_buttons, item_wrapper_class: 'inline' if can? :enable, :users %>
+				</fieldset>
 			</div>
-			<div class="span4 offset1">
-				<% if @user.new_record? || (can? :access, :all) %>
-				  <%= profile.association :company, collection: Role.find([1,2,3]), as: :grouped_select, group_method: :companies, group_label_method: :name, label_method: :nickname, wrapper_html: { id: 'companies' }  %>
-				<% else %>
-				  <%= profile.input :company, disabled: true  %>
-					<%= profile.input :company_id, as: :hidden, input_html: { value: params[:c] } %>
-				<% end %>
-				<%= profile.association :branch, collection: @branches, wrapper_html: { id: 'branches' } %>
-			</div>
-		</div>
-	</fieldset>
-	<fieldset>
-		<legend>Profile</legend>
-		<div class="row">
+			
 			<div class="span4">
-		 		<%= profile.input :first_name  %>
-		 		<%= profile.input :last_name %>
-		 		<%= profile.association :rank, label: 'Position', collection: Rank.order(:name) %>
-		 		<%= profile.input :birthdate, as: :string, input_html: {id: 'datepicker'}, placeholder: 'Click to select date', hint: 'We want to remember you on your birthday. (Format: YYYY-MM-DD)' %>
+				<fieldset>
+					<legend>Profile</legend>
+			 		<%= profile.input :first_name  %>
+			 		<%= profile.input :last_name %>
+			 		<%= profile.association :rank, label: 'Position', collection: Rank.order(:name) %>
+					<% if @user.new_record? || (can? :access, :all) %>
+					  <%= profile.association :company, collection: Role.find([1,2,3]), as: :grouped_select, group_method: :companies, group_label_method: :name, label_method: :nickname, wrapper_html: { id: 'companies' }  %>
+					<% else %>
+					  <%= profile.input :company, disabled: true, wrapper_html: { class: 'pull-left' }   %>
+						<%= profile.input :company_id, as: :hidden, input_html: { value: params[:c] } %>
+					<% end %>
+					<%= profile.association :branch, collection: @branches, wrapper_html: { id: 'branches', class: 'pull-left' } %>
+				</fieldset>
 			</div>
-			<div class="span4 offset1">
-		 		<%= profile.input :phone %>
-		 		<%= profile.input :fax %>
-				<%= f.input :email, hint: "#{content_tag :span, 'Important: Put a valid email', class: 'label label-important'} We need this to send you notifications and messages.".html_safe %>
-				<%= f.input :opt_in, label: 'Receive Notifications by Email?', as: :radio_buttons, item_wrapper_class: 'inline' %>
-				<%= f.input :enabled, as: :radio_buttons, item_wrapper_class: 'inline' if can? :access, :all %>
+			
+			<div class="span4">
+				<fieldset>
+					<legend>Contact Info</legend>
+			 		<%= profile.input :phone %>
+			 		<%= profile.input :fax %>
+					<%= f.input :email, hint: "#{content_tag :span, 'Important: Put a valid email', class: 'label label-important'}".html_safe %>
+					<%= f.input :opt_in, label: 'Receive Notifications by Email?', as: :radio_buttons, item_wrapper_class: 'inline' %>
+				</fieldset>
 			</div>
 		</div>
-	</fieldset>
-	<% if can? :assign, :role %>
-		<fieldset>
-			<legend>Roles</legend>
-			<%= f.association :roles, label: false, as: :check_boxes, item_wrapper_class: 'inline' %>
-			<%= f.input :confirmation_token, :label => 'Email Confirmed', disabled: true %>
-		</fieldset>	
-	<% end %>
-	<hr>
-	
-	<div class="well txtright">
-		<% if current_user && current_user.has_role?('admin') %>
-		  <%= link_to "Show", @user, class: 'btn' %> 
-		  <%= link_to "View All", users_path, class: 'btn' %>
+		
+		<% if can? :assign, :role %>
+			<hr>
+			<fieldset>
+				<legend>Roles</legend>
+				<%= f.association :roles, label: false, as: :check_boxes, item_wrapper_class: 'inline' %>
+				<%= f.input :confirmation_token, :label => 'Email Confirmed', disabled: true %>
+			</fieldset>	
 		<% end %>
-		<%= link_to "Cancel", :back, class: 'btn' %>
-		<%= f.button :submit, class: 'btn btn-success btn-large' %>
-	</div>
+	
+		<div class="well txtright">
+			<% if current_user && current_user.has_role?('admin') %>
+			  <%= link_to "Show", @user, class: 'btn' %> 
+			  <%= link_to "View All", users_path, class: 'btn' %>
+			<% end %>
+			<%= link_to "Cancel", :back, class: 'btn' %>
+			<%= f.button :submit, class: 'btn btn-success btn-large' %>
+		</div>
 
   <% end %>
 <% end %>

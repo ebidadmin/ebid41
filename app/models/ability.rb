@@ -29,8 +29,8 @@ class Ability
     can [:create, :read, :update, :destroy, :view, :close], :messages
     can :print, :fees
     can :read, :ratings
-    can :update, :users#, id: user.id
-    can :access, :companies, id: @user.company.id
+    can [:show, :update], :users, id: @user.id
+    can [:show, :update], :companies, id: @user.company.id
     can [:access, :update], :branches, id: @user.branch.id
   end
   
@@ -40,9 +40,9 @@ class Ability
     can [:create, :update, :read, :print, :change_status, :cancel, :confirm_cancel], :orders
     can [:access, :update], :branches, company_id: @user.company.id
     can :create, :branches
-    can :access, :users, profile: { company_id: @user.company.id }
-    can :access, :profiles, company_id: @user.company.id
-    can [:read, :create, :update], [:users, :profiles]
+    can [:show, :update, :enable], :users, profile: { company_id: @user.company.id }
+    can [:show, :update], :profiles, company_id: @user.company.id
+    can :create, [:users, :profiles]
   end
   
   def seller
