@@ -7,6 +7,12 @@ class FeesController < ApplicationController
     @branch = Branch.find(params[:q][:buyer_branch_id_eq]).name if params[:q] && params[:q][:buyer_branch_id_eq].present?
     buyer_present?
     seller_present?
+    
+    if params[:q] && params[:q][:buyer_company_id_eq].present?
+      @branches = Branch.where(company_id: params[:q][:buyer_company_id_eq])
+    else
+      @branches = []
+    end
   end
 
   def show
