@@ -49,7 +49,7 @@
 						</p>
 					</td>
 				</tr>
-				<% if @presenter.bidding_ratio < "25%" %>
+				<% if @presenter.bidding_ratio.present? && @presenter.bidding_ratio < "25%" %>
 					<tr class="alert-success">
 						<td colspan="2" class="txtcenter">
 							<%= content_tag :p, 'Tip', class: 'label label-success' %>

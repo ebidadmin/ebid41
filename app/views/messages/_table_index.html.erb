@@ -32,9 +32,6 @@
 					</td>
 	        <td>
 						<%= content_tag :p, (regular_date m.created_at, 'short_time') %>
-						<%#= link_with_icon '', message_path(m), 'envelope', 'btn-mini' %>
-						<%#= link_with_icon_js '', edit_message_path(m), 'pencil', 'btn-mini' %>
-						<%#= link_with_icon_delete '', m, 'btn-mini btn-danger', true %>
 	        </td>
 	        <td class="txtright">
 						<% if m.read_on.nil? %>
@@ -49,6 +46,10 @@
 							<%= link_to("View Entry", m, class: 'btn btn-mini btn-info')  %>
 						<% else %>
 							<%= link_with_icon '', message_path(m), 'envelope', 'btn-mini' %>
+						<% end %>
+						<% if can? :access, :all %>
+						<%= link_to 'edit', edit_message_path(m), class: 'btn btn-mini' %>
+						<%= link_with_icon_delete '', m, 'btn-mini btn-danger', true %>
 						<% end %>
 					</td>
 	      </tr>

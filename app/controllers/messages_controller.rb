@@ -71,6 +71,7 @@ class MessagesController < ApplicationController
    end
 
   def edit
+    store_location
     @message = Message.find(params[:id])
   end
 

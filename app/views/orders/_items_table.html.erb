@@ -19,7 +19,11 @@
 				<% end %>
 				<%=  content_tag :td, (content_tag :span, bid.bid_type.upcase, class: 'label label-inverse'), class: 'span2 txtcenter' %>
 				<%=  content_tag :td, bid_quantity_helper(bid, params[:action]), class: 'span2 txtcenter qty' %>
-				<%=  content_tag :td, currency(bid.amount), class: 'span2 txtright' %>
+				<% if can? :access, :all %>
+					<%=  content_tag :td, link_to(currency(bid.amount), edit_bid_path(bid)), class: 'span2 txtright' %>
+				<% else %>
+					<%=  content_tag :td, currency(bid.amount), class: 'span2 txtright' %>
+				<% end %>
 				<%=  content_tag :td, class: 'span3 txtright' do %>
 					<%= currency(bid.total) %>
 				<% end %>

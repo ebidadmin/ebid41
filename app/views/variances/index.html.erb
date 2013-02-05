@@ -25,7 +25,7 @@
         <td><%= link_to variance.id, variance_path(variance, entry_id: variance.entry_id) %></td>
         <td><%= variance.user %></td>
         <td><%= variance.company %></td>
-        <td><%= variance.entry_id %></td>
+        <td><%= link_to variance.entry_id, variance.entry %></td>
         <td><%= variance.var_company %></td>
         <td><%= regular_date variance.created_at %></td>
         <td>

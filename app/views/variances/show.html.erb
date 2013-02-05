@@ -35,7 +35,7 @@
 					<%= content_tag :div, item, class: 'partdesc' %>
 				<% end %>
 
-				<%= content_tag :td, item.var_item.qty, class: 'span1 txtcenter' %>
+				<%= content_tag :td, (item.var_item.qty if item.var_item), class: 'span1 txtcenter'  %>
 
 				<%= content_tag :td, class: 'span2 txtright padrt' do %>
 					<% if item.var_item && item.var_item.var_total %>

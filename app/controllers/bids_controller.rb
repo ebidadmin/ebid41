@@ -50,7 +50,9 @@ class BidsController < ApplicationController
 
   def update
     @bid = Bid.find(params[:id])
+    @bid.total = (params[:bid][:amount].to_f * params[:bid][:quantity].to_i)
     if @bid.update_attributes(params[:bid])
+      @bid.order.update_attribute(:order_total, @bid.order.bids.collect(&:total).sum) if @bid.order.present?
       redirect_back_or_default bids_path
     else
       render :action => 'edit'
