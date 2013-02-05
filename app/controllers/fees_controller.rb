@@ -8,8 +8,8 @@ class FeesController < ApplicationController
     buyer_present?
     seller_present?
     
-    if params[:q] && params[:q][:buyer_company_id_eq].present?
-      @branches = Branch.where(company_id: params[:q][:buyer_company_id_eq])
+    if params[:q] && params[:q][:buyer_company_id_matches].present?
+      @branches = Branch.where(company_id: params[:q][:buyer_company_id_matches])
     else
       @branches = []
     end
