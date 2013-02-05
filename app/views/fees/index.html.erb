@@ -1,6 +1,6 @@
 <% if params[:t] == 'bf' %>
 	<% title "Decline Fees" %>
-	<% subtitle "#{current_user.nickname}'s share #{period_covered_helper(@all_fees, params[:q])}" %>
+	<% subtitle "#{period_covered_helper(@all_fees, params[:q])}" %>
 <% else %>
 	<% title "Market Fees of #{current_user.company.nickname}" %>
 	<% subtitle "for paid orders #{period_covered_helper(@all_fees, params[:q])}" %>
@@ -9,11 +9,7 @@
 
 <div class="row">
 	<%= content_tag :p, class: 'lead span3' do %>
-		<% if params[:t] == 'bf' %>
-			<%= currency(@all_fees.supplier_share) %>
-		<% else %>
-			<%= currency(@all_fees.total_fee, 'P ') %>
-		<% end %>
+		<%= currency(@all_fees.total_fee, 'P ') %>
 	<% end %>
 	<%= content_tag :p, "Base: #{currency(@all_fees.base_fee)}", class: 'span2' %>
 	<%= content_tag :p, "VAT: #{currency(@all_fees.vat)}", class: 'span2' %>
