@@ -52,17 +52,18 @@
 					<% end %>
 					<%= content_tag :td, class: 'span2 txtcenter bids' do %>
 						<% bts.map {|b| b if b.orig? }.each do |bid| %>
-							<%= bid_amount_helper bid if bid %>
+							<%#= bid_amount_helper bid if bid %>
+							<%= render bid if bid %>
 						<% end %>
 					<% end %>
 					<%= content_tag :td, class: 'span2 txtcenter bids' do %>
 						<% bts.map {|b| b if b.rep? }.each do |bid| %>
-							<%= bid_amount_helper bid if bid %>
+							<%= render bid if bid %>
 						<% end %>
 					<% end %>
 					<%= content_tag :td, class: 'span2 txtcenter bids' do %>
 						<% bts.map {|b| b if b.surp? }.each do |bid| %>
-							<%= bid_amount_helper bid if bid %>
+							<%= render bid if bid %>
 						<% end %>
 					<% end %>
 				

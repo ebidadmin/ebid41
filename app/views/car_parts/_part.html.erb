@@ -1,0 +1,12 @@
+<% @car_parts.each do |car_part| %>
+  <tr>
+    <td><%= car_part.id %></td>
+    <td><%= link_to car_part.name, car_part %></td>
+    <td><%= car_part.line_items.size %></td>
+    <td><%= car_part.creator %></td>
+    <td>
+      <%= link_to 'Edit', edit_car_part_path(car_part), :class => 'btn btn-mini' %>
+      <%= link_to 'Destroy', car_part_path(car_part), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+    </td>
+  </tr>
+<% end %>

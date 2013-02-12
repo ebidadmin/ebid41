@@ -1,6 +1,6 @@
 <div class="navbar search">
   <div class="navbar-inner">
-	<%= content_tag :span, 'Search', class: 'brand' %>
+		<%= content_tag :span, 'Search', class: 'brand' %>
 		<%= search_form_for @q, url: request.path, html: { class: 'navbar-search' } do |f| %>
 		  <%= f.text_field :plate_no_cont, class: 'input-small', placeholder: 'Plate Number' %>
 			<% if can? :access, :all %>

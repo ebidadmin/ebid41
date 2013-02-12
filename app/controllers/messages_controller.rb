@@ -79,7 +79,7 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     if @message.update_attributes(params[:message])
       respond_to do |format|
-        format.html { redirect_to :back, notice: "Successfully updated message." }
+        format.html { redirect_back_or_default messages_path }
         format.js { render action: :close }
       end
     else

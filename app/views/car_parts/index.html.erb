@@ -1,8 +1,17 @@
 <% title 'Car Parts' %>
 
-<div class="well">
-	<%= link_to 'New', new_car_part_path, :class => 'btn btn-primary' %>
+<div class="navbar search">
+  <div class="navbar-inner">
+		<%= content_tag :span, 'Search', class: 'brand' %>
+		<%= search_form_for @q, url: request.path, html: { class: 'navbar-search' } do |f| %>
+		  <%= f.text_field :name_cont, placeholder: 'Part Name' %>
+			<%= f.button 'Go!', class: 'btn btn-primary' %>
+			<%= refresh_button %>
+		<% end %>
+		<%= link_to 'New', new_car_part_path, :class => 'btn btn-primary pull-right' %>
+  </div>
 </div>
+
 
 <%= content_tag :div, page_entries_info(@car_parts), class: 'page-info' %>
 
@@ -17,18 +26,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @car_parts.each do |car_part| %>
-      <tr>
-        <td><%= car_part.id %></td>
-        <td><%= link_to car_part.name, car_part %></td>
-        <td><%= car_part.line_items.size %></td>
-        <td><%= car_part.creator %></td>
-        <td>
-          <%= link_to 'Edit', edit_car_part_path(car_part), :class => 'btn btn-mini' %>
-          <%= link_to 'Destroy', car_part_path(car_part), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
+    <%= render :partial => 'part' %>
   </tbody>
 </table>
 

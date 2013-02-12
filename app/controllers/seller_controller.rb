@@ -14,6 +14,14 @@ class SellerController < ApplicationController
   end
 
   def worksheet
+    # raise params.to_yaml
+    if params[:entries] 
+      @entries = Entry.where(:id => params[:entries])
+    else
+      @entries = Entry.online.active.unexpired.joins{company.friends}.where(:friendships => { :friend_id => current_user.company.id}).includes(:line_items)
+    end
+    @company = current_user.company
+    render layout: 'print'
   end
 
   def bids

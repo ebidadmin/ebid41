@@ -1,5 +1,5 @@
 $ ->
-	$('.form-search input').live 'keyup', ->
+	$('.form-search input, #car_part_search input').live 'keyup', ->
 		$.get($(".form-search").attr("action"), $(".form-search").serialize(), null, "script")
 	$('#parts-pagination a').live 'click', ->
 		$.getScript(@.href)

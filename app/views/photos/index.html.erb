@@ -17,7 +17,7 @@
 
 <% @photos.group_by(&:entry).each do |entry, photos| %>
 	<h4>
-		<%= link_to(entry.model_name, buyer_show_path(entry)) %>
+		<%= link_to(entry.model_name, entry) %>
 		<%= content_tag :small, entry.plate_no %>
 	</h4>
 	<%= content_tag :p, entry.user, class: 'muted' %>
