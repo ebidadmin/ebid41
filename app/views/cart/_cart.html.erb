@@ -8,6 +8,7 @@
 			<li>
 				<%= content_tag :div, index + 1, class: 'index'  %>
 				<%= content_tag :div, item.car_part, class: 'partdesc' %>
+				<%#= delete_icon '', item, nil, false, true %>
 			</li>
 			<% end %>
 		</ul>
@@ -23,6 +24,7 @@
 				<li>
 					<%= content_tag :div, index + 1, class: 'index'  %>
 					<%= content_tag :div, item.car_part, class: 'partdesc' %>
+					<%= content_tag :div, link_to(content_tag(:i, '', class: 'icon-trash'), cart_remove_path(part: item, id: @entry), remote: true), class: 'pull-right' %>
 				</li>
 				<% end %>
 			</ul>

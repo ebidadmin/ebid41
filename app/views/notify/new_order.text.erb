@@ -8,7 +8,7 @@ A Purchase Order was just released for
 	Parts Ordered: 
 	
 		<% @order.bids.each do |li| %>
-		[ <%= li.quantity %> ]  <%= li.line_item.html_safe %> - <%= li.bid_type.upcase %>
+		[ <%= li.quantity %> ]  <%= li.line_item %> - <%= li.bid_type.upcase %>
 		<% end %>
 
 	Total Order: <%= currency(@order.order_total, 'P ') %>

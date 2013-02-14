@@ -8,6 +8,9 @@ class CartController < ApplicationController
   end
 
   def remove
+    @entry = Entry.find(params[:id])
+    @item = @cart.remove(params[:part])
+    render 'add'
   end
 
   def clear
