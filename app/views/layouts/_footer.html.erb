@@ -14,11 +14,13 @@
 	            </div>
 	            <div class="span6">
 	                <h3>Recent Entries</h3>
+									<% if Rails.env == 'production' %>
 	                <ul class="flickr clearfix">
 										<% for entry in Entry.limit(10).includes(:photos) %>
 											<%= content_tag :li, (image_tag entry.photos.first.photo.url(:tiny), alt: "Photo of #{entry.plate_no}") unless entry.photos.blank? %>
 										<% end %>
 	                </ul>
+									<% end %>
 	            </div>
 	        </div>
 	    </div>

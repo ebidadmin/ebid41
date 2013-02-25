@@ -8,7 +8,7 @@ class AdminController < ApplicationController
   def update_ratios
     for company in Company.all
       if company.primary_role == 2 # buyer
-        # company.compute_buyer_ratio
+        company.compute_buyer_ratio
       elsif company.primary_role == 3 # seller
         company.compute_seller_ratio
       end
