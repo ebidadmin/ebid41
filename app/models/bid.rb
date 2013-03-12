@@ -108,7 +108,7 @@ class Bid < ActiveRecord::Base
   end
   
   def cancelled?
-    status.include?('Cancelled') || status.include?('Dropped')
+    status.include?('Cancelled') #|| status.include?('Dropped')
   end
   
   def orig?
@@ -141,7 +141,7 @@ class Bid < ActiveRecord::Base
     when 'For-Decision' then 'label-highlight'
     when 'New PO', 'PO Released', 'For-Delivery', 'Delivered', 'Paid!', 'Paid', 'Closed' then 'label-success'
     when 'Expired', 'Declined' then 'label-warning'
-    when 'Dropped' then 'label-highlight cancelled'
+    when 'Dropped' then 'label-highlight'
     else nil
     end
     color = 'label-inverse' if self.cancelled?

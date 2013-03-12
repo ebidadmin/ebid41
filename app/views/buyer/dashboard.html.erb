@@ -121,7 +121,7 @@
 	<%= render 'messages/for_dashboard', link: buyer_messages_path %>
 </div>
 
-<% if @presenter.order_ratio < "25%" %>
+<% if @presenter.order_ratio && @presenter.order_ratio < "25%" %>
 	<div class="well">
 		<%= content_tag :span, 'Tip', class: 'label label-important' %>
 		<%= content_tag :span, "Target an order ratio of <b>at least 25%</b> to motivate the suppliers to give you better bids.".html_safe %>
