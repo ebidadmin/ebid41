@@ -199,10 +199,10 @@ class Entry < ActiveRecord::Base
     ready_for_reveal && (bids.present? && bids.online.present?)
 	end
 
-  def can_reactivate
-    # expired && updated_at > 1.month.ago && line_items.collect(&:status).uniq.include?("Expired")
-   updated_at > 1.month.ago && line_items.collect(&:status).uniq.include?("Expired")
-  end
+  # def can_reactivate
+  #   # expired && updated_at > 1.month.ago && line_items.collect(&:status).uniq.include?("Expired")
+  #  updated_at > 1.month.ago && line_items.collect(&:status).uniq.include?("Expired")
+  # end
 
   def can_be_ordered
     line_items.present? && line_items.collect(&:status).uniq.include?("For-Decision")
