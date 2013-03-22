@@ -67,7 +67,7 @@
 								<%= content_tag :code, f.bid_type[0].upcase %>
 							<% end %>
 							<% if params[:t] == 'sf' %>
-							<%= content_tag :em, "Paid: #{regular_date(f.order_paid, 'short')}", class: "small" if f.order_paid %>
+							<br><%= content_tag :em, "Paid: #{regular_date(f.order_paid, 'short')}", class: "small" if f.order_paid %>
 							<% end %>
 						<% end %>
 						<%= content_tag :div, class: 'factors txtright small' do %>
