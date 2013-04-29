@@ -35,6 +35,11 @@ class BuyerController < ApplicationController
 
   def print
     show
+    if can? :access, :all
+      @messages = @entry.messages
+    else          
+      @messages = @entry.messages.restricted(current_user.company)
+    end
     render :layout => 'print'
   end
 

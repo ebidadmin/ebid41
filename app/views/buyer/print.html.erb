@@ -5,14 +5,7 @@
 	<%= render 'entries/info_vehicle' %>
 </section>
 
-<%= content_tag :ul, class: 'breadcrumb small' do %>
-	<% Entry::TAGS_FOR_SIDEBAR.each do |tag| %>
-		<%= get_date_for_sidebar(@entry, tag) %>
-	<% end %>
-<% end %>
-
-
-<section>
+<section id="parts-list">
 	<%= content_tag :table, class: 'table table-bordered table-condensed' do %>
 		<%= render 'entries/thead_show' %>
 
@@ -79,4 +72,20 @@
 
 	<% end %>
 </section>
+
+<% if @messages.present? %>
+	<section id="messages">
+		<%= content_tag :h3, 'Private Messages', id: 'order-caption'  %>
+		<%= render 'messages/table' %>
+	</section>
+<% end %>
+
+<section id="time-line">
+	<%= content_tag :ul, class: 'breadcrumb small' do %>
+		<% Entry::TAGS_FOR_SIDEBAR.each do |tag| %>
+			<%= get_date_for_sidebar(@entry, tag) %>
+		<% end %>
+	<% end %>
+</section>
+
 
