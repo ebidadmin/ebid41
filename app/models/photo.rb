@@ -4,8 +4,10 @@ class Photo < ActiveRecord::Base
 
   belongs_to :entry, counter_cache: true
   has_attached_file :photo, styles: { tiny: ["80x60#", :jpg], thumb: ["222x142#", :jpg], large: ["640x480>", :jpg] },
-        :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
-        :url => "/system/:attachment/:id/:style/:filename"
+        # :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+        # :url => "/system/:attachment/:id/:style/:filename"
+        :path => ":rails_root/public/system/:attachment/:hash_path/:style/:basename.:extension",        
+        :url => "/system/:attachment/:hash_path/:style/:basename.:extension"
         
   # validates_attachment_presence :photo, message: "You must upload at least 2 photos."
   # validates_attachment_content_type :photo, 

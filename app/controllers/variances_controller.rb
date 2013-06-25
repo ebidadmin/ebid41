@@ -70,7 +70,7 @@ class VariancesController < ApplicationController
   
   def summarize
     # if params[:q]
-      @company = Company.find(23)
+      @company = Company.find(5)
     # end
     
     @variances = @company.variances
@@ -80,13 +80,22 @@ class VariancesController < ApplicationController
     @ebid_lower = @var_items.where('var_net > 0')
     @ebid_higher = @var_items.where('var_net < 0')
     @same = @var_items.where(var_net: 0)
+    
+    @with_ebid_and_manual = @ebid_lower + @ebid_higher + @same
     @no_ebid_manual_only = @var_items.where('var_total > 0 AND bid_id IS NULL') 
     @with_ebid_no_manual =  @var_items.where('var_total IS NULL AND bid_id IS NOT NULL')
+    
+    entries = Entry.where(id: @variances.collect(&:entry_id))
+    @li = entries.sum(:line_items_count)
+    @no_ebid_no_manual = @li - @var_items.count
+    
 
     savings_factor = (@var_items.sum(:var_net).abs.to_f/@var_items.sum(:var_total).to_f)
     @savings_rate = savings_factor * 100
     @projected_canvass = @with_ebid_no_manual.sum(:total) / (1 - savings_factor)
     @projected_savings = @projected_canvass * savings_factor
+    
+    @orders = @company.orders
     render :layout => 'print'
   end
 end

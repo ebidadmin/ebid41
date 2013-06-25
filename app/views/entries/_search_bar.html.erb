@@ -4,6 +4,7 @@
 		<%= search_form_for @q, url: request.path, html: { class: 'navbar-search' } do |f| %>
 		  <%= f.text_field :plate_no_cont, class: 'input-small', placeholder: 'Plate Number' %>
 			<% if can? :access, :all %>
+			  <%= f.collection_select :company_id_eq, @companies, :id, :nickname, { include_blank: 'Company' } %>
 			  <%= f.grouped_collection_select :user_id_eq, @companies, :users, :nickname, :id, :username, { include_blank: 'User' }  %>
 			<% elsif can? :access, :buyer %>
 			  <%= f.grouped_collection_select :user_id_eq, current_user.company.branches.includes(:users), :users, :name, :id, :username, { include_blank: 'User' }  %>

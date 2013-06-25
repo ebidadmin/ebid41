@@ -10,7 +10,7 @@
 			  <%= f.grouped_collection_select :entry_user_id_eq, current_user.company.branches, :users, :name, :id, :username, { include_blank: 'User' }  %>
 			<% end %>
 		  <%= f.grouped_collection_select :entry_car_brand_id_eq, CarOrigin.includes(:car_brands), :car_brands, :name, :id, :name, { include_blank: 'Brand' } %>
-		  <%= f.collection_select :var_company_id_matches, VarCompany.all, :id, :name, { include_blank: 'Shop/TP Supplier' }  %>
+		  <%= f.collection_select :var_company_id_matches, VarCompany.order(:name), :id, :name, { include_blank: 'Shop/TP Supplier' }  %>
 			<%= f.button 'Go!', class: 'btn btn-primary' %>
 			<%= refresh_button %>
 		<% end %>
