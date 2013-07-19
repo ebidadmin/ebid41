@@ -1,6 +1,6 @@
 Paperclip.interpolates :hash_path do |attachment, style|
   # set the FINAL_POST_ID_BEFORE_MD5_HASH to be the ID of the existing latest attachment at the time of transition.
-  return "#{attachment.instance.id}" if attachment.instance.id < 34000
+  return "#{attachment.instance.id}" if attachment.instance.id < 34173
 
   hash = Digest::MD5.hexdigest(attachment.instance.id.to_s + 'secret')
   hash_path = ''

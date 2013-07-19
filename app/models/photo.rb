@@ -27,7 +27,7 @@ class Photo < ActiveRecord::Base
    end
    
    def modified_path
-     if self.id < 34000
+     if self.id < 34173
        ":rails_root/public/system/:attachment/:hash_path/:style/:basename.:extension"
      else
        ":rails_root/public/system/photos2/:hash_path/:style/:basename.:extension"
@@ -35,7 +35,7 @@ class Photo < ActiveRecord::Base
    end
    
    def modified_url
-     if self.id < 34000
+     if self.id < 34173
        "/system/:attachment/:hash_path/:style/:basename.:extension"
      else
        "/system/photos2/:hash_path/:style/:basename.:extension"
