@@ -173,7 +173,7 @@ class Order < ActiveRecord::Base
   
   
   def can_be_cancelled(user)
-    if user.id == 1 
+    if user.id == 1 || user.id == 128 
       true
     else
       status == 'New PO' || status == 'PO Released' || status == 'For-Delivery'
